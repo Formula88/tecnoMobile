@@ -1,0 +1,35 @@
+.bestItem {
+  margin-top: 200px;
+}
+.descriptionCard{
+  margin-top: 200px;
+  background-color: #242424;
+  padding: 100px 0px;
+}
+
+
+@media (max-width: 1399px) {
+  .bestItem{
+    margin-top: 180px;
+  }
+  .descriptionCard{
+    margin-top: 180px;
+  }
+}
+@media (max-width: 1199px) {
+  .bestItem {
+    margin-top: 130px;
+  }
+  .descriptionCard{
+    margin-top: 130px;
+  }
+}
+@media (max-width: 991px) {
+  .descriptionCard{
+    padding-bottom: 60px;
+  }
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+}

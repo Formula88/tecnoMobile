@@ -1,0 +1,21 @@
+.whyUs{
+    $color : #5858585c;
+    border-top: 1px solid $color;
+    border-bottom: 1px solid $color;
+    padding-top: 100px;
+    padding-bottom: 50px;
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+    .whyUs{
+        padding: 90px 0px 40px;
+    }
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+}

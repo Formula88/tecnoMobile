@@ -1,0 +1,79 @@
+@use "sass:color";
+
+$primary: #1499e6;
+$secondru: #1e293b;
+$tertiary: #101415;
+$neutral: #f8fafc;
+
+@use "./assets/font/font.scss";
+
+* {
+  font-family: "Vazir", sans-serif;
+  box-sizing: border-box;
+  body {
+    background-color: $tertiary;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.os-scrollbar-handle {
+  background: #1499e67e !important;
+  margin-right: 3px;
+}
+
+.os-scrollbar-handle:hover {
+  background: #1499e6c9 !important;
+}
+
+.noDrag {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.alertText {
+  color: #1499e6;
+  background-color: hsla(202, 84%, 49%, 0.2);
+  border: #1499e6 1px solid;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.btnPrimary {
+  color: #101415;
+  background-color: #1499e6;
+  box-shadow: #11689ba1 0px 3px 9px 0px;
+  transition: 0.25s;
+}
+.btnPrimary:hover {
+  background-color: color.adjust(#1499e6, $lightness: -10%);
+}
+
+.btnPrimary:focus {
+  background-color: color.adjust(#1499e6, $lightness: -15%);
+  scale: 0.95;
+}
+
+.btnOutline {
+  color: #1499e6 !important;
+  border: 1px solid #1499e6 !important;
+  background-color: transparent !important;
+  transition: 0.25s;
+}
+
+.btnOutline:hover {
+  background-color: #1499e61a !important;
+}
+
+.btnOutline:focus {
+  background-color: #1499e657 !important;
+  color: color.adjust(#1499e6, $lightness: 5%) !important;
+  border-color: color.adjust(#1499e6, $lightness: 5%) !important;
+  scale: 0.95;
+}

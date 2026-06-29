@@ -1,0 +1,19 @@
+.detailsList{
+    display: flex;
+    gap: 2.5px;
+    align-items: center;
+    color: #617287;
+    transition: 0.25s;
+    svg{
+        width: 17px;
+        height: 17px;
+    }
+    span{
+        font-size: 1em;
+        user-select: none;
+    }
+}
+.detailsList:hover{
+    color: #1499e6;
+    transform: translateX(-36px) scale(1.1);
+}

@@ -1,0 +1,38 @@
+tecnomobile plam
+
+1_pages 
+    > 1- sginUp
+        > 1.sgin Up api
+        > 2.React login option
+
+    > 2- login
+        > 1.login api
+        > 2.React login option
+
+    > 3- profile
+        > 1.if login
+        > 2.profile api
+
+    > 4- shopping card
+        > 1.React option
+            > useContext
+            > btn option
+
+        > 2. shopping card api
+            > order api
+
+        > 3. profile order
+
+    > 5- products
+        > 1.products api
+        > 2.products filter
+
+    > 6- VPN
+        > 1.vpns api
+        > 2.vpns add to card
+            > order
+            > show id card
+            > show in profile
+
+    > 7- About US
+        >about Us api

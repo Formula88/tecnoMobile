@@ -1,0 +1,88 @@
+.DescriptionCard{
+    border: 1px solid #00538354;
+    box-shadow: 0px 0px 8px 0px #005383db;
+    border-radius: 20px;
+    padding: 20px 30px;
+    direction: rtl;
+    font-size: 1rem;
+    .icon{
+        text-align: right;
+        svg{
+            width: 40px;
+            height: 40px;
+            color: #1499E6;
+        }
+    }
+    .text{
+        margin-bottom: 25px;
+        h3{
+            color: #d9d9d9;
+            font-size: 1.75em;
+            margin: 10px 0px;
+        }
+        p{
+            color: #d9d9d980;
+            margin: 0;
+        }
+    }
+    .card{
+        background-color: #10141575;
+        border: 1px solid #0053836c;
+        box-shadow: 0px 0px 5px #1499e68a;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        gap: 5px;
+        padding: 18px 0px;
+        h4{
+            font-size: 1.15em;
+            margin: 0;
+            color: #1499E6;
+        }
+
+        span{
+            font-size: 1em;
+            margin: 0;
+            color: #d9d9d9;
+        }
+    }
+    a{
+    width: 100%;
+    display: block;
+    text-align: center;
+    padding: 10px 0px;
+    margin-top: 30px;
+    border-radius: 8px;
+    font-size: 1.2em;
+    }
+}
+
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+    .DescriptionCard{
+        font-size: 0.8rem;
+    }
+}
+@media (max-width: 767px) {
+    .DescriptionCard{
+        font-size: 1rem;
+        margin-bottom: 60px;
+    }
+}
+@media (max-width: 575px) {
+    .DescriptionCard{
+        .card{
+            max-width: 270px;
+            margin: 0px auto 20px;
+        }
+        a{
+            margin-top: 0px;
+        }
+    }
+}

@@ -1,0 +1,19 @@
+import Swal from "sweetalert2";
+
+export const ServerErrorSwal = () => {
+  Swal.fire({
+    icon: "error",
+    title: "ارور",
+    text: "سرور دچار مشکل شده است",
+    theme: "dark",
+  });
+};
+
+export const successSwal = (text, title) => {
+  Swal.fire({
+    title: title,
+    text: text,
+    icon: "success",
+    cancelButtonText: "باشه",
+  });
+};

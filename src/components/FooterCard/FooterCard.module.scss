@@ -1,0 +1,30 @@
+.FooterCard {
+  font-size: 1rem;
+  direction: rtl;
+  .title {
+    color: #1499e6;
+    font-size: 1.5em;
+  }
+  ul {
+    padding: 0px;
+    padding-right: 10px;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+
+  a {
+    color: #617287;
+    display: inline-block;
+    transition: 0.2s;
+  }
+  a:hover {
+    transform: translate(10px, 0px);
+    color: #116ad6;
+  }
+  a:focus{
+    color: #0c4d9c
+  }
+}

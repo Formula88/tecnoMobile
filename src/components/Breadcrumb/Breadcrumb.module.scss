@@ -1,0 +1,39 @@
+.breadcrumb {
+  font-size: 1rem;
+  margin-bottom: 30px;
+  ul {
+    display: flex;
+    gap: 2px;
+    a {
+      color: #1499e6;
+      opacity: 0.7;
+      transform: 0.25s;
+    }
+    a:hover {
+      opacity: 1;
+      font-size: 1em;
+    }
+    svg {
+      color: #1499e6;
+      opacity: 0.7;
+    }
+    span {
+      font-size: 1em;
+      color: #2b92ce;
+    }
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+    .breadcrumb{
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,40 @@
+.product {
+  direction: rtl;
+  margin-top: 200px;
+  .info {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    margin-bottom: 80px;
+    .img {
+      width: 50%;
+    }
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+  .product {
+    margin-top: 140px;
+    .info {
+      flex-direction: column;
+      .img {
+        width: 70%;
+      }
+    }
+  }
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+  .product {
+    .info {
+      .img {
+        width: 90%;
+      }
+    }
+  }
+}

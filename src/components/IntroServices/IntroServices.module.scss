@@ -1,0 +1,166 @@
+.introServices {
+  direction: rtl;
+  margin-top: 200px;
+  font-size: 1rem;
+  .titleIntro {
+    background: #1499e6;
+    background: linear-gradient(
+      90deg,
+      #00000000 10%,
+      #1499e682 50%,
+      #00000000 90%
+    );
+    text-align: center;
+
+    padding: 50px 0px;
+    .title {
+      color: #d9d9d9;
+      font-size: 2.75em;
+      margin: 0px 0px 30px;
+    }
+    p {
+      color: #979797e0;
+      font-size: 1em;
+      margin: 0;
+    }
+  }
+  .cardsIntro {
+    margin-top: 100px;
+    .bigBox {
+      $boderRadius: 10px;
+      background-position: center;
+      background-size: 100%;
+      border-radius: $boderRadius;
+      transition: 0.5s;
+      border: 1px solid #424242;
+      .card {
+        background-color: #1c1c1ca1;
+        height: 100%;
+        width: 100%;
+        border-radius: $boderRadius;
+        transition: 0.5s;
+        padding: 30px 40px;
+        .subTitle {
+          color: #1499e6;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          margin-bottom: 30px;
+          svg {
+            width: 20px;
+            height: 20px;
+          }
+        }
+        .title {
+          margin-bottom: 30px;
+          font-size: 2.5em;
+          color: #d9d9d9;
+        }
+        ul {
+          margin: 0px;
+          display: flex;
+          flex-direction: column;
+          padding: 0px;
+          gap: 10px;
+          li {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #d9d9d98c;
+            span {
+              font-size: 1em;
+            }
+          }
+        }
+        .btn {
+          font-size: 1.2em;
+          padding: 12px 14px;
+          border-radius: 7px;
+          margin-top: 30px;
+          display: inline-block;
+          outline: none;
+          border: none;
+        }
+      }
+    }
+    .bigBox:hover {
+      background-size: 105%;
+      .card {
+        background-color: #1c1c1c75;
+      }
+    }
+
+    .smallBox {
+      background-color: #1e1e1e;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px 30px;
+      border-radius: 10px;
+      border: 1px solid #424242;
+      transition: 0.5s;
+      svg {
+        color: #1499e6;
+        width: 40px;
+        height: 40px;
+      }
+      h3 {
+        font-size: 2.5em;
+        color: #d9d9d9;
+      }
+      p {
+        font-size: 1em;
+        color: #d9d9d98c;
+      }
+      .op {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        span {
+          background-color: #d9d9d915;
+          color: #d9d9d98c;
+          font-size: 0.85em;
+          padding: 5px 10px;
+          border-radius: 999px;
+        }
+      }
+    }
+    .smallBox:hover {
+      background-color: #272727;
+    }
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+  .introServices {
+    .cardsIntro {
+      .bigBox {
+        margin-bottom: 80px;
+      }
+    }
+  }
+}
+@media (max-width: 767px) {
+  .introServices {
+    margin-top: 150px;
+    .titleIntro {
+      background: transparent;
+    }
+  }
+}
+@media (max-width: 575px) {
+  .introServices{
+    font-size: 0.8rem;
+    .titleIntro{
+      padding: 0;
+    }
+    .cardsIntro{
+      .bigBox{}
+    }
+  }
+}

@@ -1,0 +1,93 @@
+.ProductBuy {
+  .up {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    .discount {
+      display: flex;
+      align-items: center;
+      flex-direction: row-reverse;
+      gap: 5px;
+      position: relative;
+      .price {
+        color: #617287;
+        font-size: 1em;
+        text-decoration: line-through;
+      }
+      svg {
+        width: 23px;
+        fill: #617287;
+      }
+      .discountNum {
+        background-color: #1499e6;
+        color: #101415;
+        font-size: 1em;
+        padding: 2px 3px;
+        border-radius: 6px;
+        margin: 0px 10px;
+      }
+    }
+    .models {
+      color: #617287;
+      margin-left: 10xx;
+    }
+    .select {
+      padding: 2px 3px;
+      border-radius: 5px;
+      outline: none;
+      margin-right: 7px;
+      option {
+        background-color: #101415;
+        text-align: center;
+      }
+    }
+  }
+  .down {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 35px;
+    .totalPrice {
+      display: flex;
+      align-items: center;
+      flex-direction: row-reverse;
+      gap: 10px;
+      span {
+        color: #d9d9d9;
+        font-size: 1.75em;
+        font-weight: bold;
+      }
+      svg {
+        width: 30px;
+        fill: #1499e6;
+      }
+    }
+    .btn {
+      outline: none;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+    }
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+  .ProductBuy {
+    .down {
+      display: block;
+      .btn {
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
+  }
+}

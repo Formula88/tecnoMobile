@@ -1,0 +1,36 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1em;
+  svg {
+    $width: 35px;
+    width: $width;
+    height: $width;
+    color: #1499E6;
+    margin-bottom: 13px;
+  }
+  .title{
+    font-size: 1em;
+    color: #617287;
+  }
+  .name{
+    font-size: 1.12em;
+    color: #d9d9d9;
+    margin: 0;
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+  .card{
+    margin-bottom: 30px;
+  }
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+}

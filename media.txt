@@ -1,0 +1,98 @@
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+}
+
+{
+  "status": "نو",
+  "phoneType": "مناسب عکاسی",
+  "phoneInformation": {
+    "cpu": "Hexa-core CPU",
+    "camera": "12",
+    "memory": "256",
+    "battery": "4352"
+  },
+  "warranty": "6"
+}
+{
+  "warranty" : ""
+}
+
+{
+  "models": [اینجا مدل های گوشی قرار گرفته میشود]
+  "warranty" : میتواند مقدار های (0 ، 1 ، 3 ، 6 ، 9 ، 12 ، 24) بگیرد
+}
+
+{
+    جدول products فیلد های `NAME`, `description`, `price`, `discount`, `brandId`, `productType`, `imgs`, `details`, `extra`, `dateAdded` رو میخوام براش پر کنی.
+
+    NAME : نام اصلی محصول رو مینویسیم
+    description : یک توضیح خیلی کوتاه برای محصول (خیلی کوتاه) فارسی باشه حتما
+    price : قیمت محصول به تومان
+    discount : یه عددی بین 0 تا 60 میگیره (فقط 10 درصد محصولا تخفیف داشته باشن)
+    brandId : ایدی برند هارو میگیره پایین تر برات لیست برند هارو میزارم
+    productType : 'mobile','hardware','accessories','accessoriesmodel' یکی از این یه مقدار رو میگیره  (accessoriesmodel این مخصوص کالاهایی هستش که چند مدل گوشی دارن مثل گلس و قاب)
+    imgs : یک ارایه ای از اسم تصاویر میگیره
+    details : توضیحات کامل محصول رو میگیره ترکیبی از فارسی و انگلیسی
+
+    extra :
+        اگر productType برابر باشه با mobile
+            {
+                "status": میتواند مقدار های (نو ، در حد نو ، نیاز به تعمیر ، اکبند) بگیرد
+                "phoneType": میتواند مقدار های (پایین رده ، میان رده ، پرچمدار ، مناسب عکاسی ، مناسب روزمره ، گیمینگ) بگیرد
+                "phoneInformation": { 
+                        "cpu": نام پردازنده,
+                        "camera": نام دوربین یا مگا پیکسلش,
+                        "memory": میزان خافظه,
+                        "battery": مقدار باتری},
+                "warranty": میتواند مقدار های (0 ، 1 ، 3 ، 6 ، 9 ، 12 ، 24) بگیرد
+            }
+
+
+        اگر productType برابر باشه با hardware
+            {
+                "warranty" : میتواند مقدار های (0 ، 1 ، 3 ، 6 ، 9 ، 12 ، 24) بگیرد
+            }
+
+        اگر productType برابر باشه با accessories
+            {
+                "warranty" : میتواند مقدار های (0 ، 1 ، 3 ، 6 ، 9 ، 12 ، 24) بگیرد
+            }
+
+        اگر productType برابر باشه با accessories
+            {
+                "models": [اینجا مدل های گوشی قرار گرفته میشود]
+                "warranty" : میتواند مقدار های (0 ، 1 ، 3 ، 6 ، 9 ، 12 ، 24) بگیرد
+            }
+
+    dateAdded:محصول اول برابر 2026-06-07 20:31:43 محصول بعدی 2026-06-07 20:31:44 همینطوری یک ثانیه یک ثانیه اضافه بشه
+
+
+    brand list {
+        1 Apple mobile
+        2 Samsung mobile
+        3 Xiaomi mobile
+        4 Huawei mobile
+        5 Tecno mobile
+        6 Nokia mobile
+        7 OnePlus mobile
+        8 Microsoft software
+        9 Adobe software
+        10 JetBrains software
+        11 Oracle software
+        12 Autodesk software
+        13 Anker accessory
+        14 Baseus accessory
+        15 JBL accessory
+        16 Logitech accessory
+        17 Razer accessory
+        18 UGREEN accessory
+        19 Sony accessory
+    }
+}

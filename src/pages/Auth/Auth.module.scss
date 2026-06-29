@@ -1,0 +1,29 @@
+.auth {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  .logo {
+    width: 250px;
+    margin-bottom: 30px;
+  }
+  .form {
+    background-color: #1e1e1e;
+    padding: 30px;
+    max-width: 503px;
+    width: 100%;
+    display: block;
+    border-radius: 20px;
+    border: 1px solid #424242;
+    .btn{
+        font-size: 1.5em;
+        width: 100%;
+        display: inline-block;
+        outline: none;
+        border: none;
+        border-radius: 10px;
+        padding: 7px 0px;
+    }
+  }
+}

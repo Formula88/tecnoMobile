@@ -1,0 +1,27 @@
+.WhyUsCard{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 50px;
+    svg{
+        color: #1499E6;
+        width: 40px;
+        height: 40px;
+        margin-bottom: 10px;
+    }
+    h3{
+        color: #d9d9d9;
+        margin: 0px;
+        margin-bottom: 12px;
+        font-size: 1.5em;
+    }
+    p{
+        color: #d9d9d980;
+        margin: 0px;
+        font-size: 1em;
+        margin-bottom: 0px;
+    }
+}
