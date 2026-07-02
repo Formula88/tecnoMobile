@@ -5,6 +5,8 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 import logo from "../../assets/img/logo.svg";
 import { Link } from "react-router-dom";
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
+import { signUpDB } from "../../services/api";
+import { errorSwal, ServerErrorSwal } from "../../Swals/Swals";
 
 function Auth() {
   const {
@@ -12,6 +14,7 @@ function Auth() {
     handleSubmit,
     getValues,
     formState: { errors },
+    resetField,
   } = useForm();
 
   const [page, setPage] = useState("login");
@@ -24,7 +27,39 @@ function Auth() {
   };
 
   const onsubmit = (data) => {
-    console.log(data);
+    switch (page) {
+      case "login":
+        break;
+
+      case "signUp":
+        signUp(data);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const signUp = async (data) => {
+    const result = await signUpDB(data);
+    if (result?.success === true) {
+      switch (result.action) {
+        case "phoneNumber":
+          errorSwal("شماره‌ی دیگری وارد کنید", "شماره از قبل وارد شده");
+          resetField("phoneNumber");
+          break;
+
+        case "userName":
+          errorSwal("نام کاربری دیگری امتحان کنید","نام کاربری از قبل انتخاب شده است")
+          resetField("userName")
+          break;
+          
+        default:
+          break;
+      }
+    } else {
+      ServerErrorSwal();
+    }
   };
 
   let btnText, labelLink, linkText, funLink;
@@ -53,7 +88,13 @@ function Auth() {
       <img src={logo} alt="tecnomobile" className={styles.logo} />
       <form onSubmit={handleSubmit(onsubmit)} className={styles.form}>
         {page === "login" && <LoginForm register={register} error={errors} />}
-        {page === "signUp" && <SignUpForm register={register} error={errors} getValues={getValues}/>}
+        {page === "signUp" && (
+          <SignUpForm
+            register={register}
+            error={errors}
+            getValues={getValues}
+          />
+        )}
         <input
           type="submit"
           value={btnText}

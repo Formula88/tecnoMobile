@@ -30,3 +30,16 @@ export const GetServices = async (page) => {
     console.log(error);
   }
 };
+
+export const signUpDB = async (data) => {
+  try {
+    const respon = await client.post("api/user", {
+      userName: data.userName,
+      phoneNumber: data.phoneNumber,
+      userPassword: data.userPassword,
+    });
+    return respon.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
