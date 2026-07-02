@@ -28,3 +28,17 @@ export const useScrollTo = (to) => {
     }
   }, [Location]);
 };
+
+export const Timer = (time, setTime) => {
+  const timer = setInterval(() => {
+    setTime((perv) => {
+      if (perv <= 1) {
+        clearInterval(timer);
+        return 0;
+      }
+      return perv - 1;
+    });
+  }, 1000);
+
+  return () => clearInterval(timer);
+};

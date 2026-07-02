@@ -49,7 +49,7 @@ function SignUpForm({ register, error , getValues}) {
         option={{
           required: "لطفا رمز عبور خود را وارد کنید",
           minLength: {
-            value: 8,
+            value: 1,
             message: "رمز عبور باید حداقل 8 کارکتر باشد",
           },
         }}
