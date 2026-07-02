@@ -4,11 +4,13 @@ import { useForm } from "react-hook-form";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import logo from "../../assets/img/logo.svg";
 import { Link } from "react-router-dom";
+import SignUpForm from "../../components/SignUpForm/SignUpForm";
 
 function Auth() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm();
 
@@ -51,6 +53,7 @@ function Auth() {
       <img src={logo} alt="tecnomobile" className={styles.logo} />
       <form onSubmit={handleSubmit(onsubmit)} className={styles.form}>
         {page === "login" && <LoginForm register={register} error={errors} />}
+        {page === "signUp" && <SignUpForm register={register} error={errors} getValues={getValues}/>}
         <input
           type="submit"
           value={btnText}
