@@ -1,14 +1,11 @@
 import styles from "./Auth.module.scss";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import LoginForm from "../../components/LoginForm/LoginForm";
 import logo from "../../assets/img/logo.svg";
-import { Link } from "react-router-dom";
-import SignUpForm from "../../components/SignUpForm/SignUpForm";
-import { signUpDB } from "../../services/api";
 import { errorSwal, ServerErrorSwal } from "../../Swals/Swals";
 import OTP from "../../components/OTP/OTP";
 import { useTimer } from "../../utils/Utils";
+import { Link } from "react-router-dom";
 
 function Auth() {
   const {
@@ -19,61 +16,20 @@ function Auth() {
     resetField,
     control,
   } = useForm();
+
   const { time, restartTimer, startTimer, stopTimer } = useTimer(10);
+
   const [page, setPage] = useState("OTP");
+
   const [phoneNumber, setPhoneNumber] = useState("");
-  const pageToSignUp = () => {
-    setPage("signUp");
-  };
-  const pageToLogin = () => {
-    setPage("login");
-  };
 
   const onsubmit = (data) => {
     switch (page) {
-      case "login":
-        break;
-
-      case "signUp":
-        signUp(data);
-        setPhoneNumber(data.phoneNumber);
-        break;
-
       case "OTP":
         console.log(data);
-
         break;
       default:
         break;
-    }
-  };
-
-  const signUp = async (data) => {
-    const result = await signUpDB(data);
-    if (result?.success === true) {
-      switch (result.action) {
-        case "phoneNumber":
-          errorSwal("شماره‌ی دیگری وارد کنید", "شماره از قبل وارد شده");
-          resetField("phoneNumber");
-          break;
-
-        case "userName":
-          errorSwal(
-            "نام کاربری دیگری امتحان کنید",
-            "نام کاربری از قبل انتخاب شده است",
-          );
-          resetField("userName");
-          break;
-
-        case "OTP":
-          setPage("OTP");
-          break;
-
-        default:
-          break;
-      }
-    } else {
-      ServerErrorSwal();
     }
   };
 
@@ -105,20 +61,6 @@ function Auth() {
   }, [page]);
 
   switch (page) {
-    case "login":
-      btnText = "ورود";
-      labelLink = "آیا حساب کاربری ندارید؟";
-      linkText = "ساخت حساب";
-      funLink = pageToSignUp;
-      break;
-
-    case "signUp":
-      btnText = "دریافت کد تایید";
-      labelLink = "آیا حساب کاربری دارید؟";
-      linkText = "ورود به حساب";
-      funLink = pageToLogin;
-      break;
-
     case "OTP":
       btnText = "تایید کد";
     default:
@@ -129,14 +71,6 @@ function Auth() {
     <div className={styles.auth}>
       <img src={logo} alt="tecnomobile" className={styles.logo} />
       <form onSubmit={handleSubmit(onsubmit)} className={styles.form}>
-        {page === "login" && <LoginForm register={register} error={errors} />}
-        {page === "signUp" && (
-          <SignUpForm
-            register={register}
-            error={errors}
-            getValues={getValues}
-          />
-        )}
         {page === "OTP" && (
           <OTP control={control} error={errors} number={phoneNumber} />
         )}
@@ -146,13 +80,7 @@ function Auth() {
           className={`btnPrimary ${styles.btn}`}
         />
         <div className={styles.box}>
-          <div className={styles.right}>
-            <span className={styles.label}>{labelLink}</span>
-            <span className={`btn btn-link ${styles.link}`} onClick={funLink}>
-              {linkText}
-            </span>
-            {page === "OTP" && timers(time)}
-          </div>
+          <div className={styles.right}>{page === "OTP" && timers(time)}</div>
           <div className={styles.left}>
             <Link to="/" className="btn btn-link">
               بازگشت به صفحه اصلی
