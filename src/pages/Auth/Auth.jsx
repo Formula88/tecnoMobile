@@ -1,5 +1,5 @@
 import styles from "./Auth.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import logo from "../../assets/img/logo.svg";
@@ -8,7 +8,7 @@ import SignUpForm from "../../components/SignUpForm/SignUpForm";
 import { signUpDB } from "../../services/api";
 import { errorSwal, ServerErrorSwal } from "../../Swals/Swals";
 import OTP from "../../components/OTP/OTP";
-import { Timer } from "../../utils/Utils";
+import { useTimer } from "../../utils/Utils";
 
 function Auth() {
   const {
@@ -19,10 +19,9 @@ function Auth() {
     resetField,
     control,
   } = useForm();
-
+  const { time, restartTimer, startTimer, stopTimer } = useTimer(10);
   const [page, setPage] = useState("OTP");
   const [phoneNumber, setPhoneNumber] = useState("09129072416");
-  const [time, setTime] = useState(10);
   const pageToSignUp = () => {
     setPage("signUp");
   };
@@ -85,40 +84,43 @@ function Auth() {
       );
     } else {
       return (
-        <span className="btn btn-link" onClick={reTimer}>
+        <span
+          className="btn btn-link"
+          onClick={() => {
+            restartTimer();
+          }}
+        >
           ارسال مجدد کد
         </span>
       );
     }
   };
 
-  const reTimer = () => {
-    setTime(10);
-    Timer(time, setTime);
-  };
-
   let btnText, labelLink, linkText, funLink;
-  switch (page) {
-    case "login":
-      btnText = "ورود";
-      labelLink = "آیا حساب کاربری ندارید؟";
-      linkText = "ساخت حساب";
-      funLink = pageToSignUp;
-      break;
 
-    case "signUp":
-      btnText = "دریافت کد تایید";
-      labelLink = "آیا حساب کاربری دارید؟";
-      linkText = "ورود به حساب";
-      funLink = pageToLogin;
-      break;
+  useEffect(() => {
+    switch (page) {
+      case "login":
+        btnText = "ورود";
+        labelLink = "آیا حساب کاربری ندارید؟";
+        linkText = "ساخت حساب";
+        funLink = pageToSignUp;
+        break;
 
-    case "OTP":
-      btnText = "تایید کد";
-      Timer(time, setTime);
-    default:
-      break;
-  }
+      case "signUp":
+        btnText = "دریافت کد تایید";
+        labelLink = "آیا حساب کاربری دارید؟";
+        linkText = "ورود به حساب";
+        funLink = pageToLogin;
+        break;
+
+      case "OTP":
+        btnText = "تایید کد";
+        startTimer();
+      default:
+        break;
+    }
+  }, [page]);
 
   return (
     <div className={styles.auth}>

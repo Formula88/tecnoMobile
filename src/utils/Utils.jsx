@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 export const formatPrice = (num) => {
@@ -29,16 +29,37 @@ export const useScrollTo = (to) => {
   }, [Location]);
 };
 
-export const Timer = (time, setTime) => {
-  const timer = setInterval(() => {
-    setTime((perv) => {
-      if (perv <= 1) {
-        clearInterval(timer);
-        return 0;
-      }
-      return perv - 1;
-    });
-  }, 1000);
+export const useTimer = (initialTime = 120) => {
+  const [time, setTime] = useState(initialTime);
+  const [isRunning, setIsRuning] = useState(false);
 
-  return () => clearInterval(timer);
+  useEffect(() => {
+    if (!isRunning) return;
+
+    const interval = setInterval(() => {
+      setTime((prev) => {
+        if (prev <= 1) {
+          setIsRuning(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isRunning]);
+
+  const startTimer = () => {
+    setIsRuning(true);
+  };
+  const stopTimer = () => {
+    setIsRuning(false);
+  };
+
+  const restartTimer = () => {
+    setTime(initialTime);
+    setIsRuning(true);
+  };
+
+  return { time, restartTimer, startTimer, stopTimer };
 };
