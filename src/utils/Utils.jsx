@@ -50,6 +50,7 @@ export const useTimer = (initialTime = 120) => {
   }, [isRunning]);
 
   const startTimer = () => {
+    setTime(initialTime);
     setIsRuning(true);
   };
   const stopTimer = () => {

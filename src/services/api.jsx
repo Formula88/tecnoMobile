@@ -30,3 +30,14 @@ export const GetServices = async (page) => {
     console.log(error);
   }
 };
+
+export const sendNumber = async (phoneNumber) => {
+  try {
+    const { data } = await client.post(`api/user`, {
+      phoneNumber: phoneNumber,
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -7,12 +7,14 @@ import OTP from "../../components/OTP/OTP";
 import { useTimer } from "../../utils/Utils";
 import { Link } from "react-router-dom";
 import NumberForm from "../../components/NumberForm/NumberForm";
+import { sendNumber } from "../../services/api";
 
 function Auth() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
     reset,
   } = useForm();
 
@@ -24,11 +26,25 @@ function Auth() {
 
   const onsubmit = (data) => {
     switch (page) {
+      case "numberForm":
+        numberForm(data);
+        break;
       case "OTP":
         console.log(data);
         break;
       default:
         break;
+    }
+  };
+
+  const numberForm = async (data) => {
+    const result = await sendNumber(data.phoneNumber);
+    if (result?.success === true) {
+      setPhoneNumber(data.phoneNumber);
+      reset();
+      setPage("OTP");
+    } else {
+      ServerErrorSwal();
     }
   };
 
@@ -51,7 +67,11 @@ function Auth() {
     }
   };
 
-  let btnText;
+  const editNum = () => {
+    reset();
+    stopTimer();
+    setPage("numberForm");
+  };
 
   useEffect(() => {
     if (page == "OTP") {
@@ -59,6 +79,7 @@ function Auth() {
     }
   }, [page]);
 
+  let btnText;
   switch (page) {
     case "numberForm":
       btnText = "ارسال کد تایید";
@@ -86,7 +107,14 @@ function Auth() {
           className={`btnPrimary ${styles.btn}`}
         />
         <div className={styles.box}>
-          <div className={styles.right}>{page === "OTP" && timers(time)}</div>
+          <div className={styles.right}>
+            {page === "OTP" && (
+              <span className={styles.link} onClick={editNum}>
+                ویرایش شماره موبایل
+              </span>
+            )}
+            {page === "OTP" && timers(time)}
+          </div>
           <div className={styles.left}>
             <Link to="/" className="btn btn-link">
               بازگشت به صفحه اصلی
