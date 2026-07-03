@@ -4,16 +4,21 @@ import Checkbox from "../Hamburger/Hamburger";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { OverlayScrollbars } from "overlayscrollbars";
 import "overlayscrollbars/overlayscrollbars.css";
+import { Context } from "../../context/Provider";
+
 
 function HeaderNav() {
+  const { isLogin } = useContext(Context);
+
+  
   const Links = {
     home: "/",
     Vpn: "/VPN",
     services: "/Services",
-    auth: "/Auth"
+    auth: "/Auth",
   };
 
   let scrollbarRef = useRef(null);
@@ -86,7 +91,7 @@ function HeaderNav() {
               </ul>
             </div>
             <div className="col d-md-flex justify-content-end align-items-center gap-2 d-none">
-              <Link to={Links.auth}>
+              <Link to={!isLogin ? Links.auth : ""}>
                 <FaUser className={styles.icon} />
               </Link>
               <Link to="">

@@ -1,13 +1,14 @@
 import styles from "./Auth.module.scss";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import logo from "../../assets/img/logo.svg";
 import { errorSwal, ServerErrorSwal } from "../../Swals/Swals";
 import OTP from "../../components/OTP/OTP";
 import { useTimer } from "../../utils/Utils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NumberForm from "../../components/NumberForm/NumberForm";
-import { sendNumber } from "../../services/api";
+import { getOPT, login, postOTP, sendNumber } from "../../services/api";
+import { Context } from "../../context/Provider";
 
 function Auth() {
   const {
@@ -18,19 +19,22 @@ function Auth() {
     reset,
   } = useForm();
 
-  const { time, restartTimer, startTimer, stopTimer } = useTimer(10);
+  const { time, restartTimer, startTimer, stopTimer } = useTimer(120);
 
   const [page, setPage] = useState("numberForm");
 
   const [phoneNumber, setPhoneNumber] = useState("");
 
+  const { setIsLogin, setUserType } = useContext(Context);
+
+  const navigate = useNavigate()
   const onsubmit = (data) => {
     switch (page) {
       case "numberForm":
         numberForm(data);
         break;
       case "OTP":
-        console.log(data);
+        sendOTP(data.OTP);
         break;
       default:
         break;
@@ -43,8 +47,29 @@ function Auth() {
       setPhoneNumber(data.phoneNumber);
       reset();
       setPage("OTP");
+      await getOPT();
     } else {
       ServerErrorSwal();
+    }
+  };
+
+  const reSendOTP = async () => {
+    await getOPT();
+  };
+
+  const sendOTP = async (OTP) => {
+    const result = await postOTP(OTP);
+    if (result?.success === true) {
+      const stutus = await login();
+      if (stutus?.success === true) {
+        {
+          setIsLogin(true);
+          setUserType(stutus.userType)
+          navigate("/")
+        }
+      }
+    } else {
+      errorSwal("لطفا دوباره تلاش کنید", "کد وارد شده صحیح نمیباشد");
     }
   };
 
@@ -59,18 +84,13 @@ function Auth() {
           className={`btn btn-link ${styles.restartTimer}`}
           onClick={() => {
             restartTimer();
+            reSendOTP();
           }}
         >
           ارسال مجدد کد
         </span>
       );
     }
-  };
-
-  const editNum = () => {
-    reset();
-    stopTimer();
-    setPage("numberForm");
   };
 
   useEffect(() => {
@@ -107,14 +127,7 @@ function Auth() {
           className={`btnPrimary ${styles.btn}`}
         />
         <div className={styles.box}>
-          <div className={styles.right}>
-            {page === "OTP" && (
-              <span className={styles.link} onClick={editNum}>
-                ویرایش شماره موبایل
-              </span>
-            )}
-            {page === "OTP" && timers(time)}
-          </div>
+          <div className={styles.right}>{page === "OTP" && timers(time)}</div>
           <div className={styles.left}>
             <Link to="/" className="btn btn-link">
               بازگشت به صفحه اصلی

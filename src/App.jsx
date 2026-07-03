@@ -5,8 +5,11 @@ import VPNs from "./pages/VPNs/VPNs";
 import Product from "./pages/Product/Product";
 import Services from "./pages/Services/Services";
 import Auth from "./pages/Auth/Auth";
+import { Context } from "./context/Provider";
+import { useContext } from "react";
 
 function App() {
+  const { isLogin } = useContext(Context);
   return (
     <>
       <Routes>
@@ -14,7 +17,7 @@ function App() {
         <Route path="/VPN" element={<VPNs />} />
         <Route path="/Product/:id" element={<Product />} />
         <Route path="/Services" element={<Services />} />
-        <Route path="/Auth" element={<Auth />} />
+        {isLogin ? <Route path="/Auth" element={<Auth />} /> : ""}
       </Routes>
     </>
   );
