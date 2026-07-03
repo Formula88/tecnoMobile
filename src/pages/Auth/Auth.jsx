@@ -21,7 +21,7 @@ function Auth() {
   } = useForm();
   const { time, restartTimer, startTimer, stopTimer } = useTimer(10);
   const [page, setPage] = useState("OTP");
-  const [phoneNumber, setPhoneNumber] = useState("09129072416");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const pageToSignUp = () => {
     setPage("signUp");
   };
@@ -85,7 +85,7 @@ function Auth() {
     } else {
       return (
         <span
-          className="btn btn-link"
+          className={`btn btn-link ${styles.restartTimer}`}
           onClick={() => {
             restartTimer();
           }}
