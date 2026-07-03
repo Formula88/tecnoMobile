@@ -1,5 +1,5 @@
 import styles from "./Auth.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import logo from "../../assets/img/logo.svg";
@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
 import { signUpDB } from "../../services/api";
 import { errorSwal, ServerErrorSwal } from "../../Swals/Swals";
+import OTP from "../../components/OTP/OTP";
+import { useTimer } from "../../utils/Utils";
 
 function Auth() {
   const {
@@ -15,10 +17,11 @@ function Auth() {
     getValues,
     formState: { errors },
     resetField,
+    control,
   } = useForm();
-
-  const [page, setPage] = useState("login");
-
+  const { time, restartTimer, startTimer, stopTimer } = useTimer(10);
+  const [page, setPage] = useState("OTP");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const pageToSignUp = () => {
     setPage("signUp");
   };
@@ -33,8 +36,13 @@ function Auth() {
 
       case "signUp":
         signUp(data);
+        setPhoneNumber(data.phoneNumber);
         break;
 
+      case "OTP":
+        console.log(data);
+
+        break;
       default:
         break;
     }
@@ -50,10 +58,17 @@ function Auth() {
           break;
 
         case "userName":
-          errorSwal("نام کاربری دیگری امتحان کنید","نام کاربری از قبل انتخاب شده است")
-          resetField("userName")
+          errorSwal(
+            "نام کاربری دیگری امتحان کنید",
+            "نام کاربری از قبل انتخاب شده است",
+          );
+          resetField("userName");
           break;
-          
+
+        case "OTP":
+          setPage("OTP");
+          break;
+
         default:
           break;
       }
@@ -62,7 +77,32 @@ function Auth() {
     }
   };
 
+  const timers = (time) => {
+    if (time > 0) {
+      return (
+        <span className={styles.timer}>{time} ثانیه تا ارسال مجدد کد</span>
+      );
+    } else {
+      return (
+        <span
+          className={`btn btn-link ${styles.restartTimer}`}
+          onClick={() => {
+            restartTimer();
+          }}
+        >
+          ارسال مجدد کد
+        </span>
+      );
+    }
+  };
+
   let btnText, labelLink, linkText, funLink;
+
+  useEffect(() => {
+    if (page == "OTP") {
+      startTimer();
+    }
+  }, [page]);
 
   switch (page) {
     case "login":
@@ -73,12 +113,14 @@ function Auth() {
       break;
 
     case "signUp":
-      btnText = "ثبت نام";
+      btnText = "دریافت کد تایید";
       labelLink = "آیا حساب کاربری دارید؟";
       linkText = "ورود به حساب";
       funLink = pageToLogin;
       break;
 
+    case "OTP":
+      btnText = "تایید کد";
     default:
       break;
   }
@@ -95,6 +137,9 @@ function Auth() {
             getValues={getValues}
           />
         )}
+        {page === "OTP" && (
+          <OTP control={control} error={errors} number={phoneNumber} />
+        )}
         <input
           type="submit"
           value={btnText}
@@ -106,6 +151,7 @@ function Auth() {
             <span className={`btn btn-link ${styles.link}`} onClick={funLink}>
               {linkText}
             </span>
+            {page === "OTP" && timers(time)}
           </div>
           <div className={styles.left}>
             <Link to="/" className="btn btn-link">
