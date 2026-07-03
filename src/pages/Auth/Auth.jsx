@@ -99,28 +99,31 @@ function Auth() {
   let btnText, labelLink, linkText, funLink;
 
   useEffect(() => {
-    switch (page) {
-      case "login":
-        btnText = "ورود";
-        labelLink = "آیا حساب کاربری ندارید؟";
-        linkText = "ساخت حساب";
-        funLink = pageToSignUp;
-        break;
-
-      case "signUp":
-        btnText = "دریافت کد تایید";
-        labelLink = "آیا حساب کاربری دارید؟";
-        linkText = "ورود به حساب";
-        funLink = pageToLogin;
-        break;
-
-      case "OTP":
-        btnText = "تایید کد";
-        startTimer();
-      default:
-        break;
+    if (page == "OTP") {
+      startTimer();
     }
   }, [page]);
+
+  switch (page) {
+    case "login":
+      btnText = "ورود";
+      labelLink = "آیا حساب کاربری ندارید؟";
+      linkText = "ساخت حساب";
+      funLink = pageToSignUp;
+      break;
+
+    case "signUp":
+      btnText = "دریافت کد تایید";
+      labelLink = "آیا حساب کاربری دارید؟";
+      linkText = "ورود به حساب";
+      funLink = pageToLogin;
+      break;
+
+    case "OTP":
+      btnText = "تایید کد";
+    default:
+      break;
+  }
 
   return (
     <div className={styles.auth}>
