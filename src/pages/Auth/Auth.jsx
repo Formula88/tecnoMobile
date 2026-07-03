@@ -1,77 +1,48 @@
 import styles from "./Auth.module.scss";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import LoginForm from "../../components/LoginForm/LoginForm";
 import logo from "../../assets/img/logo.svg";
-import { Link } from "react-router-dom";
-import SignUpForm from "../../components/SignUpForm/SignUpForm";
-import { signUpDB } from "../../services/api";
 import { errorSwal, ServerErrorSwal } from "../../Swals/Swals";
 import OTP from "../../components/OTP/OTP";
 import { useTimer } from "../../utils/Utils";
+import { Link } from "react-router-dom";
+import NumberForm from "../../components/NumberForm/NumberForm";
+import { sendNumber } from "../../services/api";
 
 function Auth() {
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors },
-    resetField,
     control,
+    reset,
   } = useForm();
+
   const { time, restartTimer, startTimer, stopTimer } = useTimer(10);
-  const [page, setPage] = useState("OTP");
+
+  const [page, setPage] = useState("numberForm");
+
   const [phoneNumber, setPhoneNumber] = useState("");
-  const pageToSignUp = () => {
-    setPage("signUp");
-  };
-  const pageToLogin = () => {
-    setPage("login");
-  };
 
   const onsubmit = (data) => {
     switch (page) {
-      case "login":
+      case "numberForm":
+        numberForm(data);
         break;
-
-      case "signUp":
-        signUp(data);
-        setPhoneNumber(data.phoneNumber);
-        break;
-
       case "OTP":
         console.log(data);
-
         break;
       default:
         break;
     }
   };
 
-  const signUp = async (data) => {
-    const result = await signUpDB(data);
+  const numberForm = async (data) => {
+    const result = await sendNumber(data.phoneNumber);
     if (result?.success === true) {
-      switch (result.action) {
-        case "phoneNumber":
-          errorSwal("شماره‌ی دیگری وارد کنید", "شماره از قبل وارد شده");
-          resetField("phoneNumber");
-          break;
-
-        case "userName":
-          errorSwal(
-            "نام کاربری دیگری امتحان کنید",
-            "نام کاربری از قبل انتخاب شده است",
-          );
-          resetField("userName");
-          break;
-
-        case "OTP":
-          setPage("OTP");
-          break;
-
-        default:
-          break;
-      }
+      setPhoneNumber(data.phoneNumber);
+      reset();
+      setPage("OTP");
     } else {
       ServerErrorSwal();
     }
@@ -96,7 +67,11 @@ function Auth() {
     }
   };
 
-  let btnText, labelLink, linkText, funLink;
+  const editNum = () => {
+    reset();
+    stopTimer();
+    setPage("numberForm");
+  };
 
   useEffect(() => {
     if (page == "OTP") {
@@ -104,23 +79,14 @@ function Auth() {
     }
   }, [page]);
 
+  let btnText;
   switch (page) {
-    case "login":
-      btnText = "ورود";
-      labelLink = "آیا حساب کاربری ندارید؟";
-      linkText = "ساخت حساب";
-      funLink = pageToSignUp;
+    case "numberForm":
+      btnText = "ارسال کد تایید";
       break;
-
-    case "signUp":
-      btnText = "دریافت کد تایید";
-      labelLink = "آیا حساب کاربری دارید؟";
-      linkText = "ورود به حساب";
-      funLink = pageToLogin;
-      break;
-
     case "OTP":
       btnText = "تایید کد";
+      break;
     default:
       break;
   }
@@ -129,13 +95,8 @@ function Auth() {
     <div className={styles.auth}>
       <img src={logo} alt="tecnomobile" className={styles.logo} />
       <form onSubmit={handleSubmit(onsubmit)} className={styles.form}>
-        {page === "login" && <LoginForm register={register} error={errors} />}
-        {page === "signUp" && (
-          <SignUpForm
-            register={register}
-            error={errors}
-            getValues={getValues}
-          />
+        {page === "numberForm" && (
+          <NumberForm register={register} error={errors} />
         )}
         {page === "OTP" && (
           <OTP control={control} error={errors} number={phoneNumber} />
@@ -147,10 +108,11 @@ function Auth() {
         />
         <div className={styles.box}>
           <div className={styles.right}>
-            <span className={styles.label}>{labelLink}</span>
-            <span className={`btn btn-link ${styles.link}`} onClick={funLink}>
-              {linkText}
-            </span>
+            {page === "OTP" && (
+              <span className={styles.link} onClick={editNum}>
+                ویرایش شماره موبایل
+              </span>
+            )}
             {page === "OTP" && timers(time)}
           </div>
           <div className={styles.left}>

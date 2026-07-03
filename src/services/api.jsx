@@ -31,14 +31,12 @@ export const GetServices = async (page) => {
   }
 };
 
-export const signUpDB = async (data) => {
+export const sendNumber = async (phoneNumber) => {
   try {
-    const respon = await client.post("api/user", {
-      userName: data.userName,
-      phoneNumber: data.phoneNumber,
-      userPassword: data.userPassword,
+    const { data } = await client.post(`api/user`, {
+      phoneNumber: phoneNumber,
     });
-    return respon.data;
+    return data;
   } catch (error) {
     console.log(error);
   }
