@@ -15,5 +15,16 @@ export const successSwal = (text, title) => {
     text: text,
     icon: "success",
     cancelButtonText: "باشه",
+    theme: "dark",
+  });
+};
+
+export const errorSwal = (text, title) => {
+  Swal.fire({
+    title: title,
+    text: text,
+    icon: "error",
+    cancelButtonText: "باشه",
+    theme: "dark",
   });
 };

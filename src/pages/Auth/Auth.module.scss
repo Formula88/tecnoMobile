@@ -16,14 +16,50 @@
     display: block;
     border-radius: 20px;
     border: 1px solid #424242;
-    .btn{
-        font-size: 1.5em;
-        width: 100%;
-        display: inline-block;
-        outline: none;
-        border: none;
-        border-radius: 10px;
-        padding: 7px 0px;
+    .btn {
+      font-size: 1.5em;
+      width: 100%;
+      display: inline-block;
+      outline: none;
+      border: none;
+      border-radius: 10px;
+      padding: 7px 0px;
+    }
+    .box {
+      direction: rtl;
+      display: flex;
+      justify-content: space-between;
+      color: #1499e6;
+      margin-top: 20px;
+      .right {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        .link {
+          padding: 0px;
+          opacity: 0.75;
+          transition: 0.5s;
+          cursor: pointer;
+          margin-bottom: 15px;
+        }
+        .link:hover {
+          opacity: 1;
+        }
+        .timer {
+          font-size: 1em;
+          color: #d9d9d980;
+        }
+        .restartTimer {
+          padding: 0;
+          margin: 0;
+          outline: none;
+        }
+      }
+      .left {
+        a {
+          padding: 0px;
+        }
+      }
     }
   }
 }
