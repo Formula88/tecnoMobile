@@ -1,5 +1,5 @@
 import axios from "axios";
-
+axios.defaults.withCredentials = true;
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
@@ -31,14 +31,39 @@ export const GetServices = async (page) => {
   }
 };
 
-export const signUpDB = async (data) => {
+export const sendNumber = async (phoneNumber) => {
   try {
-    const respon = await client.post("api/user", {
-      userName: data.userName,
-      phoneNumber: data.phoneNumber,
-      userPassword: data.userPassword,
+    const { data } = await client.post(`api/user`, {
+      phoneNumber: phoneNumber,
     });
-    return respon.data;
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getOPT = async () => {
+  try {
+    const { data } = await client.get(`api/otp`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const postOTP = async (OTP) => {
+  try {
+    const { data } = await client.post(`api/otp`, {
+      OTP: OTP,
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const login = async () => {
+  try {
+    const { data } = await client.get(`api/login`);
+    return data;
   } catch (error) {
     console.log(error);
   }

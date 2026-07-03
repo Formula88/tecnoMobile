@@ -37,14 +37,22 @@
         align-items: start;
         .link {
           padding: 0px;
+          opacity: 0.75;
+          transition: 0.5s;
+          cursor: pointer;
+          margin-bottom: 15px;
+        }
+        .link:hover {
+          opacity: 1;
         }
         .timer {
           font-size: 1em;
           color: #d9d9d980;
         }
-        .restartTimer{
+        .restartTimer {
           padding: 0;
           margin: 0;
+          outline: none;
         }
       }
       .left {
