@@ -6,20 +6,19 @@ import { errorSwal, ServerErrorSwal } from "../../Swals/Swals";
 import OTP from "../../components/OTP/OTP";
 import { useTimer } from "../../utils/Utils";
 import { Link } from "react-router-dom";
+import NumberForm from "../../components/NumberForm/NumberForm";
 
 function Auth() {
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors },
-    resetField,
-    control,
+    reset,
   } = useForm();
 
   const { time, restartTimer, startTimer, stopTimer } = useTimer(10);
 
-  const [page, setPage] = useState("OTP");
+  const [page, setPage] = useState("numberForm");
 
   const [phoneNumber, setPhoneNumber] = useState("");
 
@@ -52,7 +51,7 @@ function Auth() {
     }
   };
 
-  let btnText, labelLink, linkText, funLink;
+  let btnText;
 
   useEffect(() => {
     if (page == "OTP") {
@@ -61,8 +60,12 @@ function Auth() {
   }, [page]);
 
   switch (page) {
+    case "numberForm":
+      btnText = "ارسال کد تایید";
+      break;
     case "OTP":
       btnText = "تایید کد";
+      break;
     default:
       break;
   }
@@ -71,6 +74,9 @@ function Auth() {
     <div className={styles.auth}>
       <img src={logo} alt="tecnomobile" className={styles.logo} />
       <form onSubmit={handleSubmit(onsubmit)} className={styles.form}>
+        {page === "numberForm" && (
+          <NumberForm register={register} error={errors} />
+        )}
         {page === "OTP" && (
           <OTP control={control} error={errors} number={phoneNumber} />
         )}
