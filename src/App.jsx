@@ -6,6 +6,8 @@ import Product from "./pages/Product/Product";
 import Services from "./pages/Services/Services";
 import Auth from "./pages/Auth/Auth";
 import AppContext from "./context/AppContext";
+import GuestRoute from "./routes/GuestRoute";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   return (
@@ -16,7 +18,11 @@ function App() {
           <Route path="/VPN" element={<VPNs />} />
           <Route path="/Product/:id" element={<Product />} />
           <Route path="/Services" element={<Services />} />
-          <Route path="/Auth" element={<Auth />} />
+
+          <Route element={<GuestRoute />}>
+            <Route path="/Auth" element={<Auth />} />
+          </Route>
+          <Route element={<ProtectedRoute />}></Route>
         </Routes>
       </AppContext>
     </>
