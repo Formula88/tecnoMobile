@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { FaTools } from "react-icons/fa";
 import { MdVpnKey } from "react-icons/md";
 
-import DescriptionCard from "../../components/DescriptionCard/DescriptionCard";
-import GlassItemCard from "../../components/GlassItemCard/GlassItemCard";
-import HeaderNav from "../../components/HeaderNav/HeaderNav";
-import IntroHome from "../../components/IntroHome/IntroHome";
-import NavElement from "../../components/NavElement/NavElement";
-import WhyUs from "../../components/WhyUs/WhyUs";
-import Footer from "../../components/Footer/Footer";
+import DescriptionCard from "../../components/cards/DescriptionCard/DescriptionCard";
+import GlassItemCard from "../../components/cards/GlassItemCard/GlassItemCard";
+import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
+import IntroHome from "../../components/sections/IntroHome/IntroHome";
+import NavElement from "../../components/ui/NavElement/NavElement";
+import WhyUs from "../../components/sections/WhyUs/WhyUs";
+import Footer from "../../components/layout/Footer/Footer";
 import { GetItemInHome } from "../../services/api";
 
 import styles from "./Home.module.scss";
@@ -35,7 +35,7 @@ function Home() {
         <div className="container">
           <NavElement title="محصولات برگزیده" link="#" />
           <div className="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
-            {items.map((item,index) => {
+            {items.map((item, index) => {
               return (
                 <div className="col" key={index}>
                   <GlassItemCard

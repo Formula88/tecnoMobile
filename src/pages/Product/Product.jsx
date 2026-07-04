@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import Details from "../../components/Details/Details";
-import Footer from "../../components/Footer/Footer";
-import HeaderNav from "../../components/HeaderNav/HeaderNav";
-import ProductInfo from "../../components/ProductInfo/ProductInfo";
-import SliderImg from "../../components/SliderImg/SliderImg";
+import Details from "../../components/sections/Details/Details";
+import Footer from "../../components/layout/Footer/Footer";
+import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
+import ProductInfo from "../../components/sections/ProductInfo/ProductInfo";
+import SliderImg from "../../components/ui/SliderImg/SliderImg";
 import styles from "./Product.module.scss";
 import { useParams } from "react-router-dom";
 import { GetProduct } from "../../services/api";
 import { ServerErrorSwal } from "../../Swals/Swals";
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import Breadcrumb from "../../components/layout/Breadcrumb/Breadcrumb";
 
 function Product() {
   const params = useParams();

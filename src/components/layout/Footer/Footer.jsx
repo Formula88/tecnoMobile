@@ -1,6 +1,6 @@
-import FooterCard from "../FooterCard/FooterCard";
+import FooterCard from "../../cards/FooterCard/FooterCard";
 import styles from "./Footer.module.scss";
-import logo from "../../assets/img/logo.svg";
+import logo from "../../../assets/img/logo.svg";
 import { RiTelegram2Fill } from "react-icons/ri";
 import { AiFillInstagram } from "react-icons/ai";
 import { Link } from "react-router-dom";
