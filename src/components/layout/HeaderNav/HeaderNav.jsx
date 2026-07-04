@@ -7,7 +7,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import { useContext, useEffect, useRef } from "react";
 import { OverlayScrollbars } from "overlayscrollbars";
 import "overlayscrollbars/overlayscrollbars.css";
-import { Context } from "../../../context/Provider";
+import { Context } from "../../../context/AppContext";
 
 
 function HeaderNav() {
