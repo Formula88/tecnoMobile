@@ -3,7 +3,7 @@ import logo from "../../assets/img/logo.svg";
 import OTPForm from "../../components/forms/OTPForm/OTPForm";
 import TimerOtp from "../../components/sections/TimerOtp/TimerOtp";
 import NumberForm from "../../components/forms/NumberForm/NumberForm";
-import { useTimer } from "../../utils/Utils";
+import { useTimer } from "../../hooks/hooks";
 import { Context } from "../../context/Provider";
 import { getOPT, login, postOTP, sendNumber } from "../../services/api";
 import { useContext, useEffect, useState } from "react";

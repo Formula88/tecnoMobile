@@ -8,7 +8,7 @@ import { GetServices } from "../../services/api";
 import { ServerErrorSwal } from "../../Swals/Swals";
 import ServiceCard from "../../components/cards/ServiceCard/ServiceCard";
 import ServicesForm from "../../components/forms/ServicesForm/ServicesForm";
-import { useScrollTo } from "../../utils/Utils";
+import { useScrollTo } from "../../hooks/hooks";
 
 function Services() {
   const [services, setServices] = useState([]);
