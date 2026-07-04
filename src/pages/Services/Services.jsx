@@ -7,7 +7,7 @@ import styles from "./Services.module.scss";
 import { GetServices } from "../../services/api";
 import { ServerErrorSwal } from "../../Swals/Swals";
 import ServiceCard from "../../components/cards/ServiceCard/ServiceCard";
-import ServicesForm from "../../components/forms/SevicesForm/ServicesForm";
+import ServicesForm from "../../components/forms/ServicesForm/ServicesForm";
 import { useScrollTo } from "../../utils/Utils";
 
 function Services() {

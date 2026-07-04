@@ -1,10 +1,10 @@
 import React from "react";
-import styles from "./OTP.module.scss";
+import styles from "./OTPForm.module.scss";
 import { Controller } from "react-hook-form";
 import OTPInput from "react-otp-input";
 import { toPersianDigits } from "../../../utils/Utils";
 
-function OTP({ control, error , number}) {
+function OTPForm({ control, error , number}) {
   return (
     <div className={styles.box}>
         <h3 className={styles.title}>
@@ -41,4 +41,4 @@ function OTP({ control, error , number}) {
   );
 }
 
-export default OTP;
+export default OTPForm;

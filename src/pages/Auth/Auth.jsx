@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import logo from "../../assets/img/logo.svg";
 import { errorSwal, ServerErrorSwal } from "../../Swals/Swals";
-import OTP from "../../components/forms/OTP/OTP";
+import OTPForm from "../../components/forms/OTPForm/OTPForm";
 import { useTimer } from "../../utils/Utils";
 import { Link, useNavigate } from "react-router-dom";
 import NumberForm from "../../components/forms/NumberForm/NumberForm";
@@ -119,7 +119,7 @@ function Auth() {
           <NumberForm register={register} error={errors} />
         )}
         {page === "OTP" && (
-          <OTP control={control} error={errors} number={phoneNumber} />
+          <OTPForm control={control} error={errors} number={phoneNumber} />
         )}
         <input
           type="submit"
