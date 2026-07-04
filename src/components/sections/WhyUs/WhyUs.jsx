@@ -1,4 +1,4 @@
-import WhyUsCard from "../WhyUsCard/WhyUsCard";
+import WhyUsCard from "../../cards/WhyUsCard/WhyUsCard";
 import styles from "./WhyUs.module.scss";
 
 import { PiMedalFill } from "react-icons/pi";

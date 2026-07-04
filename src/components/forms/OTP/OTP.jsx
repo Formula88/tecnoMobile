@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./OTP.module.scss";
 import { Controller } from "react-hook-form";
 import OTPInput from "react-otp-input";
-import { toPersianDigits } from "../../utils/Utils";
+import { toPersianDigits } from "../../../utils/Utils";
 
 function OTP({ control, error , number}) {
   return (

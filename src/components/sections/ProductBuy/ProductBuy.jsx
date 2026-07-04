@@ -1,5 +1,5 @@
-import Toman from "../../icon/Toman";
-import { formatPrice, getDiscountAmount } from "../../utils/Utils";
+import Toman from "../../../icon/Toman";
+import { formatPrice, getDiscountAmount } from "../../../utils/Utils";
 import styles from "./ProductBuy.module.scss";
 function ProductBuy({ price, discount, models }) {
   let totalPrice = price;

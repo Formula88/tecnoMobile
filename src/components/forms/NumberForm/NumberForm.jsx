@@ -1,4 +1,4 @@
-import Inputs from "../Inputs/Inputs";
+import Inputs from "../../ui/Inputs/Inputs";
 
 function NumberForm({ register, error }) {
   return (

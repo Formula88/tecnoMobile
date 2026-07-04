@@ -1,6 +1,6 @@
-import { formatPrice, toPersianDigits } from "../../utils/Utils";
+import { formatPrice, toPersianDigits } from "../../../utils/Utils";
 import styles from "./ServiceCard.module.scss";
-import Toman from "../../icon/Toman";
+import Toman from "../../../icon/Toman";
 
 function ServiceCard({ title, description, priceIn, priceOut, warranty }) {
   let Twarranty;
