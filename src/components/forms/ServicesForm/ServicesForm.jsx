@@ -1,7 +1,7 @@
-import { successSwal } from "../../Swals/Swals";
-import Inputs from "../Inputs/Inputs";
-import Selects from "../Selects/Selects";
-import Textareas from "../Textareas/Textareas";
+import { successSwal } from "../../../Swals/Swals";
+import Inputs from "../../ui/Inputs/Inputs";
+import Selects from "../../ui/Selects/Selects";
+import Textareas from "../../ui/Textareas/Textareas";
 import styles from "./ServicesForm.module.scss";
 import { useForm } from "react-hook-form";
 

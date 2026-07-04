@@ -1,5 +1,5 @@
 
-import { toPersianDigits } from "../../utils/Utils";
+import { toPersianDigits } from "../../../utils/Utils";
 import DetailsList from "../DetailsList/DetailsList";
 import PhoneInformation from "../PhoneInformation/PhoneInformation";
 import ProductBuy from "../ProductBuy/ProductBuy";

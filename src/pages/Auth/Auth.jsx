@@ -3,10 +3,10 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import logo from "../../assets/img/logo.svg";
 import { errorSwal, ServerErrorSwal } from "../../Swals/Swals";
-import OTP from "../../components/OTP/OTP";
+import OTPForm from "../../components/forms/OTPForm/OTPForm";
 import { useTimer } from "../../utils/Utils";
 import { Link, useNavigate } from "react-router-dom";
-import NumberForm from "../../components/NumberForm/NumberForm";
+import NumberForm from "../../components/forms/NumberForm/NumberForm";
 import { getOPT, login, postOTP, sendNumber } from "../../services/api";
 import { Context } from "../../context/Provider";
 
@@ -27,7 +27,7 @@ function Auth() {
 
   const { setIsLogin, setUserType } = useContext(Context);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const onsubmit = (data) => {
     switch (page) {
       case "numberForm":
@@ -64,8 +64,8 @@ function Auth() {
       if (stutus?.success === true) {
         {
           setIsLogin(true);
-          setUserType(stutus.userType)
-          navigate("/")
+          setUserType(stutus.userType);
+          navigate("/");
         }
       }
     } else {
@@ -119,7 +119,7 @@ function Auth() {
           <NumberForm register={register} error={errors} />
         )}
         {page === "OTP" && (
-          <OTP control={control} error={errors} number={phoneNumber} />
+          <OTPForm control={control} error={errors} number={phoneNumber} />
         )}
         <input
           type="submit"
