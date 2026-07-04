@@ -1,14 +1,20 @@
 import styles from "./Auth.module.scss";
+import logo from "../../assets/img/logo.svg";
+import OTPForm from "../../components/forms/OTPForm/OTPForm";
+import TimerOtp from "../../components/sections/TimerOtp/TimerOtp";
+import NumberForm from "../../components/forms/NumberForm/NumberForm";
+import { useTimer } from "../../utils/Utils";
+import { Context } from "../../context/Provider";
+import { getOPT, login, postOTP, sendNumber } from "../../services/api";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import logo from "../../assets/img/logo.svg";
 import { errorSwal, ServerErrorSwal } from "../../Swals/Swals";
-import OTPForm from "../../components/forms/OTPForm/OTPForm";
-import { useTimer } from "../../utils/Utils";
 import { Link, useNavigate } from "react-router-dom";
-import NumberForm from "../../components/forms/NumberForm/NumberForm";
-import { getOPT, login, postOTP, sendNumber } from "../../services/api";
-import { Context } from "../../context/Provider";
+
+const authPage = {
+  NUMBER: "number",
+  OTP: "otp",
+};
 
 function Auth() {
   const {
@@ -19,106 +25,73 @@ function Auth() {
     reset,
   } = useForm();
 
-  const { time, restartTimer, startTimer, stopTimer } = useTimer(120);
+  const navigate = useNavigate();
 
-  const [page, setPage] = useState("numberForm");
+  const { time, restartTimer, startTimer, stopTimer } = useTimer(120);
 
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const { setIsLogin, setUserType } = useContext(Context);
 
-  const navigate = useNavigate();
-  const onsubmit = (data) => {
-    switch (page) {
-      case "numberForm":
-        numberForm(data);
-        break;
-      case "OTP":
-        sendOTP(data.OTP);
-        break;
-      default:
-        break;
-    }
-  };
+  const [page, setPage] = useState(authPage.NUMBER);
+  const isOTPPage = page === authPage.OTP;
 
-  const numberForm = async (data) => {
-    const result = await sendNumber(data.phoneNumber);
-    if (result?.success === true) {
-      setPhoneNumber(data.phoneNumber);
-      reset();
-      setPage("OTP");
-      await getOPT();
+  const handleFormSubmit = (data) => {
+    if (isOTPPage) {
+      handleOTPSubmit(data.OTP);
     } else {
-      ServerErrorSwal();
+      handleNumberSubmit(data);
     }
   };
 
-  const reSendOTP = async () => {
+  const handleNumberSubmit = async (data) => {
+    const result = await sendNumber(data.phoneNumber);
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+    setPhoneNumber(data.phoneNumber);
+    reset();
+    setPage(authPage.OTP);
     await getOPT();
   };
 
-  const sendOTP = async (OTP) => {
-    const result = await postOTP(OTP);
-    if (result?.success === true) {
-      const stutus = await login();
-      if (stutus?.success === true) {
-        {
-          setIsLogin(true);
-          setUserType(stutus.userType);
-          navigate("/");
-        }
-      }
-    } else {
-      errorSwal("لطفا دوباره تلاش کنید", "کد وارد شده صحیح نمیباشد");
-    }
+  const handleResendOTP = async () => {
+    await getOPT();
   };
 
-  const timers = (time) => {
-    if (time > 0) {
-      return (
-        <span className={styles.timer}>{time} ثانیه تا ارسال مجدد کد</span>
-      );
-    } else {
-      return (
-        <span
-          className={`btn btn-link ${styles.restartTimer}`}
-          onClick={() => {
-            restartTimer();
-            reSendOTP();
-          }}
-        >
-          ارسال مجدد کد
-        </span>
-      );
+  const handleOTPSubmit = async (OTP) => {
+    const result = await postOTP(OTP);
+    if (!result?.success) {
+      errorSwal("لطفا دوباره تلاش کنید", "کد وارد شده صحیح نمیباشد");
+      return;
+    }
+    const status = await login();
+    if (status?.success === true) {
+      setIsLogin(true);
+      setUserType(status.userType);
+      navigate("/");
     }
   };
 
   useEffect(() => {
-    if (page == "OTP") {
-      startTimer();
-    }
-  }, [page]);
+    if (!isOTPPage) return;
 
-  let btnText;
-  switch (page) {
-    case "numberForm":
-      btnText = "ارسال کد تایید";
-      break;
-    case "OTP":
-      btnText = "تایید کد";
-      break;
-    default:
-      break;
-  }
+    startTimer();
+
+    return () => stopTimer();
+  }, [isOTPPage]);
+
+  const btnText = isOTPPage ? "تایید کد" : "ارسال کد تایید";
 
   return (
     <div className={styles.auth}>
       <img src={logo} alt="tecnomobile" className={styles.logo} />
-      <form onSubmit={handleSubmit(onsubmit)} className={styles.form}>
-        {page === "numberForm" && (
+      <form onSubmit={handleSubmit(handleFormSubmit)} className={styles.form}>
+        {page === authPage.NUMBER && (
           <NumberForm register={register} error={errors} />
         )}
-        {page === "OTP" && (
+        {page === authPage.OTP && (
           <OTPForm control={control} error={errors} number={phoneNumber} />
         )}
         <input
@@ -127,7 +100,15 @@ function Auth() {
           className={`btnPrimary ${styles.btn}`}
         />
         <div className={styles.box}>
-          <div className={styles.right}>{page === "OTP" && timers(time)}</div>
+          <div className={styles.right}>
+            {isOTPPage && (
+              <TimerOtp
+                time={time}
+                restartTimer={restartTimer}
+                reSendOTP={handleResendOTP}
+              />
+            )}
+          </div>
           <div className={styles.left}>
             <Link to="/" className="btn btn-link">
               بازگشت به صفحه اصلی

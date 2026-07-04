@@ -17,7 +17,7 @@ function App() {
         <Route path="/VPN" element={<VPNs />} />
         <Route path="/Product/:id" element={<Product />} />
         <Route path="/Services" element={<Services />} />
-        {isLogin ? <Route path="/Auth" element={<Auth />} /> : ""}
+        {!isLogin ? <Route path="/Auth" element={<Auth />} /> : ""}
       </Routes>
     </>
   );
