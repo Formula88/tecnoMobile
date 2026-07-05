@@ -1,0 +1,29 @@
+.products {
+  position: relative;
+  margin-top: 200px;
+  .SearchBox {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    max-width: 400px;
+    width: 90%;
+  }
+  .productsCards{
+    padding-top: 100px;
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+  .col{
+    padding: 0px;
+  }
+}
