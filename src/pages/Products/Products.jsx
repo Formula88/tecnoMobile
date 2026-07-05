@@ -5,9 +5,11 @@ import Pagination from "../../components/ui/Pagination/Pagination";
 import { useEffect, useState } from "react";
 import SearchBox from "../../components/ui/SearchBox/SearchBox";
 import ProductsCard from "../../components/cards/ProductsCard/ProductsCard";
+import { GetProducts } from "../../services/api";
+import { ServerErrorSwal } from "../../Swals/Swals";
 
 function Products() {
-  const [pageCount, setPageCount] = useState(20);
+  const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [products, setProducts] = useState([]);
@@ -26,7 +28,17 @@ function Products() {
     setCurrentPage(selectedPage);
   };
 
-  useEffect(() => {}, [currentPage]);
+  useEffect(() => {
+    GetProducts(currentPage).then((result) => {
+      if (!result?.success) {
+        ServerErrorSwal();
+        return;
+      }
+
+      setProducts(result.data);
+      setPageCount(result.countPage);
+    });
+  }, [currentPage]);
 
   return (
     <>
@@ -48,12 +60,12 @@ function Products() {
               return (
                 <div className={`col ${styles.col}`}>
                   <ProductsCard
-                    id={}
-                    title={}
-                    description={}
-                    img={}
-                    price={}
-                    discount={}
+                    id={value.id}
+                    title={value.NAME}
+                    description={value.description}
+                    imgs={value.imgs}
+                    price={value.price}
+                    discount={value.discount}
                   />
                 </div>
               );

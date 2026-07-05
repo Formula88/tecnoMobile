@@ -7,7 +7,8 @@ import {
   toPersianDigits,
 } from "../../../utils/Utils";
 
-function ProductsCard({ img, title, description, id, price, discount }) {
+function ProductsCard({ imgs, title, description, id, price, discount }) {
+  const img = JSON.parse(imgs)[0];
   let totalPrice = price;
   if (discount > 0) {
     totalPrice = getDiscountAmount(price, discount);
@@ -15,7 +16,7 @@ function ProductsCard({ img, title, description, id, price, discount }) {
   return (
     <Link to={`/Product/${id ?? 2}`} className={styles.card}>
       <div className={styles.img}>
-        <img src={img[0]} alt={title} />
+        <img src={img} alt={title} />
       </div>
       <div className={styles.info}>
         <h2 className={`text-truncate ${styles.title}`}>{title}</h2>
