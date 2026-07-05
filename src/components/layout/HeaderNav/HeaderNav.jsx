@@ -9,16 +9,15 @@ import { OverlayScrollbars } from "overlayscrollbars";
 import "overlayscrollbars/overlayscrollbars.css";
 import { Context } from "../../../context/AppContext";
 
-
 function HeaderNav() {
   const { isLogin } = useContext(Context);
 
-  
   const Links = {
     home: "/",
     Vpn: "/VPN",
     services: "/Services",
     auth: "/Auth",
+    products: "/products",
   };
 
   let scrollbarRef = useRef(null);
@@ -83,7 +82,7 @@ function HeaderNav() {
                   <Link to={Links.services}>خدمات</Link>
                 </li>
                 <li>
-                  <Link to="">محصولات</Link>
+                  <Link to={Links.products}>محصولات</Link>
                 </li>
                 <li>
                   <Link to="">درباره‌ما</Link>
