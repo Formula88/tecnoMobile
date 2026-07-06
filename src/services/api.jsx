@@ -31,6 +31,21 @@ export const GetServices = async (page) => {
   }
 };
 
+export const GetProducts = async (page, search, productType, sort) => {
+  try {
+    const { data } = await client.get(`api/products/${page}`, {
+      params: {
+        search: search,
+        productType: productType,
+        sort: sort,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const sendNumber = async (phoneNumber) => {
   try {
     const { data } = await client.post(`api/user`, {

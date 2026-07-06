@@ -8,7 +8,7 @@ function GlassItemCard(props) {
   
   return (
     <>
-      <Link to={`/Product/${props.id??1}`} className="w-100 d-flex justify-content-center">
+      <Link to={`/Product/${props.id}`} className="w-100 d-flex justify-content-center">
         <Tilt
           className={styles.glassCard}
           glareEnable={true}
