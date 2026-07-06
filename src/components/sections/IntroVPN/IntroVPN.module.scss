@@ -1,0 +1,25 @@
+.introVPN {
+  margin-top: 200px;
+  font-size: 1rem;
+  direction: rtl;
+  .title {
+    text-align: center;
+    font-size: 2.5em;
+    color: #d9d9d9;
+    margin-bottom: 20px;
+    span {
+      color: #1499e6;
+    }
+  }
+  .description {
+    color: #617287;
+    text-align: center;
+    font-size: 1.2em;
+  }
+  .introCards {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 50px;
+  }
+}
