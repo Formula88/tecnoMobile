@@ -5,20 +5,20 @@
     width: 90%;
     margin: 0px auto;
   }
-  .fillters{
-    width: 500px;
+  .fillters {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     margin: 30px auto;
     gap: 50px;
-    select{
+    select {
       width: 250px;
       padding: 7px 20px;
     }
   }
-  .productsCards{
-    padding-top: 100px;
-    .notFound{
+  .productsCards {
+    margin-top: 100px;
+    .notFound {
       color: #617287;
       font-size: 1.2em;
       font-weight: 500;
@@ -32,13 +32,21 @@
 @media (max-width: 1399px) {
 }
 @media (max-width: 1199px) {
+  .products {
+    .productsCards {
+      margin-top: 80px;
+    }
+  }
 }
 @media (max-width: 991px) {
+  .products{
+    margin-top: 160px;
+  }
 }
 @media (max-width: 767px) {
 }
 @media (max-width: 575px) {
-  .col{
+  .col {
     padding: 0px;
   }
 }
