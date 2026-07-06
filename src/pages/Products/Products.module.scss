@@ -5,8 +5,27 @@
     width: 90%;
     margin: 0px auto;
   }
+  .fillters{
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    margin: 30px auto;
+    gap: 50px;
+    select{
+      width: 250px;
+      padding: 7px 20px;
+    }
+  }
   .productsCards{
     padding-top: 100px;
+    .notFound{
+      color: #617287;
+      font-size: 1.2em;
+      font-weight: 500;
+      display: block;
+      margin: 0px auto;
+      text-align: center;
+    }
   }
 }
 

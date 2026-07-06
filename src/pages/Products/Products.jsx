@@ -7,11 +7,14 @@ import SearchBox from "../../components/ui/SearchBox/SearchBox";
 import ProductsCard from "../../components/cards/ProductsCard/ProductsCard";
 import { GetProducts } from "../../services/api";
 import { ServerErrorSwal } from "../../Swals/Swals";
+import FillterProducts from "../../components/sections/FillterProducts/FillterProducts";
 
 function Products() {
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
+  const [sort, setSort] = useState("newest");
+  const [productType, setProductType] = useState("all");
   const [products, setProducts] = useState([]);
 
   const handleSearchSubmit = (e) => {
@@ -20,7 +23,7 @@ function Products() {
       setCurrentPage(1);
       return;
     }
-    GetProducts(currentPage, searchValue).then((result) => {
+    GetProducts(currentPage, searchValue, productType, sort).then((result) => {
       if (!result?.success) {
         ServerErrorSwal();
         return;
@@ -41,7 +44,7 @@ function Products() {
   };
 
   useEffect(() => {
-    GetProducts(currentPage, searchValue).then((result) => {
+    GetProducts(currentPage, searchValue, productType, sort).then((result) => {
       if (!result?.success) {
         ServerErrorSwal();
         return;
@@ -50,7 +53,7 @@ function Products() {
       setProducts(result.data);
       setPageCount(result.countPage);
     });
-  }, [currentPage]);
+  }, [currentPage,productType,sort]);
 
   return (
     <>
@@ -64,24 +67,31 @@ function Products() {
             value={searchValue}
           />
         </div>
+        <div className={styles.fillters}>
+          <FillterProducts ProductType={setProductType} Sort={setSort} />
+        </div>
         <div className="container">
           <div
             className={`row row-cols-lg-4 row-cols-sm-2 row-cols-1 ${styles.productsCards}`}
           >
-            {products.map((value) => {
-              return (
-                <div className={`col ${styles.col}`}>
-                  <ProductsCard
-                    id={value.id}
-                    title={value.NAME}
-                    description={value.description}
-                    imgs={value.imgs}
-                    price={value.price}
-                    discount={value.discount}
-                  />
-                </div>
-              );
-            })}
+            {products.length !== 0 ? (
+              products.map((value) => {
+                return (
+                  <div className={`col ${styles.col}`} key={value.id}>
+                    <ProductsCard
+                      id={value.id}
+                      title={value.NAME}
+                      description={value.description}
+                      imgs={value.imgs}
+                      price={value.price}
+                      discount={value.discount}
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <span className={styles.notFound}>محصولی یافت نشد</span>
+            )}
           </div>
         </div>
         <Pagination pageCount={pageCount} onPageChange={handlePageChange} />
