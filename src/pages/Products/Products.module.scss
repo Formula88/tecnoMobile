@@ -1,13 +1,9 @@
 .products {
-  position: relative;
   margin-top: 200px;
   .SearchBox {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
     max-width: 400px;
     width: 90%;
+    margin: 0px auto;
   }
   .productsCards{
     padding-top: 100px;

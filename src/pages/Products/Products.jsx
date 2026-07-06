@@ -16,6 +16,10 @@ function Products() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+      return;
+    }
     GetProducts(currentPage, searchValue).then((result) => {
       if (!result?.success) {
         ServerErrorSwal();
