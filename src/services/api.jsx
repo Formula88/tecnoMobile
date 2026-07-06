@@ -31,9 +31,13 @@ export const GetServices = async (page) => {
   }
 };
 
-export const GetProducts = async (page) => {
+export const GetProducts = async (page, search) => {
   try {
-    const { data } = await client.get(`api/products/${page}`);
+    const { data } = await client.get(`api/products/${page}`, {
+      params: {
+        search: search,
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);

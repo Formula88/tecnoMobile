@@ -5,7 +5,6 @@ function SearchBox({ placeholder, value, onSubmit, onChange }) {
     <form className={styles.form} onSubmit={onSubmit}  dir="rtl">
       <label htmlFor="search">
         <input
-          required
           autoComplete="off"
           value={value}
           placeholder={placeholder}

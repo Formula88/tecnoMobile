@@ -16,7 +16,15 @@ function Products() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log(searchValue);
+    GetProducts(currentPage, searchValue).then((result) => {
+      if (!result?.success) {
+        ServerErrorSwal();
+        return;
+      }
+
+      setProducts(result.data);
+      setPageCount(result.countPage);
+    });
   };
 
   const handleSearchChange = (e) => {
@@ -29,7 +37,7 @@ function Products() {
   };
 
   useEffect(() => {
-    GetProducts(currentPage).then((result) => {
+    GetProducts(currentPage, searchValue).then((result) => {
       if (!result?.success) {
         ServerErrorSwal();
         return;
