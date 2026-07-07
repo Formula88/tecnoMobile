@@ -1,12 +1,43 @@
+import styles from "./VPNs.module.scss";
 import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
 import Footer from "../../components/layout/Footer/Footer";
 import IntroVPN from "../../components/sections/IntroVPN/IntroVPN";
+import VPNCard from "../../components/cards/VPNCard/VPNCard";
+import { useState } from "react";
 
 function VPNs() {
+  const [vpns, setVpns] = useState(["", "", "", "", "", "", "", ""]);
+
   return (
     <>
       <HeaderNav />
-      <IntroVPN />
+      <div className={styles.VPNs}>
+        <IntroVPN />
+        <section className={styles.VPNsCards}>
+          <div className="container">
+            <h2 className={styles.title}>انتخاب پلن VPN</h2>
+            <div className="row row-cols-3 justify-content-center">
+              {vpns.map((value) => {
+                return (
+                  <div className="col">
+                    <VPNCard
+                      id={1}
+                      name={"پلن پایه"}
+                      price={250000}
+                      discount={50}
+                      traffic={10}
+                      duration={3}
+                      userCount={1}
+                      clientName={"V2RayN"}
+                      protocol={"VLESS/VMESS"}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      </div>
       <Footer />
     </>
   );
