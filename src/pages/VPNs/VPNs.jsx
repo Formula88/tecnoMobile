@@ -4,6 +4,7 @@ import Footer from "../../components/layout/Footer/Footer";
 import IntroVPN from "../../components/sections/IntroVPN/IntroVPN";
 import VPNCard from "../../components/cards/VPNCard/VPNCard";
 import { useState } from "react";
+import VPNGuide from "../../components/sections/VPNGuide/VPNGuide";
 
 function VPNs() {
   const [vpns, setVpns] = useState(["", "", "", "", "", "", "", ""]);
@@ -37,6 +38,7 @@ function VPNs() {
             </div>
           </div>
         </section>
+        <VPNGuide />
       </div>
       <Footer />
     </>
