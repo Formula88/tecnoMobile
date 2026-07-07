@@ -1,0 +1,17 @@
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: #1e1e1e;
+  border: 1px solid #424242;
+  color: #d9d9d9;
+  font-size: 1.1em;
+  padding: 6px 11px;
+  border-radius: 8px;
+  svg {
+    color: #1499e6;
+    width: 30px;
+    height: 30px;
+  }
+}

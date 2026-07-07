@@ -46,6 +46,15 @@ export const GetProducts = async (page, search, productType, sort) => {
   }
 };
 
+export const GetVPNPlan = async () => {
+  try {
+    const { data } = await client.get(`api/vpnPlan`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const sendNumber = async (phoneNumber) => {
   try {
     const { data } = await client.post(`api/user`, {

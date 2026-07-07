@@ -1,0 +1,41 @@
+.vpnBuy {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1em;
+  position: relative;
+  .totalPrice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    color: #d9d9d9;
+    gap: 10px;
+    svg {
+      fill: #1499e6;
+      width: 30px;
+      height: 30px;
+    }
+  }
+  .discount {
+    background-color: #1499e6;
+    color: #d9d9d9;
+    width: 43px;
+    height: 24px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+  }
+  .price {
+    color: #d9d9d98c;
+    text-decoration: line-through;
+    position: absolute;
+    left: 52px;
+    bottom: -21px;
+    font-size: 1.1em;
+  }
+}
