@@ -1,0 +1,21 @@
+.infoCard{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    svg{
+        color: #1499e6;
+        width: 25px;
+        height: 25px;
+    }
+    .box{
+        .title{
+            font-size: 1.2em;
+            color: #d9d9d9;
+        }
+        .description{
+            color: #d9d9d98c;
+            margin: 0px;
+        }
+    }
+}
