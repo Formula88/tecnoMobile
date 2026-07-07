@@ -9,6 +9,7 @@ import AppContext from "./context/AppContext";
 import GuestRoute from "./routes/GuestRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Products from "./pages/Products/Products";
+import AboutUs from "./pages/AboutUs/AboutUs";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/Product/:id" element={<Product />} />
           <Route path="/Services" element={<Services />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/AboutUs" element={<AboutUs />} />
 
           <Route element={<GuestRoute />}>
             <Route path="/Auth" element={<Auth />} />
