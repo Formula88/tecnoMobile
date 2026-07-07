@@ -16,7 +16,7 @@ function VPNs() {
         <section className={styles.VPNsCards}>
           <div className="container">
             <h2 className={styles.title}>انتخاب پلن VPN</h2>
-            <div className="row row-cols-3 justify-content-center">
+            <div className="row row-cols-lg-3 row-cols-sm-2 row-cols-1 justify-content-center">
               {vpns.map((value) => {
                 return (
                   <div className="col">

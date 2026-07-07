@@ -27,3 +27,25 @@
     font-size: 1.2em;
   }
 }
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+  .vpnCard{
+    font-size: 0.8rem;
+    padding: 20px;
+  }
+}
+@media (max-width: 575px) {
+  .vpnCard{
+    font-size: 0.9rem;
+    .info{
+      margin: 15px 0px;
+      gap: 10px;
+    }
+  }
+}
