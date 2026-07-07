@@ -9,7 +9,7 @@ function VPNGuide() {
   return (
     <section className={`container ${styles.vpnGuide}`}>
         <h2 className={styles.title}>راهنمای اتصال سریع</h2>
-      <div className="row row-cols-4">
+      <div className="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
         <div className="col">
           <VPNGuideCard
             icon={<FaDownload/>}
