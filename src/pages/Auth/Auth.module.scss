@@ -11,19 +11,69 @@
   .form {
     background-color: #1e1e1e;
     padding: 30px;
-    max-width: 503px;
+    max-width: 500px;
     width: 100%;
     display: block;
     border-radius: 20px;
     border: 1px solid #424242;
-    .btn{
-        font-size: 1.5em;
-        width: 100%;
-        display: inline-block;
-        outline: none;
-        border: none;
-        border-radius: 10px;
-        padding: 7px 0px;
+    .btn {
+      font-size: 1.5em;
+      width: 100%;
+      display: inline-block;
+      outline: none;
+      border: none;
+      border-radius: 10px;
+      padding: 7px 0px;
+    }
+    .box {
+      direction: rtl;
+      display: flex;
+      justify-content: space-between;
+      color: #1499e6;
+      margin-top: 20px;
+      .right {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        .link {
+          padding: 0px;
+          opacity: 0.75;
+          transition: 0.5s;
+          cursor: pointer;
+          margin-bottom: 15px;
+        }
+        .link:hover {
+          opacity: 1;
+        }
+      }
+      .left {
+        a {
+          padding: 0px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+}
+@media (max-width: 500px) {
+  .auth {
+    .form {
+      background-color: transparent;
+      border-radius: 0px;
+      border: none;
+      .box{
+        flex-wrap: wrap;
+      }
     }
   }
 }

@@ -1,0 +1,51 @@
+.vpnCard {
+  background-color: #161a1b;
+  border: 1px solid #424242;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  padding: 30px;
+  direction: rtl;
+  font-size: 1rem;
+  .title {
+    font-size: 2.2em;
+    color: #d9d9d9;
+  }
+  .info {
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0px;
+  }
+  .btn {
+    margin-top: 35px;
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 7px 0px;
+    border-radius: 8px;
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+  .vpnCard{
+    font-size: 0.8rem;
+    padding: 20px;
+  }
+}
+@media (max-width: 575px) {
+  .vpnCard{
+    font-size: 0.9rem;
+    .info{
+      margin: 15px 0px;
+      gap: 10px;
+    }
+  }
+}

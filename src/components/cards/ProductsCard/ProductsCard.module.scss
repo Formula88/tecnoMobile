@@ -1,0 +1,121 @@
+.card {
+  display: block;
+  width: 100%;
+  direction: rtl;
+  background-color: #1e1e1e;
+  border: 1px solid #424242;
+  padding: 20px 15px;
+  margin-bottom: 20px;
+  border-radius: 17px;
+  font-size: 1rem;
+  transition: 0.25s;
+  img {
+    width: 100%;
+    border-radius: 15px;
+  }
+  .title {
+    font-size: 1.5em;
+    margin-top: 10px;
+    color: #1499e6;
+  }
+  .description {
+    color: #617287;
+  }
+  .priceBox {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding-bottom: 15px;
+    .totalPriceBox {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #1499e6;
+      svg {
+        width: 25px;
+        height: 25px;
+        fill: #1499e6;
+      }
+      .totalPrice {
+        font-size: 1.1em;
+        font-weight: 500;
+      }
+    }
+    .discount {
+      background-color: #1499e6;
+      color: #fff;
+      font-size: 1em;
+      border-radius: 5px;
+      width: 41px;
+      height: 23px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .price {
+      position: absolute;
+      bottom: -11px;
+      left: 34px;
+      text-decoration: line-through;
+      color: #617287;
+    }
+  }
+}
+.card:hover {
+  background-color: #272727;
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+  .card {
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+  }
+}
+@media (max-width: 991px) {
+  .card {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 767px) {
+  .card {
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 575px) {
+  .card {
+    margin-bottom: 0px;
+    border-radius: 0px;
+    border-right: none;
+    border-left: none;
+    display: flex;
+    gap: 20px;
+
+    img {
+      max-width: 200px;
+      min-width: 110px;
+    }
+    .info {
+      width: 100%;
+      .priceBox {
+        .totalPriceBox {
+          svg {
+            height: 20px;
+            width: 20px;
+          }
+        }
+        .price {
+          bottom: -2px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 351px) {
+  .card {
+    font-size: 0.8rem;
+    padding: 15px 10px;
+  }
+}

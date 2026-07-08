@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import Footer from "../../components/Footer/Footer";
-import HeaderNav from "../../components/HeaderNav/HeaderNav";
-import IntroServices from "../../components/IntroServices/IntroServices";
-import Pagination from "../../components/Pagination/Pagination";
+import Footer from "../../components/layout/Footer/Footer";
+import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
+import IntroServices from "../../components/sections/IntroServices/IntroServices";
+import Pagination from "../../components/ui/Pagination/Pagination";
 import styles from "./Services.module.scss";
 import { GetServices } from "../../services/api";
 import { ServerErrorSwal } from "../../Swals/Swals";
-import ServiceCard from "../../components/ServiceCard/ServiceCard";
-import ServicesForm from "../../components/SevicesForm/ServicesForm";
-import { useScrollTo } from "../../utils/Utils";
+import ServiceCard from "../../components/cards/ServiceCard/ServiceCard";
+import ServicesForm from "../../components/forms/ServicesForm/ServicesForm";
+import { useScrollTo } from "../../hooks/hooks";
 
 function Services() {
   const [services, setServices] = useState([]);

@@ -1,0 +1,52 @@
+.products {
+  margin-top: 200px;
+  .SearchBox {
+    max-width: 400px;
+    width: 90%;
+    margin: 0px auto;
+  }
+  .fillters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px auto;
+    gap: 50px;
+    select {
+      width: 250px;
+      padding: 7px 20px;
+    }
+  }
+  .productsCards {
+    margin-top: 100px;
+    .notFound {
+      color: #617287;
+      font-size: 1.2em;
+      font-weight: 500;
+      display: block;
+      margin: 0px auto;
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+  .products {
+    .productsCards {
+      margin-top: 80px;
+    }
+  }
+}
+@media (max-width: 991px) {
+  .products{
+    margin-top: 160px;
+  }
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+  .col {
+    padding: 0px;
+  }
+}
