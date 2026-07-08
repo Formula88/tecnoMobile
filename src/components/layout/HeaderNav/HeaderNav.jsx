@@ -28,6 +28,10 @@ function HeaderNav() {
       setScrollEnabled(true);
     }
   };
+  const closeMenu = () => {
+    hamburgerMenuBox.current.classList.remove(styles.open);
+    setScrollEnabled(true);
+  };
 
   return (
     <>
@@ -84,27 +88,37 @@ function HeaderNav() {
         <img src={pic} alt="" />
         <ul className={styles.menu}>
           <li>
-            <Link to={Links.home}>خانه</Link>
+            <Link to={Links.home} onClick={closeMenu}>
+              خانه
+            </Link>
           </li>
           <li>
-            <Link to={Links.products}>محصولات</Link>
+            <Link to={Links.products} onClick={closeMenu}>
+              محصولات
+            </Link>
           </li>
           <li>
-            <Link to={Links.Vpn}>VPN</Link>
+            <Link to={Links.Vpn} onClick={closeMenu}>
+              VPN
+            </Link>
           </li>
           <li>
-            <Link to={Links.services}>خدمات</Link>
+            <Link to={Links.services} onClick={closeMenu}>
+              خدمات
+            </Link>
           </li>
           <li>
-            <Link to={Links.AboutUs}>درباره ما</Link>
+            <Link to={Links.AboutUs} onClick={closeMenu}>
+              درباره ما
+            </Link>
           </li>
         </ul>
         <div className={styles.icon}>
-          <Link to={!isLogin ? Links.auth : ""}>
+          <Link to={!isLogin ? Links.auth : ""} onClick={closeMenu}>
             <FaUser className={styles.icon} />
           </Link>
           {isLogin && (
-            <Link to="">
+            <Link to="" onClick={closeMenu}>
               <FaCartShopping className={styles.icon} />
             </Link>
           )}

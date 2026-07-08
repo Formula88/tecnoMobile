@@ -19,7 +19,7 @@ function VPNs() {
         ServerErrorSwal();
       }
     });
-  });
+  }, []);
   return (
     <>
       <HeaderNav />
@@ -31,7 +31,7 @@ function VPNs() {
             <div className="row row-cols-lg-3 row-cols-sm-2 row-cols-1 justify-content-center">
               {vpnPlan.map((value) => {
                 return (
-                  <div className="col">
+                  <div className="col" key={value.id}>
                     <VPNCard
                       id={value.id}
                       name={value.name}
