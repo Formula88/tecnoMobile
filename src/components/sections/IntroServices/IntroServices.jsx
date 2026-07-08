@@ -1,5 +1,5 @@
 import styles from "./IntroServices.module.scss";
-import introImg from "../../../assets/img/introServices.png";
+import introImg from "../../../assets/img/introServices.webp";
 import { GoTools } from "react-icons/go";
 import { MdOutlineTerminal } from "react-icons/md";
 import { FaRegCheckCircle } from "react-icons/fa";
