@@ -77,13 +77,13 @@ function HeaderNav() {
                   <Link to={Links.home}>خانه</Link>
                 </li>
                 <li>
+                  <Link to={Links.products}>محصولات</Link>
+                </li>
+                <li>
                   <Link to={Links.Vpn}>VPN</Link>
                 </li>
                 <li>
                   <Link to={Links.services}>خدمات</Link>
-                </li>
-                <li>
-                  <Link to={Links.products}>محصولات</Link>
                 </li>
                 <li>
                   <Link to={Links.AboutUs}>درباره‌ما</Link>
@@ -94,9 +94,11 @@ function HeaderNav() {
               <Link to={!isLogin ? Links.auth : ""}>
                 <FaUser className={styles.icon} />
               </Link>
-              <Link to="">
-                <FaCartShopping className={styles.icon} />
-              </Link>
+              {isLogin && (
+                <Link to="">
+                  <FaCartShopping className={styles.icon} />
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -112,25 +114,27 @@ function HeaderNav() {
             <Link to={Links.home}>خانه</Link>
           </li>
           <li>
+            <Link to={Links.products}>محصولات</Link>
+          </li>
+          <li>
             <Link to={Links.Vpn}>VPN</Link>
           </li>
           <li>
             <Link to={Links.services}>خدمات</Link>
           </li>
           <li>
-            <Link to="">محصولات</Link>
-          </li>
-          <li>
-            <Link to="">درباره ما</Link>
+            <Link to={Links.AboutUs}>درباره ما</Link>
           </li>
         </ul>
         <div className={styles.icon}>
-          <Link to="">
+          <Link to={!isLogin ? Links.auth : ""}>
             <FaUser className={styles.icon} />
           </Link>
-          <Link to="">
-            <FaCartShopping className={styles.icon} />
-          </Link>
+          {isLogin && (
+            <Link to="">
+              <FaCartShopping className={styles.icon} />
+            </Link>
+          )}
         </div>
       </div>
     </>
