@@ -25,10 +25,10 @@ function IntroHome() {
                 </p>
               </div>
               <div className={styles.btns}>
-                <Link to="" className="btnPrimary">
+                <Link to="/products" className="btnPrimary">
                   مشاهده محصولات
                 </Link>
-                <Link to="" className="btnOutline">
+                <Link to="/VPN" className="btnOutline">
                   دریافت کانفیگ
                 </Link>
               </div>

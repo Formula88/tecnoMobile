@@ -33,7 +33,7 @@ function Home() {
       <IntroHome />
       <section className={styles.bestItem}>
         <div className="container">
-          <NavElement title="محصولات برگزیده" link="#" />
+          <NavElement title="محصولات برگزیده" link="/products" />
           <div className="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
             {items.map((item, index) => {
               return (
@@ -62,7 +62,7 @@ function Home() {
                 cardDes1="سرعت نامحدود"
                 cardTitle2="Dedicated IP"
                 cardDes2="آی‌پی ثابت"
-                btnLink="#"
+                btnLink="/VPN"
                 btnText="دریافت کانفیگ فوری"
               />
             </div>
