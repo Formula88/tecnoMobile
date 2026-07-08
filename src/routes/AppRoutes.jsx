@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { useContext } from "react";
 
 import Home from "../pages/Home/Home";
 import VPNs from "../pages/VPNs/VPNs";
@@ -9,22 +10,30 @@ import AboutUs from "../pages/AboutUs/AboutUs";
 import Auth from "../pages/Auth/Auth";
 import GuestRoute from "./GuestRoute";
 import ProtectedRoute from "./ProtectedRoute";
+import Loading from "../components/layout/Loading/Loading";
+import { Context } from "../context/AppContext";
 
 function AppRoutes() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/VPN" element={<VPNs />} />
-      <Route path="/Product/:id" element={<Product />} />
-      <Route path="/Services" element={<Services />} />
-      <Route path="/products" element={<Products />} />
-      <Route path="/AboutUs" element={<AboutUs />} />
+  const { isLoading, setScrollEnabled } = useContext(Context);
 
-      <Route element={<GuestRoute />}>
-        <Route path="/Auth" element={<Auth />} />
-      </Route>
-      <Route element={<ProtectedRoute />}></Route>
-    </Routes>
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/VPN" element={<VPNs />} />
+        <Route path="/Product/:id" element={<Product />} />
+        <Route path="/Services" element={<Services />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/AboutUs" element={<AboutUs />} />
+
+        <Route element={<GuestRoute />}>
+          <Route path="/Auth" element={<Auth />} />
+        </Route>
+        <Route element={<ProtectedRoute />}></Route>
+      </Routes>
+
+      {isLoading ? <Loading /> : setScrollEnabled(true)}
+    </>
   );
 }
 
