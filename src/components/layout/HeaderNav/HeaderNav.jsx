@@ -5,12 +5,10 @@ import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { useContext, useEffect, useRef } from "react";
-import { OverlayScrollbars } from "overlayscrollbars";
-import "overlayscrollbars/overlayscrollbars.css";
 import { Context } from "../../../context/AppContext";
 
 function HeaderNav() {
-  const { isLogin } = useContext(Context);
+  const { isLogin, setScrollEnabled } = useContext(Context);
 
   const Links = {
     home: "/",
@@ -21,40 +19,15 @@ function HeaderNav() {
     AboutUs: "/AboutUs",
   };
 
-  let scrollbarRef = useRef(null);
-
   const hamburgerMenuBox = useRef(null);
   const openHamburgerMenu = (input) => {
     hamburgerMenuBox.current.classList.toggle(styles.open);
     if (input.target.checked) {
-      scrollbarRef.current?.options({
-        overflow: {
-          x: "hidden",
-          y: "hidden",
-        },
-      });
+      setScrollEnabled(false);
     } else {
-      scrollbarRef.current?.options({
-        overflow: {
-          x: "scroll",
-          y: "scroll",
-        },
-      });
+      setScrollEnabled(true);
     }
   };
-
-  useEffect(() => {
-    scrollbarRef.current = OverlayScrollbars(document.body, {
-      scrollbars: {
-        autoHide: "move",
-        autoHideDelay: 100,
-      },
-    });
-
-    return () => {
-      scrollbarRef.current?.destroy();
-    };
-  }, []);
 
   return (
     <>
