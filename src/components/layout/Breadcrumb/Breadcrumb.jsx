@@ -31,7 +31,7 @@ function Breadcrumb({ productType }) {
             <MdKeyboardArrowLeft />
           </li>
           <li>
-            <Link to="/">محصولات</Link>
+            <Link to="/products">محصولات</Link>
           </li>
           <li>
             <MdKeyboardArrowLeft />

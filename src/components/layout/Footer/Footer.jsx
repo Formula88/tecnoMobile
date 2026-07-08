@@ -23,12 +23,13 @@ function Footer(props) {
 
             <div className={`col-lg-3 col-sm-6 col-12 ${styles.card}`}>
               <FooterCard
-                title="لینک های مفید"
+                title="صفحات"
                 item={[
-                  { title: "درباره ما", link: "#" },
-                  { title: "تماس با ما", link: "#" },
-                  { title: "قوانین و مقررات", link: "#" },
-                  { title: "سوالات متداول", link: "#" },
+                  { title: "خانه", link: "/" },
+                  { title: "محصولات", link: "/products" },
+                  { title: "VPN", link: "/VPN" },
+                  { title: "خدمات", link: "/Services" },
+                  { title: "درباره‌ما", link: "/AboutUs" },
                 ]}
               />
             </div>
@@ -36,10 +37,12 @@ function Footer(props) {
               <FooterCard
                 title="لینک های مفید"
                 item={[
-                  { title: "درباره ما", link: "#" },
-                  { title: "تماس با ما", link: "#" },
-                  { title: "قوانین و مقررات", link: "#" },
-                  { title: "سوالات متداول", link: "#" },
+                  { title: "تماس با ما", link: "tel:+989925605247" },
+                  {
+                    title: "آدرس ما",
+                    link: "https://www.google.com/maps?q=35.63014581819684,51.402783896298594",
+                  },
+                  { title: "ثبت درخواست تعمیر", link: "/Services#form" },
                 ]}
               />
             </div>
@@ -50,7 +53,10 @@ function Footer(props) {
               <Link to="#">
                 <RiTelegram2Fill />
               </Link>
-              <Link to="#">
+              <Link
+                to="https://www.instagram.com/tecnomobile.1?igsh=djA3dm05MzNnbjc0"
+                target="_blank"
+              >
                 <AiFillInstagram />
               </Link>
             </div>

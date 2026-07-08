@@ -5,12 +5,10 @@ import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { useContext, useEffect, useRef } from "react";
-import { OverlayScrollbars } from "overlayscrollbars";
-import "overlayscrollbars/overlayscrollbars.css";
 import { Context } from "../../../context/AppContext";
 
 function HeaderNav() {
-  const { isLogin } = useContext(Context);
+  const { isLogin, setScrollEnabled } = useContext(Context);
 
   const Links = {
     home: "/",
@@ -21,40 +19,15 @@ function HeaderNav() {
     AboutUs: "/AboutUs",
   };
 
-  let scrollbarRef = useRef(null);
-
   const hamburgerMenuBox = useRef(null);
   const openHamburgerMenu = (input) => {
     hamburgerMenuBox.current.classList.toggle(styles.open);
     if (input.target.checked) {
-      scrollbarRef.current?.options({
-        overflow: {
-          x: "hidden",
-          y: "hidden",
-        },
-      });
+      setScrollEnabled(false);
     } else {
-      scrollbarRef.current?.options({
-        overflow: {
-          x: "scroll",
-          y: "scroll",
-        },
-      });
+      setScrollEnabled(true);
     }
   };
-
-  useEffect(() => {
-    scrollbarRef.current = OverlayScrollbars(document.body, {
-      scrollbars: {
-        autoHide: "move",
-        autoHideDelay: 100,
-      },
-    });
-
-    return () => {
-      scrollbarRef.current?.destroy();
-    };
-  }, []);
 
   return (
     <>
@@ -64,17 +37,23 @@ function HeaderNav() {
             <div className="col d-md-none d-flex align-items-center">
               <Checkbox fun={openHamburgerMenu} />
             </div>
-            <div className="col d-md-block d-flex justify-content-end align-items-center">
-              <img
-                src={pic}
-                alt="tecno Mobile"
-                className={`noDrag ${styles.logo}`}
-              />
+            <div className="col d-md-flex justify-content-start align-items-center gap-2 d-none">
+              <Link to={!isLogin ? Links.auth : ""}>
+                <FaUser className={styles.icon} />
+              </Link>
+              {isLogin && (
+                <Link to="">
+                  <FaCartShopping className={styles.icon} />
+                </Link>
+              )}
             </div>
             <div className={`col-5 ${styles.colM}`}>
               <ul className={styles.menu}>
                 <li>
                   <Link to={Links.home}>خانه</Link>
+                </li>
+                <li>
+                  <Link to={Links.products}>محصولات</Link>
                 </li>
                 <li>
                   <Link to={Links.Vpn}>VPN</Link>
@@ -83,20 +62,16 @@ function HeaderNav() {
                   <Link to={Links.services}>خدمات</Link>
                 </li>
                 <li>
-                  <Link to={Links.products}>محصولات</Link>
-                </li>
-                <li>
                   <Link to={Links.AboutUs}>درباره‌ما</Link>
                 </li>
               </ul>
             </div>
-            <div className="col d-md-flex justify-content-end align-items-center gap-2 d-none">
-              <Link to={!isLogin ? Links.auth : ""}>
-                <FaUser className={styles.icon} />
-              </Link>
-              <Link to="">
-                <FaCartShopping className={styles.icon} />
-              </Link>
+            <div className="col d-flex justify-content-end align-items-center">
+              <img
+                src={pic}
+                alt="tecno Mobile"
+                className={`noDrag ${styles.logo}`}
+              />
             </div>
           </div>
         </div>
@@ -112,25 +87,27 @@ function HeaderNav() {
             <Link to={Links.home}>خانه</Link>
           </li>
           <li>
+            <Link to={Links.products}>محصولات</Link>
+          </li>
+          <li>
             <Link to={Links.Vpn}>VPN</Link>
           </li>
           <li>
             <Link to={Links.services}>خدمات</Link>
           </li>
           <li>
-            <Link to="">محصولات</Link>
-          </li>
-          <li>
-            <Link to="">درباره ما</Link>
+            <Link to={Links.AboutUs}>درباره ما</Link>
           </li>
         </ul>
         <div className={styles.icon}>
-          <Link to="">
+          <Link to={!isLogin ? Links.auth : ""}>
             <FaUser className={styles.icon} />
           </Link>
-          <Link to="">
-            <FaCartShopping className={styles.icon} />
-          </Link>
+          {isLogin && (
+            <Link to="">
+              <FaCartShopping className={styles.icon} />
+            </Link>
+          )}
         </div>
       </div>
     </>

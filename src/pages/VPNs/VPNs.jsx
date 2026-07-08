@@ -6,6 +6,7 @@ import VPNCard from "../../components/cards/VPNCard/VPNCard";
 import { useEffect, useState } from "react";
 import VPNGuide from "../../components/sections/VPNGuide/VPNGuide";
 import { GetVPNPlan } from "../../services/api";
+import { ServerErrorSwal } from "../../Swals/Swals";
 
 function VPNs() {
   const [vpnPlan, setVpnPlan] = useState([]);
@@ -14,6 +15,8 @@ function VPNs() {
     GetVPNPlan().then((result) => {
       if (result?.success === true) {
         setVpnPlan(result.data);
+      } else {
+        ServerErrorSwal();
       }
     });
   });
