@@ -18,6 +18,7 @@ function HeaderNav() {
     services: "/Services",
     auth: "/Auth",
     products: "/products",
+    AboutUs: "/AboutUs",
   };
 
   let scrollbarRef = useRef(null);
@@ -85,7 +86,7 @@ function HeaderNav() {
                   <Link to={Links.products}>محصولات</Link>
                 </li>
                 <li>
-                  <Link to="">درباره‌ما</Link>
+                  <Link to={Links.AboutUs}>درباره‌ما</Link>
                 </li>
               </ul>
             </div>

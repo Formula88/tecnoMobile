@@ -1,0 +1,38 @@
+.infoCard {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+  svg {
+    color: #1499e6;
+    min-width: 25px;
+    min-height: 25px;
+  }
+  .box {
+    .title {
+      font-size: 1.2em;
+      color: #d9d9d9;
+    }
+    .description {
+      color: #d9d9d98c;
+      margin: 0px;
+    }
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+  .infoCard {
+    svg {
+      min-width: 20px;
+      min-height: 20px;
+    }
+  }
+}
