@@ -23,7 +23,7 @@ function AboutUs() {
           </p>
           <div className={styles.intro}>
             <div className="row ">
-              <div className="col-7">
+              <div className="col-lg-7 col-12">
                 <div className={styles.story}>
                   <div className={styles.titleBox}>
                     <FaHistory />
@@ -40,7 +40,7 @@ function AboutUs() {
                   <img src={img1} />
                 </div>
               </div>
-              <div className="col-5">
+              <div className="col-lg-5 col-12">
                 <div className="d-flex flex-column justify-content-between h-100">
                   <div className={`${styles.Info} ${styles.upInfo}`}>
                     <div className={styles.titleBox}>
@@ -90,7 +90,7 @@ function AboutUs() {
                 />
               </ul>
             </div>
-              <img src={img2} />
+            <img src={img2} />
           </div>
         </div>
       </section>
