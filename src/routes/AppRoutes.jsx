@@ -8,6 +8,7 @@ import Services from "../pages/Services/Services";
 import Products from "../pages/Products/Products";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import Auth from "../pages/Auth/Auth";
+import Profile from "../pages/Profile/Profile";
 import GuestRoute from "./GuestRoute";
 import ProtectedRoute from "./ProtectedRoute";
 import Loading from "../components/layout/Loading/Loading";
@@ -30,6 +31,7 @@ function AppRoutes() {
           <Route path="/Auth" element={<Auth />} />
         </Route>
         <Route element={<ProtectedRoute />}></Route>
+        <Route path="/profile" element={<Profile />} />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}
