@@ -9,6 +9,9 @@ import { AiFillTool } from "react-icons/ai";
 import { FaShield } from "react-icons/fa6";
 
 function profile() {
+  const links = {
+    VPNServices: "/VPNServices",
+  };
   return (
     <div>
       <HeaderNav />
@@ -16,10 +19,26 @@ function profile() {
         <div className="container">
           <UserCard userNumber={"09129072416"} />
           <div className={styles.profileCards}>
-            <ProfileCard icon={<FaCartShopping />} title={"سبد خرید"} link={"#"} />
-            <ProfileCard icon={<FaBagShopping />} title={"سفارشات شما"} link={"#"} />
-            <ProfileCard icon={<FaShield />} title={"سرویس های VPN"} link={"#"} />
-            <ProfileCard icon={<AiFillTool />} title={"رزرو تعمیرات"} link={"#"} />
+            <ProfileCard
+              icon={<FaCartShopping />}
+              title={"سبد خرید"}
+              link={"#"}
+            />
+            <ProfileCard
+              icon={<FaBagShopping />}
+              title={"سفارشات شما"}
+              link={"#"}
+            />
+            <ProfileCard
+              icon={<FaShield />}
+              title={"سرویس های VPN"}
+              link={links.VPNServices}
+            />
+            <ProfileCard
+              icon={<AiFillTool />}
+              title={"رزرو تعمیرات"}
+              link={"#"}
+            />
           </div>
         </div>
       </section>
