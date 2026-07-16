@@ -1,0 +1,38 @@
+.userCard {
+  width: 100%;
+  background-color: #1e1e1e;
+  border: 1px solid #424242;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 35px 0px;
+  border-radius: 20px;
+  .icon {
+    width: 190px;
+  }
+  .title {
+    color: #d9d9d9;
+    font-size: 2em;
+    margin: 0px;
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+    .userCard{
+        .icon{
+            width: 150px;
+        }
+        .title{
+            font-size: 1.4em;
+        }
+    }
+}

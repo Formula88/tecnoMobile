@@ -1,0 +1,80 @@
+.profileCard {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e1e1e;
+  border: 1px solid #424242;
+  padding: 15px 15px;
+  border-radius: 30px;
+  transition: 0.25s;
+  font-size: 1rem;
+  .right {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 20px;
+    .icon {
+      width: 60px;
+      height: 60px;
+      background-color: #3b3b3b;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      svg {
+        color: #1499e6;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .title {
+      margin: 0px;
+      color: #d9d9d9;
+      direction: rtl;
+      font-size: 1.7em;
+    }
+  }
+  .arrowLeft {
+    width: 40px;
+    height: 40px;
+    color: #1499e6;
+  }
+}
+.profileCard:hover {
+  box-shadow: 0px 0px 10px #1499e685;
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+  .profileCard {
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 575px) {
+  .profileCard {
+    font-size: 0.8rem;
+    padding: 10px 10px;
+    border-radius: 15px;
+    .right {
+      gap: 15px;
+      .icon {
+        width: 50px;
+        height: 50px;
+        padding: 6px;
+        border-radius: 10px;
+      }
+    }
+    .arrowLeft {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
