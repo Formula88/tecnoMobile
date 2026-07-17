@@ -1,0 +1,80 @@
+.VPNServicesCard {
+  direction: rtl;
+  display: flex;
+  justify-content: space-between;
+  color: #d9d9d9;
+  font-size: 1rem;
+  background-color: #1e1e1e;
+  border: 1px solid #424242;
+  padding: 30px 25px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  .title {
+    font-size: 1em;
+    margin: 0px;
+  }
+  .icon {
+    width: 20px;
+    height: 20px;
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .feature {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    white-space: nowrap;
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 15px;
+  }
+}
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+  .VPNServicesCard {
+    padding: 20px 15px;
+  }
+}
+@media (max-width: 991px) {
+  .VPNServicesCard {
+    padding: 30px 25px;
+  }
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+  .VPNServicesCard {
+    font-size: 0.9rem;
+    padding: 20px;
+  }
+}
+@media (max-width: 380px) {
+  .VPNServicesCard {
+    font-size: 0.9rem;
+    flex-direction: column;
+    gap: 15px;
+    .right{
+      gap: 15px;
+    }
+  }
+}
