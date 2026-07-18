@@ -1,12 +1,30 @@
+import ShoppingCartCard from "../../components/cards/ShoppingCartCard/ShoppingCartCard";
 import Footer from "../../components/layout/Footer/Footer";
 import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
 import styles from "./ShoppingCart.module.scss";
-
+import { FaCartShopping } from "react-icons/fa6";
 function ShoppingCart() {
   return (
     <>
       <HeaderNav />
-      <div className={styles.ShoppingCart}></div>
+      <div className={styles.ShoppingCart}>
+        <div className={styles.title}>
+          <FaCartShopping />
+          <h1 className={styles.titleText}>سبد خرید</h1>
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-3"></div>
+            <div className="col-9">
+              <div className={styles.ShoppingCartCards}>
+                <ShoppingCartCard />
+                <ShoppingCartCard />
+                <ShoppingCartCard />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <Footer />
     </>
   );
