@@ -14,6 +14,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Loading from "../components/layout/Loading/Loading";
 import { Context } from "../context/AppContext";
 import VPNServices from "../pages/VPNServices/VPNServices";
+import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -34,6 +35,7 @@ function AppRoutes() {
         <Route element={<ProtectedRoute />}></Route>
         <Route path="/profile" element={<Profile />} />
         <Route path="/VPNServices" element={<VPNServices />} />
+        <Route path="/ShoppingCart" element={<ShoppingCart />} />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}

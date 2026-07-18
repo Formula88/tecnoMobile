@@ -11,6 +11,7 @@ import { FaShield } from "react-icons/fa6";
 function profile() {
   const links = {
     VPNServices: "/VPNServices",
+    ShoppingCart: "/ShoppingCart",
   };
   return (
     <div>
@@ -22,7 +23,7 @@ function profile() {
             <ProfileCard
               icon={<FaCartShopping />}
               title={"سبد خرید"}
-              link={"#"}
+              link={links.ShoppingCart}
             />
             <ProfileCard
               icon={<FaBagShopping />}
