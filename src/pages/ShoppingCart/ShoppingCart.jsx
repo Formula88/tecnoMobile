@@ -15,10 +15,10 @@ function ShoppingCart() {
         </div>
         <div className="container">
           <div className="row">
-            <div className="col-4">
+            <div className="col-lg-4 col-12">
               <CheckoutSummary />
             </div>
-            <div className="col-8">
+            <div className="col-lg-8 col-12">
               <div className={styles.ShoppingCartCards}>
                 <ShoppingCartCard />
                 <ShoppingCartCard />

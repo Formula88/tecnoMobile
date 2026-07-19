@@ -8,18 +8,29 @@
     justify-content: center;
     gap: 20px;
     margin-bottom: 50px;
-    svg{
-        width: 40px;
-        height: 40px;
+    svg {
+      width: 40px;
+      height: 40px;
     }
-    .titleText{
-        font-size: 2.5em;
-        margin: 0px;
+    .titleText {
+      font-size: 2.5em;
+      margin: 0px;
     }
   }
-  .ShoppingCartCards{
+  .ShoppingCartCards {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
 }

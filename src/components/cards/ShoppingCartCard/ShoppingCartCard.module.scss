@@ -6,6 +6,7 @@
   border-radius: 15px;
   display: flex;
   justify-content: space-between;
+  font-size: 1rem;
   .right {
     display: flex;
     gap: 30px;
@@ -125,6 +126,57 @@
       font-size: 1em;
       font-weight: 500;
       user-select: none;
+    }
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+  .card {
+    .info{
+      .text{
+        .title{
+          font-size: 1.5em;
+        }
+      }
+      .priceBox{
+        gap: 30px;
+        .discountPrice{
+          bottom: -20px;
+        }
+      }
+    }
+    .img {
+      width: 170px;
+      border-radius: 10px;
+    }
+  }
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+  .card{
+    flex-direction: column;
+    gap: 30px;
+    .left{
+      flex-direction: row-reverse;
+    }
+    .img{
+      width: 140px;
+      min-width: 140px;
+    }
+    .counter{
+      width: 100px;
+    }
+  }
+}
+@media (max-width: 575px) {
+  .card{
+    font-size: 1rem;
+    .right{
+      flex-direction: column;
+      align-items: center;
     }
   }
 }
