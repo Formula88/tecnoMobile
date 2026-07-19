@@ -1,0 +1,85 @@
+.CheckoutSummary {
+  width: 100%;
+  background-color: #1e1e1e;
+  border: 1px solid #424242;
+  padding: 25px;
+  border-radius: 20px;
+  .title {
+    font-size: 1.5em;
+    color: #d9d9d9;
+    margin-bottom: 35px;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #d9d9d9;
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    .itemTitle {
+      font-size: 1em;
+    }
+    .itemSub {
+      font-size: 1em;
+    }
+    .price {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      .text {
+        font-size: 1em;
+        font-weight: bold;
+      }
+      svg {
+        width: 25px;
+        height: 25px;
+        fill: #d9d9d9;
+      }
+    }
+  }
+  .line {
+    color: #d9d9d9;
+  }
+  .totalPriceT {
+    color: #d9d9d9;
+    margin: 30px 0px 15px;
+  }
+  .totalPrice {
+    color: #1499e6;
+    fill: #1499e6;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 8px;
+    span {
+      font-size: 1.3em;
+      font-weight: bold;
+    }
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+  .btnPay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: #d9d9d9;
+    padding: 10px 0px;
+    border-radius: 9px;
+    font-size: 1.2em;
+    margin-top: 30px;
+    cursor: pointer;
+  }
+  .btnBack {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: #1499e6;
+    font-size: 1.2em;
+    margin-top: 25px;
+  }
+}

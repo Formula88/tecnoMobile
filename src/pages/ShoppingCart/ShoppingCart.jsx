@@ -1,6 +1,7 @@
 import ShoppingCartCard from "../../components/cards/ShoppingCartCard/ShoppingCartCard";
 import Footer from "../../components/layout/Footer/Footer";
 import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
+import CheckoutSummary from "../../components/sections/CheckoutSummary/CheckoutSummary";
 import styles from "./ShoppingCart.module.scss";
 import { FaCartShopping } from "react-icons/fa6";
 function ShoppingCart() {
@@ -14,8 +15,10 @@ function ShoppingCart() {
         </div>
         <div className="container">
           <div className="row">
-            <div className="col-3"></div>
-            <div className="col-9">
+            <div className="col-4">
+              <CheckoutSummary />
+            </div>
+            <div className="col-8">
               <div className={styles.ShoppingCartCards}>
                 <ShoppingCartCard />
                 <ShoppingCartCard />
