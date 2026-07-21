@@ -12,6 +12,7 @@ function profile() {
   const links = {
     VPNServices: "/VPNServices",
     ShoppingCart: "/ShoppingCart",
+    Repairorders: "/Repairorders",
   };
   return (
     <div>
@@ -38,7 +39,7 @@ function profile() {
             <ProfileCard
               icon={<AiFillTool />}
               title={"رزرو تعمیرات"}
-              link={"#"}
+              link={links.Repairorders}
             />
           </div>
         </div>
