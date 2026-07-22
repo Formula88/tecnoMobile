@@ -76,7 +76,9 @@ function OrderCard({ status }) {
           </div>
         </div>
       </div>
-      <Link to={"#"} className={`btnOutline ${styles.btn}`}>مشاهده جزئیات</Link>
+      <Link to={"/OrderDetails"} className={`btnOutline ${styles.btn}`}>
+        مشاهده جزئیات
+      </Link>
     </div>
   );
 }
