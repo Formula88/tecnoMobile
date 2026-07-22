@@ -13,6 +13,7 @@ function profile() {
     VPNServices: "/VPNServices",
     ShoppingCart: "/ShoppingCart",
     Repairorders: "/Repairorders",
+    Orders: "/Orders",
   };
   return (
     <div>
@@ -29,7 +30,7 @@ function profile() {
             <ProfileCard
               icon={<FaBagShopping />}
               title={"سفارشات شما"}
-              link={"#"}
+              link={links.Orders}
             />
             <ProfileCard
               icon={<FaShield />}
