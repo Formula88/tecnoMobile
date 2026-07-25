@@ -31,10 +31,10 @@ function CheckoutSummary() {
         <span>{formatPrice(1500000)}</span>
         <Toman />
       </div>
-      <div className={`btnPrimary ${styles.btnPay}`}>
+      <Link to={"/checkout"} className={`btnPrimary ${styles.btnPay}`}>
         <span>ادامه ثبت سفارش</span>
         <FaChevronLeft />
-      </div>
+      </Link>
       <Link to={"/"} className={styles.btnBack}>
         <span>بازگشت به خانه</span>
         <FaChevronRight />

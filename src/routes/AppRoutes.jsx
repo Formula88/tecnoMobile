@@ -18,6 +18,7 @@ import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
 import Repairorders from "../pages/Repairorders/Repairorders";
 import Orders from "../pages/Orders/Orders";
 import OrderDetails from "../pages/OrderDetails/OrderDetails";
+import ReceiverInfo from "../pages/ReceiverInfo/ReceiverInfo";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -42,6 +43,7 @@ function AppRoutes() {
         <Route path="/Repairorders" element={<Repairorders />} />
         <Route path="/Orders" element={<Orders />} />
         <Route path="/OrderDetails" element={<OrderDetails />} />
+        <Route path="/checkout" element={<ReceiverInfo />} />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}
