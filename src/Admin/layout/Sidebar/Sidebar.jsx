@@ -34,8 +34,8 @@ const sidebarItems = [
   {
     title: "صفحات کاربردی",
     items: [
-      { link: "", icon: LuLayoutPanelTop, text: "پنل ادمین" },
-      { link: "", icon: FaUserGroup, text: "کاربران" },
+      { link: "/admin/panel", icon: LuLayoutPanelTop, text: "پنل ادمین" },
+      { link: "/admin/users", icon: FaUserGroup, text: "کاربران" },
     ],
   },
   {

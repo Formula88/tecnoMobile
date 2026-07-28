@@ -20,6 +20,7 @@ import Orders from "../pages/Orders/Orders";
 import OrderDetails from "../pages/OrderDetails/OrderDetails";
 import ReceiverInfo from "../pages/ReceiverInfo/ReceiverInfo";
 import Panel from "../Admin/pages/Panel/Panel";
+import Users from "../Admin/pages/Users/Users";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -48,6 +49,7 @@ function AppRoutes() {
         <Route path="/checkout" element={<ReceiverInfo />} />
 
         <Route path="/admin/panel" element={<Panel />} />
+        <Route path="/admin/users" element={<Users />} />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}

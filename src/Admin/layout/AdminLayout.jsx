@@ -5,6 +5,7 @@ function AdminLayout({ children }) {
   return (
     <div className={styles.layout}>
       <Sidebar />
+      <div className={styles.table}>{children}</div>
     </div>
   );
 }
