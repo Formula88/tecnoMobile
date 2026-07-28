@@ -1,10 +1,10 @@
 import styles from "./AdminLayout.module.scss";
-import Sidbar from "./Sidbar/Sidbar";
+import Sidebar from "./Sidebar/Sidebar";
 
 function AdminLayout({ children }) {
   return (
     <div className={styles.layout}>
-      <Sidbar />
+      <Sidebar />
     </div>
   );
 }
