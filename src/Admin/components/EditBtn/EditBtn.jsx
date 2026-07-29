@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom";
 import styles from "./EditBtn.module.scss";
 import { FaPen } from "react-icons/fa";
-function EditBtn() {
+function EditBtn({link}) {
   return (
-    <div className={`btnPrimary ${styles.btn}`}>
+    <Link to={link} className={`btnPrimary ${styles.btn}`}>
       <span className={styles.text}>ویرایش</span>
       <FaPen />
-    </div>
+    </Link>
   );
 }
 

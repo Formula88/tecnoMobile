@@ -56,7 +56,7 @@ function Users() {
                 <td>{value.createdAt}</td>
                 <td className="w-25">
                   <div className="d-flex justify-content-around">
-                    <EditBtn />
+                    <EditBtn link={"/admin/users/edit"}/>
                     <DeleteBtn />
                   </div>
                 </td>
