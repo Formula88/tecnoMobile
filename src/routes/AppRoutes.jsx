@@ -22,6 +22,7 @@ import ReceiverInfo from "../pages/ReceiverInfo/ReceiverInfo";
 import Panel from "../Admin/pages/Panel/Panel";
 import Users from "../Admin/pages/Users/Users";
 import UsersEdit from "../Admin/pages/Users/UsersEdit/UsersEdit";
+import Brands from "../Admin/pages/Brands/Brands";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -53,6 +54,8 @@ function AppRoutes() {
 
         <Route path="/admin/users" element={<Users />} />
         <Route path="/admin/users/edit" element={<UsersEdit />} />
+
+        <Route path="/admin/brands" element={<Brands />} />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}
