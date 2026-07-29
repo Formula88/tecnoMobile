@@ -35,7 +35,7 @@ function Brands() {
 
   return (
     <AdminLayout>
-      <AddBtn />
+      <AddBtn link={"/admin/brands/add"} />
       <table
         className="table table-bordered table-hover table-striped text-center align-middle"
         dir="rtl"
@@ -57,7 +57,7 @@ function Brands() {
                 <td>{categoryTitle[value.category]}</td>
                 <td className="w-25">
                   <div className="d-flex justify-content-around">
-                    <EditBtn link={"/admin/brands"} />
+                    <EditBtn link={"/admin/brands/edit"} />
                     <DeleteBtn />
                   </div>
                 </td>
