@@ -42,7 +42,7 @@ const sidebarItems = [
     title: "محصولات",
     items: [
       { link: "/admin/brands", icon: MdFactory, text: "برند ها" },
-      { link: "", icon: FaMobile, text: "موبایل ها" },
+      { link: "/admin/products/mobile", icon: FaMobile, text: "موبایل ها" },
       { link: "", icon: HiCpuChip, text: "سخت افزار ها" },
       { link: "", icon: FaHeadphones, text: "لوازم جانبی" },
       { link: "", icon: TbDeviceMobilePlus, text: "لوازم جانبی مدل دار" },
@@ -52,7 +52,11 @@ const sidebarItems = [
   {
     title: "VPN",
     items: [
-      { link: "/admin/vpnClients", icon: MdSettingsApplications, text: "کلاینت ها" },
+      {
+        link: "/admin/vpnClients",
+        icon: MdSettingsApplications,
+        text: "کلاینت ها",
+      },
       { link: "", icon: MdVpnKey, text: "وی پی ان ها" },
       { link: "", icon: FaClipboardList, text: "سفارشات وی پی ان" },
     ],

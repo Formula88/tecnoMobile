@@ -28,6 +28,7 @@ import EditBrands from "../Admin/pages/Brands/EditBrands/EditBrands";
 import VpnClients from "../Admin/pages/VpnClients/VpnClients";
 import AddVpnClients from "../Admin/pages/VpnClients/AddVpnClients/AddVpnClients";
 import EditVpnClients from "../Admin/pages/VpnClients/EditVpnClients/EditVpnClients";
+import Mobile from "../Admin/pages/products/Mobile/Mobile";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -67,6 +68,8 @@ function AppRoutes() {
         <Route path="/admin/vpnClients" element={<VpnClients />} />
         <Route path="/admin/vpnClients/add" element={<AddVpnClients />} />
         <Route path="/admin/vpnClients/edit" element={<EditVpnClients />} />
+
+        <Route path="/admin/products/mobile" element={<Mobile />} />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}
