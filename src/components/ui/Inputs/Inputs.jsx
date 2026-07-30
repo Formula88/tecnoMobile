@@ -24,7 +24,7 @@ function Inputs({
         className={styles.input}
         {...register(name, option)}
         placeholder={placeholder}
-        value={value}
+        defaultValue={value}
       />
       <p className={styles.error}>{error?.[name]?.message}</p>
     </div>

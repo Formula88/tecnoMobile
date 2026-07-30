@@ -34,7 +34,7 @@ function VpnClients() {
   }, []);
   return (
     <AdminLayout>
-      <AddBtn link={"/admin/"} />
+      <AddBtn link={"/admin/vpnClients/add"} />
       <table
         className="table table-bordered table-hover table-striped text-center align-middle"
         dir="rtl"
@@ -58,7 +58,7 @@ function VpnClients() {
                 <td><a href={value.downloadUrl} target="_blank">{value.downloadUrl}</a></td>
                 <td className="w-25">
                   <div className="d-flex justify-content-around">
-                    <EditBtn link={"/admin/"} />
+                    <EditBtn link={"/admin/vpnClients/edit"} />
                     <DeleteBtn />
                   </div>
                 </td>

@@ -41,7 +41,7 @@ function EditBrands() {
           label={"کتگوری"}
           items={["موبایل", "سخت افزار", "لوازم جانبی"]}
         />
-        <FormBtn text={"افزودن برند"} />
+        <FormBtn text={"ویرایش برند"} />
       </form>
     </FormLayout>
   );
