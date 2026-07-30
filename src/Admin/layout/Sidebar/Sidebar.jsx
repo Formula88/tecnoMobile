@@ -52,7 +52,7 @@ const sidebarItems = [
   {
     title: "VPN",
     items: [
-      { link: "", icon: MdSettingsApplications, text: "کلاینت ها" },
+      { link: "/admin/vpnClients", icon: MdSettingsApplications, text: "کلاینت ها" },
       { link: "", icon: MdVpnKey, text: "وی پی ان ها" },
       { link: "", icon: FaClipboardList, text: "سفارشات وی پی ان" },
     ],
