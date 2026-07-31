@@ -31,6 +31,7 @@ import EditVpnClients from "../Admin/pages/VpnClients/EditVpnClients/EditVpnClie
 import Mobile from "../Admin/pages/products/Mobile/Mobile";
 import AddMobile from "../Admin/pages/products/Mobile/AddMobile/AddMobile";
 import EditMobile from "../Admin/pages/products/Mobile/EditMobile/EditMobile";
+import Hardware from "../Admin/pages/products/Hardware/Hardware";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -74,6 +75,8 @@ function AppRoutes() {
         <Route path="/admin/products/mobile" element={<Mobile />} />
         <Route path="/admin/products/mobile/add" element={<AddMobile />} />
         <Route path="/admin/products/mobile/edit" element={<EditMobile />} />
+
+        <Route path="/admin/products/hardware" element={<Hardware />} />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}

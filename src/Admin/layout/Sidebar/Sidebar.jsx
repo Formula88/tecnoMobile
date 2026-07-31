@@ -43,7 +43,11 @@ const sidebarItems = [
     items: [
       { link: "/admin/brands", icon: MdFactory, text: "برند ها" },
       { link: "/admin/products/mobile", icon: FaMobile, text: "موبایل ها" },
-      { link: "", icon: HiCpuChip, text: "سخت افزار ها" },
+      {
+        link: "/admin/products/hardware",
+        icon: HiCpuChip,
+        text: "سخت افزار ها",
+      },
       { link: "", icon: FaHeadphones, text: "لوازم جانبی" },
       { link: "", icon: TbDeviceMobilePlus, text: "لوازم جانبی مدل دار" },
       { link: "", icon: FaClipboardList, text: "سفارشات" },
