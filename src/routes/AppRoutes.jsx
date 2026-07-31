@@ -32,6 +32,8 @@ import Mobile from "../Admin/pages/products/Mobile/Mobile";
 import AddMobile from "../Admin/pages/products/Mobile/AddMobile/AddMobile";
 import EditMobile from "../Admin/pages/products/Mobile/EditMobile/EditMobile";
 import Hardware from "../Admin/pages/products/Hardware/Hardware";
+import AddHardware from "../Admin/pages/products/Hardware/AddHardware/AddHardware";
+import EditHardware from "../Admin/pages/products/Hardware/EditHardware/EditHardware";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -77,6 +79,11 @@ function AppRoutes() {
         <Route path="/admin/products/mobile/edit" element={<EditMobile />} />
 
         <Route path="/admin/products/hardware" element={<Hardware />} />
+        <Route path="/admin/products/hardware/add" element={<AddHardware />} />
+        <Route
+          path="/admin/products/hardware/edit/:id"
+          element={<EditHardware />}
+        />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}
