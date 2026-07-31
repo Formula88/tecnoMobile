@@ -109,7 +109,7 @@ function Mobile() {
 
   return (
     <AdminLayout>
-      <AddBtn link={"/admin/mobile/add"} />
+      <AddBtn link={"/admin/products/mobile/add"} />
 
       <div className="table-responsive">
         <table
@@ -225,7 +225,7 @@ function Mobile() {
                   <td style={{ minWidth: "150px" }}>
                     <div className="d-flex justify-content-center gap-2">
                       <ShowBtn link={`/Product/${value.id}`} />
-                      <EditBtn link={`/admin/mobile/edit/${value.id}`} />
+                      <EditBtn link={`/admin/Products/mobile/edit/`} />
                       <DeleteBtn />
                     </div>
                   </td>
