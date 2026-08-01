@@ -48,7 +48,11 @@ const sidebarItems = [
         icon: HiCpuChip,
         text: "سخت افزار ها",
       },
-      { link: "", icon: FaHeadphones, text: "لوازم جانبی" },
+      {
+        link: "/admin/products/accessories",
+        icon: FaHeadphones,
+        text: "لوازم جانبی",
+      },
       { link: "", icon: TbDeviceMobilePlus, text: "لوازم جانبی مدل دار" },
       { link: "", icon: FaClipboardList, text: "سفارشات" },
     ],
