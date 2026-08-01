@@ -34,7 +34,7 @@ import EditMobile from "../Admin/pages/products/Mobile/EditMobile/EditMobile";
 import Hardware from "../Admin/pages/products/Hardware/Hardware";
 import AddHardware from "../Admin/pages/products/Hardware/AddHardware/AddHardware";
 import EditHardware from "../Admin/pages/products/Hardware/EditHardware/EditHardware";
-import Accessories from "../Admin/pages/products/accessories/accessories";
+import Accessories from "../Admin/pages/products/َAccessories/accessories";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
