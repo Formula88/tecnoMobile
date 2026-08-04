@@ -47,7 +47,7 @@ function VpnPlan() {
   }, []);
   return (
     <AdminLayout>
-      <AddBtn link={"/admin/vpnClients/add"} />
+      <AddBtn link={"/admin/vpn/add"} />
       <table
         className="table table-bordered table-hover table-striped text-center align-middle"
         dir="rtl"
@@ -108,7 +108,7 @@ function VpnPlan() {
                 <td>{value.protocol}</td>
                 <td className="w-25">
                   <div className="d-flex justify-content-around">
-                    <EditBtn link={"/admin/vpnClients/edit"} />
+                    <EditBtn link={"/admin/vpn/edit"} />
                     <DeleteBtn />
                   </div>
                 </td>
