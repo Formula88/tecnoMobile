@@ -76,7 +76,7 @@ const sidebarItems = [
   {
     title: "خدمات",
     items: [
-      { link: "", icon: FaTools, text: "مدریت خدمات" },
+      { link: "/admin/services", icon: FaTools, text: "مدریت خدمات" },
       { link: "", icon: FaClipboardList, text: "رزرو خدمات" },
     ],
   },
