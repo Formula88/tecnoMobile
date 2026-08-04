@@ -53,7 +53,11 @@ const sidebarItems = [
         icon: FaHeadphones,
         text: "لوازم جانبی",
       },
-      { link: "", icon: TbDeviceMobilePlus, text: "لوازم جانبی مدل دار" },
+      {
+        link: "/admin/products/accessoriesmodel",
+        icon: TbDeviceMobilePlus,
+        text: "لوازم جانبی مدل دار",
+      },
       { link: "", icon: FaClipboardList, text: "سفارشات" },
     ],
   },

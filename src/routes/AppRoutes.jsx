@@ -37,6 +37,7 @@ import EditHardware from "../Admin/pages/products/Hardware/EditHardware/EditHard
 import Accessories from "../Admin/pages/products/Accessories/accessories";
 import AddAccessories from "../Admin/pages/products/Accessories/AddAccessories/AddAccessories";
 import EditAccessories from "../Admin/pages/products/Accessories/EditAccessories/EditAccessories";
+import Accessoriesmodel from "../Admin/pages/products/Accessoriesmodel/Accessoriesmodel";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -96,6 +97,11 @@ function AppRoutes() {
         <Route
           path="/admin/products/accessories/edit/:id"
           element={<EditAccessories />}
+        />
+
+        <Route
+          path="/admin/products/accessoriesmodel"
+          element={<Accessoriesmodel />}
         />
       </Routes>
 
