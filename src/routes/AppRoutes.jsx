@@ -35,6 +35,8 @@ import Hardware from "../Admin/pages/products/Hardware/Hardware";
 import AddHardware from "../Admin/pages/products/Hardware/AddHardware/AddHardware";
 import EditHardware from "../Admin/pages/products/Hardware/EditHardware/EditHardware";
 import Accessories from "../Admin/pages/products/Accessories/accessories";
+import AddAccessories from "../Admin/pages/products/Accessories/AddAccessories/AddAccessories";
+import EditAccessories from "../Admin/pages/products/Accessories/EditAccessories/EditAccessories";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -87,6 +89,14 @@ function AppRoutes() {
         />
 
         <Route path="/admin/products/accessories" element={<Accessories />} />
+        <Route
+          path="/admin/products/accessories/add"
+          element={<AddAccessories />}
+        />
+        <Route
+          path="/admin/products/accessories/edit/:id"
+          element={<EditAccessories />}
+        />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}

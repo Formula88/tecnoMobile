@@ -82,7 +82,7 @@ function Accessories() {
 
   return (
     <AdminLayout>
-      <AddBtn link={"/admin/products/hardware/add"} />
+      <AddBtn link={"/admin/products/accessories/add"} />
 
       <div className="table-responsive">
         <table
@@ -172,7 +172,7 @@ function Accessories() {
                       <ShowBtn link={`/Product/${value.id}`} />
 
                       <EditBtn
-                        link={`/admin/Products/hardware/edit/${value.id}`}
+                        link={`/admin/Products/accessories/edit/${value.id}`}
                       />
 
                       <DeleteBtn />
