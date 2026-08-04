@@ -40,6 +40,7 @@ import EditAccessories from "../Admin/pages/products/Accessories/EditAccessories
 import Accessoriesmodel from "../Admin/pages/products/Accessoriesmodel/Accessoriesmodel";
 import AddAccessoriesmodel from "../Admin/pages/products/Accessoriesmodel/AddAccessoriesmodel/AddAccessoriesmodel";
 import EditAccessoriesmodel from "../Admin/pages/products/Accessoriesmodel/EditAccessoriesmodel/EditAccessoriesmodel";
+import VpnPlan from "../Admin/pages/VpnPlan/VpnPlan";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -113,6 +114,8 @@ function AppRoutes() {
           path="/admin/products/accessoriesmodel/edit/:id"
           element={<EditAccessoriesmodel />}
         />
+
+        <Route path="/admin/vpn" element={<VpnPlan />} />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}
