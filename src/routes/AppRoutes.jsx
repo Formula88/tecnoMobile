@@ -38,6 +38,8 @@ import Accessories from "../Admin/pages/products/Accessories/accessories";
 import AddAccessories from "../Admin/pages/products/Accessories/AddAccessories/AddAccessories";
 import EditAccessories from "../Admin/pages/products/Accessories/EditAccessories/EditAccessories";
 import Accessoriesmodel from "../Admin/pages/products/Accessoriesmodel/Accessoriesmodel";
+import AddAccessoriesmodel from "../Admin/pages/products/Accessoriesmodel/AddAccessoriesmodel/AddAccessoriesmodel";
+import EditAccessoriesmodel from "../Admin/pages/products/Accessoriesmodel/EditAccessoriesmodel/EditAccessoriesmodel";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -102,6 +104,14 @@ function AppRoutes() {
         <Route
           path="/admin/products/accessoriesmodel"
           element={<Accessoriesmodel />}
+        />
+        <Route
+          path="/admin/products/accessoriesmodel/add"
+          element={<AddAccessoriesmodel />}
+        />
+        <Route
+          path="/admin/products/accessoriesmodel/edit/:id"
+          element={<EditAccessoriesmodel />}
         />
       </Routes>
 
