@@ -38,7 +38,7 @@ function ServicesA() {
   }, []);
   return (
     <AdminLayout>
-      <AddBtn link={"/admin/vpn/add"} />
+      <AddBtn link={"/admin/services/add"} />
       <table
         className="table table-bordered table-hover table-striped text-center align-middle"
         dir="rtl"
@@ -72,7 +72,7 @@ function ServicesA() {
                 </td>
                 <td className="w-25">
                   <div className="d-flex justify-content-around">
-                    <EditBtn link={"/admin/vpn/edit"} />
+                    <EditBtn link={"/admin/services/edit"} />
                     <DeleteBtn />
                   </div>
                 </td>
