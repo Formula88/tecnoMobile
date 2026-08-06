@@ -47,6 +47,7 @@ import ServicesA from "../Admin/pages/ServicesA/ServicesA";
 import AddServices from "../Admin/pages/ServicesA/AddServices/AddServices";
 import EditServices from "../Admin/pages/ServicesA/EditServices/EditServices";
 import ServiceReservation from "../Admin/pages/ServiceReservation/ServiceReservation";
+import VPNOrders from "../Admin/pages/VPNOrders/VPNOrders";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -133,6 +134,8 @@ function AppRoutes() {
           path="/admin/ServiceReservation"
           element={<ServiceReservation />}
         />
+
+        <Route path="/admin/VPNOrders" element={<VPNOrders />} />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}

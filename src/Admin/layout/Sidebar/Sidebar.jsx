@@ -70,7 +70,11 @@ const sidebarItems = [
         text: "کلاینت ها",
       },
       { link: "/admin/vpn", icon: MdVpnKey, text: "وی پی ان ها" },
-      { link: "", icon: FaClipboardList, text: "سفارشات وی پی ان" },
+      {
+        link: "/admin/VPNOrders",
+        icon: FaClipboardList,
+        text: "سفارشات وی پی ان",
+      },
     ],
   },
   {
