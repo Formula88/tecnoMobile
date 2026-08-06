@@ -58,7 +58,7 @@ const sidebarItems = [
         icon: TbDeviceMobilePlus,
         text: "لوازم جانبی مدل دار",
       },
-      { link: "", icon: FaClipboardList, text: "سفارشات" },
+      { link: "/admin/products/orders", icon: FaClipboardList, text: "سفارشات" },
     ],
   },
   {

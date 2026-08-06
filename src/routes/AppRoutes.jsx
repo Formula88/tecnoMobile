@@ -49,6 +49,7 @@ import EditServices from "../Admin/pages/ServicesA/EditServices/EditServices";
 import ServiceReservation from "../Admin/pages/ServiceReservation/ServiceReservation";
 import VPNOrders from "../Admin/pages/VPNOrders/VPNOrders";
 import SetVPNOrders from "../Admin/pages/VPNOrders/SetVPNOrders/SetVPNOrders";
+import OrdersA from "../Admin/pages/products/OrdersA/OrdersA";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -138,6 +139,9 @@ function AppRoutes() {
 
         <Route path="/admin/VPNOrders" element={<VPNOrders />} />
         <Route path="/admin/VPNOrders/set" element={<SetVPNOrders />} />
+
+
+        <Route path="/admin/products/orders" element={<OrdersA />} />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}
