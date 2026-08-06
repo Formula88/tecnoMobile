@@ -82,7 +82,7 @@ function VPNOrders() {
                 </td>
                 <td className="w-25">
                   <div className="d-flex justify-content-around">
-                    <VPNBtn />
+                    <VPNBtn link={"/admin/VPNOrders/set"} />
                   </div>
                 </td>
               </tr>
