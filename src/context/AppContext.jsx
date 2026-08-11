@@ -15,44 +15,52 @@ function AppContext({ children }) {
 
   const [cardItem, setCardItem] = useState([]);
 
-  const handleIncreaseProductQty = (id) => {
+  const handleIncreaseProductQty = (id, model = null) => {
     setCardItem((currentItem) => {
-      let selectedItem = currentItem.find((item) => item.id == id);
+      const selectedItem = currentItem.find(
+        (item) => item.id == id && item.model == model,
+      );
 
       if (selectedItem == null) {
-        return [...currentItem, { id: id, qty: 1 }];
-      } else {
-        return currentItem.map((item) => {
-          if (item.id == id) {
-            return { ...item, qty: item.qty + 1 };
-          } else {
-            return item;
-          }
-        });
+        return [...currentItem, { id, model, qty: 1 }];
       }
+
+      return currentItem.map((item) => {
+        if (item.id == id && item.model == model) {
+          return { ...item, qty: item.qty + 1 };
+        }
+
+        return item;
+      });
     });
   };
 
-  const handleDecreaseProductQtt = (id) => {
+  const handleDecreaseProductQtt = (id, model = null) => {
     setCardItem((currentItem) => {
-      let selectedItem = currentItem.find((item) => item.id == id);
+      const selectedItem = currentItem.find(
+        (item) => item.id == id && item.model == model,
+      );
 
       if (selectedItem?.qty == 1) {
-        return currentItem.filter((item) => item.id != id);
-      } else {
-        return currentItem.map((item) => {
-          if (item.id == id) {
-            return { ...item, qty: item.qty - 1 };
-          } else {
-            return item;
-          }
-        });
+        return currentItem.filter(
+          (item) => !(item.id == id && item.model == model),
+        );
       }
+
+      return currentItem.map((item) => {
+        if (item.id == id && item.model == model) {
+          return { ...item, qty: item.qty - 1 };
+        }
+
+        return item;
+      });
     });
   };
 
-  const getProductQty = (id) => {
-    return cardItem.find((item) => item.id == id)?.qty || 0;
+  const getProductQty = (id, model = null) => {
+    return (
+      cardItem.find((item) => item.id == id && item.model == model)?.qty || 0
+    );
   };
 
   return (
@@ -67,7 +75,7 @@ function AppContext({ children }) {
         handleIncreaseProductQty,
         handleDecreaseProductQtt,
         getProductQty,
-        cardItem
+        cardItem,
       }}
     >
       {children}
