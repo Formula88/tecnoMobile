@@ -4,8 +4,8 @@ import { FaHistory } from "react-icons/fa";
 import { IoIosRocket } from "react-icons/io";
 import { RiCpuFill } from "react-icons/ri";
 import styles from "./AboutUs.module.scss";
-import img1 from "../../assets/img/AboutUs1.png";
-import img2 from "../../assets/img/AboutUs2.png";
+import img1 from "../../assets/img/AboutUs1.webp";
+import img2 from "../../assets/img/AboutUs2.webp";
 import AboutUsInfoCard from "../../components/cards/AboutUsInfoCard/AboutUsInfoCard";
 function AboutUs() {
   return (

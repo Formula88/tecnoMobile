@@ -1,6 +1,6 @@
 import Tilt from "react-parallax-tilt";
 import styles from "./IntroHome.module.scss";
-import intro from "../../../assets/img/intro.png";
+import intro from "../../../assets/img/intro.webp";
 import { Link } from "react-router-dom";
 function IntroHome() {
   return (

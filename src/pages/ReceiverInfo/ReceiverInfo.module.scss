@@ -1,0 +1,85 @@
+.receiverInfo {
+    margin: 70px 0px 0px;
+  .title {
+    color: #d9d9d9;
+    font-size: 2em;
+    margin: 0px 0px 50px;
+    text-align: center;
+  }
+  .form {
+    max-width: 1000px;
+    margin: 0px auto;
+    padding: 0px 30px 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    .inputs {
+      display: flex;
+      flex-direction: column;
+      div {
+        margin: 0px;
+      }
+    }
+    .info {
+      color: #d9d9d9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      direction: rtl;
+      gap: 25px;
+      .item {
+        font-size: 1em;
+      }
+      .pricePost {
+        display: flex;
+        font-size: 1.2em;
+        font-weight: bold;
+        .price {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          svg {
+            fill: #d9d9d9;
+            width: 25px;
+            height: 25px;
+          }
+        }
+      }
+      .totalPrice {
+        display: flex;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #1499e6;
+        .price {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          svg {
+            fill: #1499e6;
+            width: 25px;
+            height: 25px;
+          }
+        }
+      }
+    }
+    .btn {
+      display: block;
+      margin: 0px auto;
+      width: 250px;
+      height: 50px;
+      border: none;
+      outline: none;
+      font-size: 1.2em;
+      border-radius: 10px;
+    }
+    .back {
+      text-align: center;
+      color: #1499e6;
+      opacity: 0.8;
+      transition: 0.25s;
+    }
+    .back:hover {
+      opacity: 1;
+    }
+  }
+}

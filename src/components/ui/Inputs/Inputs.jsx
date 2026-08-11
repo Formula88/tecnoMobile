@@ -1,7 +1,16 @@
 import { useId } from "react";
 import styles from "./Inputs.module.scss";
 
-function Inputs({ register, name, option, label, error, placeholder , type = "text"}) {
+function Inputs({
+  register,
+  name,
+  option,
+  label,
+  error,
+  placeholder = "",
+  type = "text",
+  value = "",
+}) {
   const inputId = useId();
 
   return (
@@ -15,6 +24,7 @@ function Inputs({ register, name, option, label, error, placeholder , type = "te
         className={styles.input}
         {...register(name, option)}
         placeholder={placeholder}
+        defaultValue={value}
       />
       <p className={styles.error}>{error?.[name]?.message}</p>
     </div>
