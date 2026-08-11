@@ -1,10 +1,11 @@
 .box {
   margin: 50px 0px;
   font-size: 1rem;
-  .title{
+  .title {
     font-size: 1.25em;
-    color: #1499E6;
-    margin-bottom: 30px; text-align: center;
+    color: #1499e6;
+    margin-bottom: 30px;
+    text-align: center;
   }
   .inputsBox {
     width: 100%;
@@ -43,5 +44,30 @@
     text-align: center;
     display: block;
     margin-top: 15px;
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+}
+@media (max-width: 410px) {
+  .box{
+    .title{
+      font-size: 1.2em;
+    }
+    .inputsBox{
+      gap: 20px;
+      .input{
+        width: 40px !important;
+        height: 40px !important;
+      }
+    }
   }
 }

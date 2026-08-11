@@ -1,0 +1,88 @@
+.repairorderCard {
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  background-color: #1e1e1e;
+  border: 1px solid #424242;
+  padding: 30px 30px;
+  border-radius: 15px;
+  margin-bottom: 40px;
+  .boxes {
+    display: flex;
+    justify-content: space-between;
+    .box {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    color: #d9d9d9;
+    gap: 10px;
+    font-size: 1em;
+    .icon {
+      width: 25px;
+      height: 25px;
+      color: #1499e6;
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .title {
+      color: #1499e6;
+    }
+  }
+  .noReviewed {
+    color: #1499e6;
+    border: 1px solid #1499e6;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: 600;
+  }
+  .reviewed {
+    color: #1e1e1e;
+    background-color: #1499e6;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+  .repairorderCard {
+    max-width: 550px;
+    margin: 0px auto 40px;
+  }
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+  .repairorderCard {
+    padding: 30px 20px;
+  }
+}
+@media (max-width: 575px) {
+  .repairorderCard {
+    .boxes {
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
+  }
+}

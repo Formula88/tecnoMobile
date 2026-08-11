@@ -1,6 +1,6 @@
 import Tilt from "react-parallax-tilt";
 import styles from "./IntroHome.module.scss";
-import intro from "../../../assets/img/intro.png";
+import intro from "../../../assets/img/intro.webp";
 import { Link } from "react-router-dom";
 function IntroHome() {
   return (
@@ -25,10 +25,10 @@ function IntroHome() {
                 </p>
               </div>
               <div className={styles.btns}>
-                <Link to="" className="btnPrimary">
+                <Link to="/products" className="btnPrimary">
                   مشاهده محصولات
                 </Link>
-                <Link to="" className="btnOutline">
+                <Link to="/VPN" className="btnOutline">
                   دریافت کانفیگ
                 </Link>
               </div>

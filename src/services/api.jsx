@@ -1,8 +1,31 @@
 import axios from "axios";
+import { showLoading, hideLoading } from "./loadingService";
 axios.defaults.withCredentials = true;
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
+
+client.interceptors.request.use(
+  (config) => {
+    showLoading();
+    return config;
+  },
+  (error) => {
+    hideLoading();
+    return Promise.reject(error);
+  },
+);
+
+client.interceptors.response.use(
+  (config) => {
+    hideLoading();
+    return config;
+  },
+  (error) => {
+    hideLoading();
+    return Promise.reject(error);
+  },
+);
 
 export const GetItemInHome = async () => {
   try {
@@ -25,6 +48,30 @@ export const GetProduct = async (id) => {
 export const GetServices = async (page) => {
   try {
     const { data } = await client.get(`api/service/${page}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const GetProducts = async (page, search, productType, sort) => {
+  try {
+    const { data } = await client.get(`api/products/${page}`, {
+      params: {
+        search: search,
+        productType: productType,
+        sort: sort,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const GetVPNPlan = async () => {
+  try {
+    const { data } = await client.get(`api/vpnPlan`);
     return data;
   } catch (error) {
     console.log(error);
