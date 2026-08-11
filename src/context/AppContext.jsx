@@ -12,6 +12,61 @@ function AppContext({ children }) {
   useEffect(() => {
     registerLoading(setIsLoading);
   }, []);
+
+  const [cardItem, setCardItem] = useState([]);
+
+  const handleIncreaseProductQty = (id, model = null) => {
+    setCardItem((currentItem) => {
+      const selectedItem = currentItem.find(
+        (item) => item.id == id && item.model == model,
+      );
+
+      if (selectedItem == null) {
+        return [...currentItem, { id, model, qty: 1 }];
+      }
+
+      return currentItem.map((item) => {
+        if (item.id == id && item.model == model) {
+          return { ...item, qty: item.qty + 1 };
+        }
+
+        return item;
+      });
+    });
+  };
+
+  const handleDecreaseProductQtt = (id, model = null) => {
+    setCardItem((currentItem) => {
+      const selectedItem = currentItem.find(
+        (item) => item.id == id && item.model == model,
+      );
+
+      if (selectedItem?.qty == 1) {
+        return currentItem.filter(
+          (item) => !(item.id == id && item.model == model),
+        );
+      }
+
+      return currentItem.map((item) => {
+        if (item.id == id && item.model == model) {
+          return { ...item, qty: item.qty - 1 };
+        }
+
+        return item;
+      });
+    });
+  };
+
+  const getProductQty = (id, model = null) => {
+    return (
+      cardItem.find((item) => item.id == id && item.model == model)?.qty || 0
+    );
+  };
+
+  const productCount = cardItem.reduce((totalItem, item) => {
+    return totalItem + item.qty;
+  }, 0);
+
   return (
     <Context.Provider
       value={{
@@ -21,6 +76,11 @@ function AppContext({ children }) {
         setUserType,
         setScrollEnabled,
         isLoading,
+        handleIncreaseProductQty,
+        handleDecreaseProductQtt,
+        getProductQty,
+        cardItem,
+        productCount,
       }}
     >
       {children}

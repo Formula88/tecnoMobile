@@ -6,9 +6,10 @@ import { FaUser } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { useContext, useEffect, useRef } from "react";
 import { Context } from "../../../context/AppContext";
+import { toPersianDigits } from "../../../utils/Utils";
 
 function HeaderNav() {
-  const { isLogin, setScrollEnabled } = useContext(Context);
+  const { isLogin, setScrollEnabled, productCount } = useContext(Context);
 
   const Links = {
     home: "/",
@@ -17,6 +18,8 @@ function HeaderNav() {
     auth: "/Auth",
     products: "/products",
     AboutUs: "/AboutUs",
+    profile: "/profile",
+    shoppingCart: "/ShoppingCart",
   };
 
   const hamburgerMenuBox = useRef(null);
@@ -71,11 +74,12 @@ function HeaderNav() {
               <Link to={!isLogin ? Links.auth : ""}>
                 <FaUser className={styles.icon} />
               </Link>
-              {isLogin && (
-                <Link to="">
-                  <FaCartShopping className={styles.icon} />
-                </Link>
-              )}
+              <Link to={Links.shoppingCart} onClick={closeMenu} className="position-relative">
+                <FaCartShopping className={styles.icon} />
+                {productCount > 0 && (
+                  <span className={styles.productCount}>{toPersianDigits(productCount)}</span>
+                )}
+              </Link>
             </div>
           </div>
         </div>
@@ -117,11 +121,9 @@ function HeaderNav() {
           <Link to={!isLogin ? Links.auth : ""} onClick={closeMenu}>
             <FaUser className={styles.icon} />
           </Link>
-          {isLogin && (
-            <Link to="" onClick={closeMenu}>
-              <FaCartShopping className={styles.icon} />
-            </Link>
-          )}
+          <Link to={Links.shoppingCart} onClick={closeMenu}>
+            <FaCartShopping className={styles.icon} />
+          </Link>
         </div>
       </div>
     </>
