@@ -41,15 +41,12 @@ function HeaderNav() {
             <div className="col d-md-none d-flex align-items-center">
               <Checkbox fun={openHamburgerMenu} />
             </div>
-            <div className="col d-md-flex justify-content-start align-items-center gap-2 d-none">
-              <Link to={!isLogin ? Links.auth : ""}>
-                <FaUser className={styles.icon} />
-              </Link>
-              {isLogin && (
-                <Link to="">
-                  <FaCartShopping className={styles.icon} />
-                </Link>
-              )}
+            <div className="col d-flex justify-content-start align-items-center">
+              <img
+                src={pic}
+                alt="tecno Mobile"
+                className={`noDrag ${styles.logo}`}
+              />
             </div>
             <div className={`col-5 ${styles.colM}`}>
               <ul className={styles.menu}>
@@ -70,12 +67,15 @@ function HeaderNav() {
                 </li>
               </ul>
             </div>
-            <div className="col d-flex justify-content-end align-items-center">
-              <img
-                src={pic}
-                alt="tecno Mobile"
-                className={`noDrag ${styles.logo}`}
-              />
+            <div className="col d-md-flex justify-content-end align-items-center gap-2 d-none">
+              <Link to={!isLogin ? Links.auth : ""}>
+                <FaUser className={styles.icon} />
+              </Link>
+              {isLogin && (
+                <Link to="">
+                  <FaCartShopping className={styles.icon} />
+                </Link>
+              )}
             </div>
           </div>
         </div>
