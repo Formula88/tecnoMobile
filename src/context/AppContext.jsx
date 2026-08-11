@@ -63,6 +63,10 @@ function AppContext({ children }) {
     );
   };
 
+  const productCount = cardItem.reduce((totalItem, item) => {
+    return totalItem + item.qty;
+  }, 0);
+
   return (
     <Context.Provider
       value={{
@@ -76,6 +80,7 @@ function AppContext({ children }) {
         handleDecreaseProductQtt,
         getProductQty,
         cardItem,
+        productCount,
       }}
     >
       {children}

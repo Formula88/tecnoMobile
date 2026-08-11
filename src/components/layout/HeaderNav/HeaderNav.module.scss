@@ -74,6 +74,22 @@
     opacity: 1;
     color: #1499e6;
   }
+
+  .productCount {
+    position: absolute;
+    background-color: #1473ab;
+    color: #f8fafc;
+    font-size: 0.8em;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 999px;
+    font-weight: bold;
+    top: -8px;
+    right: -5px;
+  }
 }
 .hamburgerBox {
   position: fixed;
@@ -166,7 +182,7 @@
   .hamburgerBox {
     width: 75vw;
     right: -75vw;
-    img{
+    img {
       width: 200px;
     }
   }

@@ -3,13 +3,17 @@ import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import Toman from "../../../icon/Toman";
 import styles from "./CheckoutSummary.module.scss";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "../../../context/AppContext";
 function CheckoutSummary() {
+  const { productCount } = useContext(Context);
+  
   return (
     <div className={styles.CheckoutSummary}>
       <h3 className={styles.title}>خلاصه سفارش</h3>
       <div className={styles.item}>
         <span className={styles.itemTitle}>تعداد کالا ها :</span>
-        <div className={styles.itemSub}>{toPersianDigits(3)} کالا</div>
+        <div className={styles.itemSub}>{toPersianDigits(productCount)} کالا</div>
       </div>
       <div className={styles.item}>
         <span className={styles.itemTitle}>مجموع قیمت :</span>
