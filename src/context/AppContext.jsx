@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { useScrollbar } from "../hooks/hooks";
+import { useLocalStorage, useScrollbar } from "../hooks/hooks";
 import { registerLoading } from "../services/loadingService";
 
 export const Context = createContext();
@@ -13,7 +13,7 @@ function AppContext({ children }) {
     registerLoading(setIsLoading);
   }, []);
 
-  const [cardItem, setCardItem] = useState([]);
+  const [cardItem, setCardItem] = useLocalStorage("itemCards",[]);
 
   const handleIncreaseProductQty = (id, model = null, totalPrice, price) => {
     setCardItem((currentItem) => {

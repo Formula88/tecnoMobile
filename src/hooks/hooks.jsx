@@ -78,3 +78,18 @@ export const useScrollbar = () => {
   };
   return { scrollbarRef, setScrollEnabled };
 };
+
+export const useLocalStorage = (key, initialValue) => {
+  const [value, setValue] = useState(() => {
+    let localCard = localStorage.getItem(key);
+
+    if (localCard != null) return JSON.parse(localCard);
+    else return initialValue;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue];
+};
