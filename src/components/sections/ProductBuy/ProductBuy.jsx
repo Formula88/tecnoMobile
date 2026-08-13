@@ -15,7 +15,7 @@ function ProductBuy({ price, discount, models }) {
     totalPrice = getDiscountAmount(price, discount);
   }
 
-  const [selectedModel, setSelectedModel] = useState();
+  const [selectedModel, setSelectedModel] = useState(null);
 
   useEffect(() => {
     if (models?.length > 0 && selectedModel === null) {
@@ -72,7 +72,12 @@ function ProductBuy({ price, discount, models }) {
             <button
               className={`btnPrimary ${styles.btn}`}
               onClick={() => {
-                handleIncreaseProductQty(params.id, selectedModel);
+                handleIncreaseProductQty(
+                  params.id,
+                  selectedModel,
+                  totalPrice,
+                  price,
+                );
               }}
             >
               افزودن به سبد خرید
@@ -81,7 +86,12 @@ function ProductBuy({ price, discount, models }) {
             <div className={styles.counter}>
               <FaPlus
                 onClick={() => {
-                  handleIncreaseProductQty(params.id, selectedModel);
+                  handleIncreaseProductQty(
+                    params.id,
+                    selectedModel,
+                    totalPrice,
+                    price,
+                  );
                 }}
               />
               <span className={styles.count}>

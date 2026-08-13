@@ -15,14 +15,14 @@ function AppContext({ children }) {
 
   const [cardItem, setCardItem] = useState([]);
 
-  const handleIncreaseProductQty = (id, model = null) => {
+  const handleIncreaseProductQty = (id, model = null, totalPrice, price) => {
     setCardItem((currentItem) => {
       const selectedItem = currentItem.find(
         (item) => item.id == id && item.model == model,
       );
 
       if (selectedItem == null) {
-        return [...currentItem, { id, model, qty: 1 }];
+        return [...currentItem, { id, model, qty: 1, price, totalPrice }];
       }
 
       return currentItem.map((item) => {
@@ -67,6 +67,22 @@ function AppContext({ children }) {
     return totalItem + item.qty;
   }, 0);
 
+  const priceProduct = cardItem.reduce((price, item) => {
+    return price + (item.price * item.qty);
+  }, 0);
+  const totalPriceProduct = cardItem.reduce((totalPrice, item) => {
+    return totalPrice + (item.totalPrice * item.qty);
+  }, 0);
+  const discountProduct = priceProduct - totalPriceProduct;
+
+  const cardItemRemoveProduct = (id, model = null) => {
+    setCardItem((currentItem) => {
+      return currentItem.filter(
+        (item) => !(item.id == id && item.model == model),
+      );
+    });
+  };
+
   return (
     <Context.Provider
       value={{
@@ -81,6 +97,10 @@ function AppContext({ children }) {
         getProductQty,
         cardItem,
         productCount,
+        cardItemRemoveProduct,
+        priceProduct,
+        totalPriceProduct,
+        discountProduct,
       }}
     >
       {children}
