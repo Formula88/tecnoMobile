@@ -31,7 +31,7 @@ function Auth() {
 
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const { setIsLogin, setUserType } = useContext(Context);
+  const { setIsLogin, setUserType, setUserNumber } = useContext(Context);
 
   const [page, setPage] = useState(authPage.NUMBER);
   const isOTPPage = page === authPage.OTP;
@@ -70,6 +70,7 @@ function Auth() {
     if (status?.success === true) {
       setIsLogin(true);
       setUserType(status.userType);
+      setUserNumber(status.phoneNumber)
       navigate("/");
     }
   };
