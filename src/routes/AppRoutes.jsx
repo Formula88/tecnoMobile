@@ -50,6 +50,7 @@ import ServiceReservation from "../Admin/pages/ServiceReservation/ServiceReserva
 import VPNOrders from "../Admin/pages/VPNOrders/VPNOrders";
 import SetVPNOrders from "../Admin/pages/VPNOrders/SetVPNOrders/SetVPNOrders";
 import OrdersA from "../Admin/pages/products/OrdersA/OrdersA";
+import AdminRoute from "./AdminRoute";
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -63,11 +64,12 @@ function AppRoutes() {
         <Route path="/Services" element={<Services />} />
         <Route path="/products" element={<Products />} />
         <Route path="/AboutUs" element={<AboutUs />} />
+        <Route path="/ShoppingCart" element={<ShoppingCart />} />
 
         <Route element={<GuestRoute />}>
           <Route path="/Auth" element={<Auth />} />
         </Route>
-        
+
         <Route element={<ProtectedRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/VPNServices" element={<VPNServices />} />{" "}
@@ -77,72 +79,64 @@ function AppRoutes() {
           <Route path="/checkout" element={<ReceiverInfo />} />
         </Route>
 
-        <Route path="/ShoppingCart" element={<ShoppingCart />} />
+        <Route element={<AdminRoute />}>
+          <Route path="/admin/panel" element={<Panel />} />
+          <Route path="/admin/users" element={<Users />} />
+          <Route path="/admin/users/edit" element={<UsersEdit />} />
+          <Route path="/admin/brands" element={<Brands />} />
+          <Route path="/admin/brands/add" element={<AddBrands />} />
+          <Route path="/admin/brands/edit" element={<EditBrands />} />
+          <Route path="/admin/vpnClients" element={<VpnClients />} />
+          <Route path="/admin/vpnClients/add" element={<AddVpnClients />} />
+          <Route path="/admin/vpnClients/edit" element={<EditVpnClients />} />
+          <Route path="/admin/products/mobile" element={<Mobile />} />
+          <Route path="/admin/products/mobile/add" element={<AddMobile />} />
+          <Route path="/admin/products/mobile/edit" element={<EditMobile />} />
+          <Route path="/admin/products/hardware" element={<Hardware />} />
+          <Route
+            path="/admin/products/hardware/add"
+            element={<AddHardware />}
+          />
+          <Route
+            path="/admin/products/hardware/edit/:id"
+            element={<EditHardware />}
+          />
+          <Route path="/admin/products/accessories" element={<Accessories />} />
+          <Route
+            path="/admin/products/accessories/add"
+            element={<AddAccessories />}
+          />
+          <Route
+            path="/admin/products/accessories/edit/:id"
+            element={<EditAccessories />}
+          />
+          <Route
+            path="/admin/products/accessoriesmodel"
+            element={<Accessoriesmodel />}
+          />
+          <Route
+            path="/admin/products/accessoriesmodel/add"
+            element={<AddAccessoriesmodel />}
+          />
+          <Route
+            path="/admin/products/accessoriesmodel/edit/:id"
+            element={<EditAccessoriesmodel />}
+          />
+          <Route path="/admin/vpn" element={<VpnPlan />} />
+          <Route path="/admin/vpn/add" element={<AddVpnPlan />} />
+          <Route path="/admin/vpn/edit" element={<EditVpnPlan />} />
 
-        <Route path="/admin/panel" element={<Panel />} />
-
-        <Route path="/admin/users" element={<Users />} />
-        <Route path="/admin/users/edit" element={<UsersEdit />} />
-
-        <Route path="/admin/brands" element={<Brands />} />
-        <Route path="/admin/brands/add" element={<AddBrands />} />
-        <Route path="/admin/brands/edit" element={<EditBrands />} />
-
-        <Route path="/admin/vpnClients" element={<VpnClients />} />
-        <Route path="/admin/vpnClients/add" element={<AddVpnClients />} />
-        <Route path="/admin/vpnClients/edit" element={<EditVpnClients />} />
-
-        <Route path="/admin/products/mobile" element={<Mobile />} />
-        <Route path="/admin/products/mobile/add" element={<AddMobile />} />
-        <Route path="/admin/products/mobile/edit" element={<EditMobile />} />
-
-        <Route path="/admin/products/hardware" element={<Hardware />} />
-        <Route path="/admin/products/hardware/add" element={<AddHardware />} />
-        <Route
-          path="/admin/products/hardware/edit/:id"
-          element={<EditHardware />}
-        />
-
-        <Route path="/admin/products/accessories" element={<Accessories />} />
-        <Route
-          path="/admin/products/accessories/add"
-          element={<AddAccessories />}
-        />
-        <Route
-          path="/admin/products/accessories/edit/:id"
-          element={<EditAccessories />}
-        />
-
-        <Route
-          path="/admin/products/accessoriesmodel"
-          element={<Accessoriesmodel />}
-        />
-        <Route
-          path="/admin/products/accessoriesmodel/add"
-          element={<AddAccessoriesmodel />}
-        />
-        <Route
-          path="/admin/products/accessoriesmodel/edit/:id"
-          element={<EditAccessoriesmodel />}
-        />
-
-        <Route path="/admin/vpn" element={<VpnPlan />} />
-        <Route path="/admin/vpn/add" element={<AddVpnPlan />} />
-        <Route path="/admin/vpn/edit" element={<EditVpnPlan />} />
-
-        <Route path="/admin/services/" element={<ServicesA />} />
-        <Route path="/admin/services/add" element={<AddServices />} />
-        <Route path="/admin/services/edit" element={<EditServices />} />
-
-        <Route
-          path="/admin/ServiceReservation"
-          element={<ServiceReservation />}
-        />
-
-        <Route path="/admin/VPNOrders" element={<VPNOrders />} />
-        <Route path="/admin/VPNOrders/set" element={<SetVPNOrders />} />
-
-        <Route path="/admin/products/orders" element={<OrdersA />} />
+          <Route path="/admin/services/" element={<ServicesA />} />
+          <Route path="/admin/services/add" element={<AddServices />} />
+          <Route path="/admin/services/edit" element={<EditServices />} />
+          <Route
+            path="/admin/ServiceReservation"
+            element={<ServiceReservation />}
+          />
+          <Route path="/admin/VPNOrders" element={<VPNOrders />} />
+          <Route path="/admin/VPNOrders/set" element={<SetVPNOrders />} />
+          <Route path="/admin/products/orders" element={<OrdersA />} />
+        </Route>
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}

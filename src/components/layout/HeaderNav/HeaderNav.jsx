@@ -7,9 +7,11 @@ import { FaCartShopping } from "react-icons/fa6";
 import { useContext, useEffect, useRef } from "react";
 import { Context } from "../../../context/AppContext";
 import { toPersianDigits } from "../../../utils/Utils";
+import { RiAdminFill } from "react-icons/ri";
 
 function HeaderNav() {
-  const { isLogin, setScrollEnabled, productCount } = useContext(Context);
+  const { isLogin, userType, setScrollEnabled, productCount } =
+    useContext(Context);
 
   const Links = {
     home: "/",
@@ -19,6 +21,7 @@ function HeaderNav() {
     AboutUs: "/AboutUs",
     profile: "/profile",
     shoppingCart: "/ShoppingCart",
+    admin: "/admin/panel",
   };
 
   const hamburgerMenuBox = useRef(null);
@@ -73,10 +76,7 @@ function HeaderNav() {
               <Link to={Links.profile}>
                 <FaUser className={styles.icon} />
               </Link>
-              <Link
-                to={Links.shoppingCart}
-                className="position-relative"
-              >
+              <Link to={Links.shoppingCart} className="position-relative">
                 <FaCartShopping className={styles.icon} />
                 {productCount > 0 && (
                   <span className={styles.productCount}>
@@ -84,6 +84,11 @@ function HeaderNav() {
                   </span>
                 )}
               </Link>
+              {userType === "admin" && (
+                <Link to={Links.admin}>
+                  <RiAdminFill className={styles.icon} />
+                </Link>
+              )}
             </div>
           </div>
         </div>
