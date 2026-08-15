@@ -16,8 +16,8 @@ function AppContext({ children }) {
       const result = await getMe();
       if (result?.success) {
         setIsLogin(true);
-        setUserType(result.userType);
-        setUserNumber(result.phoneNumber);
+        setUserType(result.user.userType);
+        setUserNumber(result.user.phoneNumber);
       } else {
         setIsLogin(false);
         setUserType("public");

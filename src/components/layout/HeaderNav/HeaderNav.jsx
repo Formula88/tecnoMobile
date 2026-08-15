@@ -15,7 +15,6 @@ function HeaderNav() {
     home: "/",
     Vpn: "/VPN",
     services: "/Services",
-    auth: "/Auth",
     products: "/products",
     AboutUs: "/AboutUs",
     profile: "/profile",
@@ -71,13 +70,18 @@ function HeaderNav() {
               </ul>
             </div>
             <div className="col d-md-flex justify-content-end align-items-center gap-2 d-none">
-              <Link to={!isLogin ? Links.auth : ""}>
+              <Link to={Links.profile}>
                 <FaUser className={styles.icon} />
               </Link>
-              <Link to={Links.shoppingCart} onClick={closeMenu} className="position-relative">
+              <Link
+                to={Links.shoppingCart}
+                className="position-relative"
+              >
                 <FaCartShopping className={styles.icon} />
                 {productCount > 0 && (
-                  <span className={styles.productCount}>{toPersianDigits(productCount)}</span>
+                  <span className={styles.productCount}>
+                    {toPersianDigits(productCount)}
+                  </span>
                 )}
               </Link>
             </div>
@@ -117,12 +121,21 @@ function HeaderNav() {
             </Link>
           </li>
         </ul>
-        <div className={styles.icon}>
-          <Link to={!isLogin ? Links.auth : ""} onClick={closeMenu}>
+        <div className={styles.icons}>
+          <Link to={Links.profile}>
             <FaUser className={styles.icon} />
           </Link>
-          <Link to={Links.shoppingCart} onClick={closeMenu}>
+          <Link
+            to={Links.shoppingCart}
+            onClick={closeMenu}
+            className="position-relative"
+          >
             <FaCartShopping className={styles.icon} />
+            {productCount > 0 && (
+              <span className={styles.productCount}>
+                {toPersianDigits(productCount)}
+              </span>
+            )}
           </Link>
         </div>
       </div>

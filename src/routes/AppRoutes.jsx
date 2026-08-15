@@ -67,15 +67,17 @@ function AppRoutes() {
         <Route element={<GuestRoute />}>
           <Route path="/Auth" element={<Auth />} />
         </Route>
-        <Route element={<ProtectedRoute />}></Route>
+        
+        <Route element={<ProtectedRoute />}>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/VPNServices" element={<VPNServices />} />{" "}
+          <Route path="/Repairorders" element={<Repairorders />} />
+          <Route path="/Orders" element={<Orders />} />
+          <Route path="/OrderDetails" element={<OrderDetails />} />
+          <Route path="/checkout" element={<ReceiverInfo />} />
+        </Route>
 
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/VPNServices" element={<VPNServices />} />
         <Route path="/ShoppingCart" element={<ShoppingCart />} />
-        <Route path="/Repairorders" element={<Repairorders />} />
-        <Route path="/Orders" element={<Orders />} />
-        <Route path="/OrderDetails" element={<OrderDetails />} />
-        <Route path="/checkout" element={<ReceiverInfo />} />
 
         <Route path="/admin/panel" element={<Panel />} />
 
@@ -139,7 +141,6 @@ function AppRoutes() {
 
         <Route path="/admin/VPNOrders" element={<VPNOrders />} />
         <Route path="/admin/VPNOrders/set" element={<SetVPNOrders />} />
-
 
         <Route path="/admin/products/orders" element={<OrdersA />} />
       </Routes>

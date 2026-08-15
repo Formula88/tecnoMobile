@@ -124,7 +124,7 @@
       color: #1499e6;
     }
   }
-  .icon {
+  .icons {
     position: absolute;
     bottom: 0;
     margin-bottom: 50px;
@@ -133,21 +133,33 @@
     justify-content: center;
     gap: 30px;
     $size: 35px;
-    a {
-      display: flex;
-      width: $size;
-      height: $size;
-      color: #617287;
-      transition: 0.25s;
+    .icon {
+      width: 30px;
+      height: 30px;
+      color: #f8fafc;
+      opacity: 0.5;
+      transition: 0.25s ease-in-out;
     }
-    a:hover,
-    a:focus {
+
+    .icon:hover {
+      opacity: 1;
       color: #1499e6;
     }
-    svg {
-      display: block;
-      width: $size;
-      height: $size;
+
+    .productCount {
+      position: absolute;
+      background-color: #1473ab;
+      color: #f8fafc;
+      font-size: 0.8em;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 999px;
+      font-weight: bold;
+      top: -8px;
+      right: -5px;
     }
   }
 }
