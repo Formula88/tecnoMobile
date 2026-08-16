@@ -1,0 +1,41 @@
+.notFound {
+  text-align: center;
+  margin: 45px auto;
+  color: #1499e6;
+  font-size: 1rem;
+  .icon {
+    margin: 0px auto;
+    width: 100%;
+    max-width: 750px;
+    display: block;
+  }
+  .title {
+    font-size: 4em;
+  }
+  .subTitle {
+    font-size: 2em;
+  }
+  .btn {
+    display: block;
+    width: fit-content;
+    margin: 30px auto 0px;
+    font-size: 1.2em;
+    outline: none;
+    padding: 13px 14px;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 1399px) {
+}
+@media (max-width: 1199px) {
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 575px) {
+  .notFound{
+    font-size: 0.8em;
+  }
+}

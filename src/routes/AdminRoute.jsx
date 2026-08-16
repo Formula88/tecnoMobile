@@ -1,14 +1,15 @@
 import { useContext } from "react";
 import { Context } from "../context/AppContext";
 import { Navigate, Outlet } from "react-router-dom";
+import NotFound from "../pages/NotFound/NotFound";
 
 function AdminRoute() {
   const { isLogin, userType } = useContext(Context);
 
   return isLogin && userType == "admin" ? (
-<Outlet />
+    <Outlet />
   ) : (
-    <Navigate to={""} replace />
+    <Navigate to={<NotFound />} replace />
   );
 }
 

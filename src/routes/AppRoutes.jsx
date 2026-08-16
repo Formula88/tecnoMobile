@@ -51,6 +51,7 @@ import VPNOrders from "../Admin/pages/VPNOrders/VPNOrders";
 import SetVPNOrders from "../Admin/pages/VPNOrders/SetVPNOrders/SetVPNOrders";
 import OrdersA from "../Admin/pages/products/OrdersA/OrdersA";
 import AdminRoute from "./AdminRoute";
+import NotFound from "../pages/NotFound/NotFound"
 
 function AppRoutes() {
   const { isLoading, setScrollEnabled } = useContext(Context);
@@ -137,6 +138,8 @@ function AppRoutes() {
           <Route path="/admin/VPNOrders/set" element={<SetVPNOrders />} />
           <Route path="/admin/products/orders" element={<OrdersA />} />
         </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       {isLoading ? <Loading /> : setScrollEnabled(true)}
