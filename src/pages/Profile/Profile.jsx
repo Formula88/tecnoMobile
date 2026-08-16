@@ -7,6 +7,8 @@ import { FaCartShopping } from "react-icons/fa6";
 import { FaBagShopping } from "react-icons/fa6";
 import { AiFillTool } from "react-icons/ai";
 import { FaShield } from "react-icons/fa6";
+import { useContext } from "react";
+import { Context } from "../../context/AppContext";
 
 function profile() {
   const links = {
@@ -15,12 +17,15 @@ function profile() {
     Repairorders: "/Repairorders",
     Orders: "/Orders",
   };
+
+  const { userNumber } = useContext(Context);
+
   return (
     <div>
       <HeaderNav />
       <section className={styles.profile}>
         <div className="container">
-          <UserCard userNumber={"09129072416"} />
+          <UserCard userNumber={userNumber} />
           <div className={styles.profileCards}>
             <ProfileCard
               icon={<FaCartShopping />}

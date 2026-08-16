@@ -115,3 +115,14 @@ export const login = async () => {
     console.log(error);
   }
 };
+
+export const getMe = async () => {
+  try {
+    const result = await client.get(`api/me`, {
+      withCredentials: true,
+    });
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

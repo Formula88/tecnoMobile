@@ -6,17 +6,22 @@ import { FaUser } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { useContext, useEffect, useRef } from "react";
 import { Context } from "../../../context/AppContext";
+import { toPersianDigits } from "../../../utils/Utils";
+import { RiAdminFill } from "react-icons/ri";
 
 function HeaderNav() {
-  const { isLogin, setScrollEnabled } = useContext(Context);
+  const { isLogin, userType, setScrollEnabled, productCount } =
+    useContext(Context);
 
   const Links = {
     home: "/",
     Vpn: "/VPN",
     services: "/Services",
-    auth: "/Auth",
     products: "/products",
     AboutUs: "/AboutUs",
+    profile: "/profile",
+    shoppingCart: "/ShoppingCart",
+    admin: "/admin/panel",
   };
 
   const hamburgerMenuBox = useRef(null);
@@ -41,15 +46,12 @@ function HeaderNav() {
             <div className="col d-md-none d-flex align-items-center">
               <Checkbox fun={openHamburgerMenu} />
             </div>
-            <div className="col d-md-flex justify-content-start align-items-center gap-2 d-none">
-              <Link to={!isLogin ? Links.auth : ""}>
-                <FaUser className={styles.icon} />
-              </Link>
-              {isLogin && (
-                <Link to="">
-                  <FaCartShopping className={styles.icon} />
-                </Link>
-              )}
+            <div className="col d-flex justify-content-start align-items-center">
+              <img
+                src={pic}
+                alt="tecno Mobile"
+                className={`noDrag ${styles.logo}`}
+              />
             </div>
             <div className={`col-5 ${styles.colM}`}>
               <ul className={styles.menu}>
@@ -70,12 +72,23 @@ function HeaderNav() {
                 </li>
               </ul>
             </div>
-            <div className="col d-flex justify-content-end align-items-center">
-              <img
-                src={pic}
-                alt="tecno Mobile"
-                className={`noDrag ${styles.logo}`}
-              />
+            <div className="col d-md-flex justify-content-end align-items-center gap-2 d-none">
+              <Link to={Links.profile}>
+                <FaUser className={styles.icon} />
+              </Link>
+              <Link to={Links.shoppingCart} className="position-relative">
+                <FaCartShopping className={styles.icon} />
+                {productCount > 0 && (
+                  <span className={styles.productCount}>
+                    {toPersianDigits(productCount)}
+                  </span>
+                )}
+              </Link>
+              {userType === "admin" && (
+                <Link to={Links.admin}>
+                  <RiAdminFill className={styles.icon} />
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -113,15 +126,22 @@ function HeaderNav() {
             </Link>
           </li>
         </ul>
-        <div className={styles.icon}>
-          <Link to={!isLogin ? Links.auth : ""} onClick={closeMenu}>
+        <div className={styles.icons}>
+          <Link to={Links.profile}>
             <FaUser className={styles.icon} />
           </Link>
-          {isLogin && (
-            <Link to="" onClick={closeMenu}>
-              <FaCartShopping className={styles.icon} />
-            </Link>
-          )}
+          <Link
+            to={Links.shoppingCart}
+            onClick={closeMenu}
+            className="position-relative"
+          >
+            <FaCartShopping className={styles.icon} />
+            {productCount > 0 && (
+              <span className={styles.productCount}>
+                {toPersianDigits(productCount)}
+              </span>
+            )}
+          </Link>
         </div>
       </div>
     </>

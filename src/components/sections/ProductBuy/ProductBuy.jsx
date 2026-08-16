@@ -1,11 +1,38 @@
+import { useContext, useEffect, useState } from "react";
 import Toman from "../../../icon/Toman";
-import { formatPrice, getDiscountAmount } from "../../../utils/Utils";
+import {
+  formatPrice,
+  getDiscountAmount,
+  toPersianDigits,
+} from "../../../utils/Utils";
 import styles from "./ProductBuy.module.scss";
+import { Context } from "../../../context/AppContext";
+import { useParams } from "react-router-dom";
+import { FaMinus, FaPlus } from "react-icons/fa";
 function ProductBuy({ price, discount, models }) {
   let totalPrice = price;
   if (discount > 0) {
     totalPrice = getDiscountAmount(price, discount);
   }
+
+  const [selectedModel, setSelectedModel] = useState(null);
+
+  useEffect(() => {
+    if (models?.length > 0 && selectedModel === null) {
+      setSelectedModel(models[0]);
+    }
+  }, [models]);
+
+  const params = useParams();
+  const {
+    handleIncreaseProductQty,
+    handleDecreaseProductQtt,
+    getProductQty,
+    cardItem,
+  } = useContext(Context);
+
+  console.log(cardItem);
+
   return (
     <>
       <div className={styles.ProductBuy}>
@@ -21,17 +48,19 @@ function ProductBuy({ price, discount, models }) {
           ) : (
             ""
           )}
-          {models !== null? (
+          {models?.length && (
             <div>
               <span className={styles.models}>مدل گوشی :</span>
-              <select className={`btnOutline ${styles.select}`}>
+              <select
+                className={`btnOutline ${styles.select}`}
+                value={selectedModel ?? ""}
+                onChange={(e) => setSelectedModel(e.target.value)}
+              >
                 {models.map((value, index) => {
                   return <option key={index}>{value}</option>;
                 })}
               </select>
             </div>
-          ) : (
-            ""
           )}
         </div>
         <div className={styles.down}>
@@ -39,9 +68,42 @@ function ProductBuy({ price, discount, models }) {
             <span>{formatPrice(totalPrice)}</span>
             <Toman />
           </div>
-          <button className={`btnPrimary ${styles.btn}`}>
-            افزودن به سبد خرید
-          </button>
+          {getProductQty(params.id, selectedModel) == 0 ? (
+            <button
+              className={`btnPrimary ${styles.btn}`}
+              onClick={() => {
+                handleIncreaseProductQty(
+                  params.id,
+                  selectedModel,
+                  totalPrice,
+                  price,
+                );
+              }}
+            >
+              افزودن به سبد خرید
+            </button>
+          ) : (
+            <div className={styles.counter}>
+              <FaPlus
+                onClick={() => {
+                  handleIncreaseProductQty(
+                    params.id,
+                    selectedModel,
+                    totalPrice,
+                    price,
+                  );
+                }}
+              />
+              <span className={styles.count}>
+                {toPersianDigits(getProductQty(params.id, selectedModel))}
+              </span>
+              <FaMinus
+                onClick={() => {
+                  handleDecreaseProductQtt(params.id, selectedModel);
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
     </>
