@@ -6,11 +6,7 @@ import NotFound from "../pages/NotFound/NotFound";
 function AdminRoute() {
   const { isLogin, userType } = useContext(Context);
 
-  return isLogin && userType == "admin" ? (
-    <Outlet />
-  ) : (
-    <Navigate to={<NotFound />} replace />
-  );
+  return isLogin && userType == "admin" ? <Outlet /> : <NotFound />;
 }
 
 export default AdminRoute;

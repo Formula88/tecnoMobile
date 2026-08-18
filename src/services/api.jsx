@@ -126,3 +126,47 @@ export const getMe = async () => {
     console.log(error);
   }
 };
+
+// Admin API
+
+export const getUsers = async () => {
+  try {
+    const result = await client.get(`api/admin/user`);
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteUser = async (id) => {
+  try {
+    const result = await client.delete(`api/admin/user`, {
+      params: {
+        id: id,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateUser = async (id, admin) => {
+  try {
+    const result = await client.put(
+      `api/admin/user`,
+      {
+        admin: admin,
+      },
+      {
+        params: {
+          id: id,
+        },
+      },
+    );
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

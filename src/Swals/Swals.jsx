@@ -5,6 +5,7 @@ export const ServerErrorSwal = () => {
     icon: "error",
     title: "ارور",
     text: "سرور دچار مشکل شده است",
+    cancelButtonText: "باشه",
     theme: "dark",
   });
 };
