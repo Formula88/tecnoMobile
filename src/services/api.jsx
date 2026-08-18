@@ -170,3 +170,72 @@ export const updateUser = async (id, admin) => {
     console.log(error);
   }
 };
+
+export const getBrands = async () => {
+  try {
+    const result = await client.get(`api/admin/brand`);
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteBrand = async (id) => {
+  try {
+    const result = await client.delete(`api/admin/brand`, {
+      params: {
+        id: id,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addBrand = async (brandName, brandCategory) => {
+  try {
+    const result = await client.post(`api/admin/brand`, {
+      brandName: brandName,
+      brandCategory: brandCategory,
+    });
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getBrand = async (id) => {
+  try {
+    const result = await client.get(`api/admin/brand`, {
+      params: {
+        id: id,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editBrand = async (id, brandName, brandCategory) => {
+  try {
+    const result = await client.put(
+      `api/admin/brand`,
+      {
+        brandName: brandName,
+        brandCategory: brandCategory,
+      },
+      {
+        params: {
+          id: id,
+        },
+      },
+    );
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

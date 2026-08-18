@@ -3,28 +3,35 @@ import AdminLayout from "../../layout/AdminLayout";
 import EditBtn from "../../components/EditBtn/EditBtn";
 import DeleteBtn from "../../components/DeleteBtn/DeleteBtn";
 import AddBtn from "../../components/AddBtn/AddBtn";
+import { deleteBrand, getBrands } from "../../../services/api";
+import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
 
 function Brands() {
   const [data, setData] = useState([]);
 
+  const getHandle = async () => {
+    const result = await getBrands();
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    setData(result.data);
+  };
+
+  const deleteHandle = async (id) => {
+    const result = await deleteBrand(id);
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    setData((prevData) => prevData.filter((user) => user.id !== id));
+    successSwal("کاربر با موفقیت حذف شد", "حذف شد");
+  };
+
   useEffect(() => {
-    setData([
-      {
-        id: "1",
-        name: "Apple",
-        category: "mobile",
-      },
-      {
-        id: "2",
-        name: "Microsoft",
-        category: "hardware",
-      },
-      {
-        id: "3",
-        name: "JBL",
-        category: "accessory",
-      },
-    ]);
+    getHandle();
   }, []);
 
   const categoryTitle = {
@@ -57,8 +64,10 @@ function Brands() {
                 <td>{categoryTitle[value.category]}</td>
                 <td className="w-25">
                   <div className="d-flex justify-content-around">
-                    <EditBtn link={"/admin/brands/edit"} />
-                    <DeleteBtn />
+                    <EditBtn link={`/admin/brands/edit/${value.id}`} />
+                    <DeleteBtn btnHandle={() => {
+                      deleteHandle(value.id)
+                    }}/>
                   </div>
                 </td>
               </tr>

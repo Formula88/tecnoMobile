@@ -13,8 +13,8 @@ function Selects({ register, name, option, label, error, items }) {
         <option value="" disabled>لطفا انتخاب نمایید</option>
         {items.map((item, index) => {
           return (
-            <option value={item} key={index}>
-              {item}
+            <option value={item.value ?? item} key={index}>
+              {item.text ?? item}
             </option>
           );
         })}

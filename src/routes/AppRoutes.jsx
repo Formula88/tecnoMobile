@@ -87,7 +87,7 @@ function AppRoutes() {
 
           <Route path="/admin/brands" element={<Brands />} />
           <Route path="/admin/brands/add" element={<AddBrands />} />
-          <Route path="/admin/brands/edit" element={<EditBrands />} />
+          <Route path="/admin/brands/edit/:id" element={<EditBrands />} />
 
           <Route path="/admin/vpnClients" element={<VpnClients />} />
           <Route path="/admin/vpnClients/add" element={<AddVpnClients />} />

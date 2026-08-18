@@ -4,22 +4,44 @@ import FormBtn from "../../../components/FormBtn/FormBtn";
 import Selects from "../../../../components/ui/Selects/Selects";
 import Inputs from "../../../../components/ui/Inputs/Inputs";
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { editBrand, getBrand } from "../../../../services/api";
+import { errorSwal, successSwal } from "../../../../Swals/Swals";
 
 function EditBrands() {
-  const [name, setName] = useState("");
-
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
-  const handleFormSubmit = (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+
+  const param = useParams();
+
+  const handleFormSubmit = async (data) => {
+    const result = await editBrand(param.id,data.name, data.category);
+
+    if (!result?.success) {
+      errorSwal("خط در ویرایش برند", "برند ویرایش نشد");
+    } else successSwal("برند با موفقیت ویرایش شد", "برند ویرایش شد");
+
+    navigate("/admin/brands");
+  };
+
+  const getHandle = async (id) => {
+    const result = await getBrand(id);
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    reset(result.data);
   };
 
   useEffect(() => {
-    setName("Apple");
+    getHandle(param.id);
   }, []);
   return (
     <FormLayout>
@@ -31,7 +53,6 @@ function EditBrands() {
           name={"name"}
           label={"نام برند"}
           placeholder="سامسونگ"
-          value={name}
         />
         <Selects
           register={register}
@@ -39,7 +60,11 @@ function EditBrands() {
           error={errors}
           name={"category"}
           label={"کتگوری"}
-          items={["موبایل", "سخت افزار", "لوازم جانبی"]}
+          items={[
+            { value: "mobile", text: "موبایل" },
+            { value: "hardware", text: "سخت افزار" },
+            { value: "accessory", text: "لوازم جانبی" },
+          ]}
         />
         <FormBtn text={"ویرایش برند"} />
       </form>
