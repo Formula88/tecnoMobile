@@ -3,34 +3,35 @@ import AdminLayout from "../../layout/AdminLayout";
 import EditBtn from "../../components/EditBtn/EditBtn";
 import DeleteBtn from "../../components/DeleteBtn/DeleteBtn";
 import AddBtn from "../../components/AddBtn/AddBtn";
+import { deleteVpnClient, getVpnClients } from "../../../services/api";
+import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
 
 function VpnClients() {
   const [data, setData] = useState([]);
 
+  const getHandle = async () => {
+    const result = await getVpnClients();
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    setData(result.data);
+  };
+
+  const deleteHandle = async (id) => {
+    const result = await deleteVpnClient(id);
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    setData((prevData) => prevData.filter((user) => user.id !== id));
+    successSwal("کلاینت با موفقیت حذف شد", "حذف شد");
+  };
+
   useEffect(() => {
-    setData([
-      {
-        id: "1",
-        name: "V2RayN",
-        protocol: "VLESS/VMESS",
-        downloadUrl:
-          "https://github.com/2dust/v2rayNG/releases/download/2.2.6/v2rayNG_2.2.6-fdroid_arm64-v8a.apk",
-      },
-      {
-        id: "2",
-        name: "V2RayN",
-        protocol: "VLESS/VMESS",
-        downloadUrl:
-          "https://github.com/2dust/v2rayNG/releases/download/2.2.6/v2rayNG_2.2.6-fdroid_arm64-v8a.apk",
-      },
-      {
-        id: "3",
-        name: "V2RayN",
-        protocol: "VLESS/VMESS",
-        downloadUrl:
-          "https://github.com/2dust/v2rayNG/releases/download/2.2.6/v2rayNG_2.2.6-fdroid_arm64-v8a.apk",
-      },
-    ]);
+    getHandle();
   }, []);
   return (
     <AdminLayout>
@@ -55,11 +56,19 @@ function VpnClients() {
                 <td>{index + 1}</td>
                 <td>{value.name}</td>
                 <td>{value.protocol}</td>
-                <td><a href={value.downloadUrl} target="_blank">{value.downloadUrl}</a></td>
+                <td>
+                  <a href={value.downloadUrl} target="_blank">
+                    {value.downloadUrl}
+                  </a>
+                </td>
                 <td className="w-25">
                   <div className="d-flex justify-content-around">
-                    <EditBtn link={"/admin/vpnClients/edit"} />
-                    <DeleteBtn />
+                    <EditBtn link={`/admin/vpnClients/edit/${value.id}`} />
+                    <DeleteBtn
+                      btnHandle={() => {
+                        deleteHandle(value.id);
+                      }}
+                    />
                   </div>
                 </td>
               </tr>

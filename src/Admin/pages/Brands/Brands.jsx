@@ -27,7 +27,7 @@ function Brands() {
     }
 
     setData((prevData) => prevData.filter((user) => user.id !== id));
-    successSwal("کاربر با موفقیت حذف شد", "حذف شد");
+    successSwal("برند با موفقیت حذف شد", "حذف شد");
   };
 
   useEffect(() => {

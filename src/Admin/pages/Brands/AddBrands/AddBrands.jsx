@@ -20,7 +20,7 @@ function AddBrands() {
     const result = await addBrand(data.name, data.category);
 
     if (!result?.success) {
-      errorSwal("خط در افرودن برند", "برند اضافه نشد");
+      errorSwal("خطا در افرودن برند", "برند اضافه نشد");
     } else successSwal("برند با موفقیت اضافه شد", "برند اضافه شد");
 
     navigate("/admin/brands");

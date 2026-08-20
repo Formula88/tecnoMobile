@@ -239,3 +239,83 @@ export const editBrand = async (id, brandName, brandCategory) => {
     console.log(error);
   }
 };
+
+export const getVpnClients = async () => {
+  try {
+    const result = await client.get(`api/admin/vpnClient`);
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteVpnClient = async (id) => {
+  try {
+    const result = await client.delete(`api/admin/vpnClient`, {
+      params: {
+        id: id,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addVpnClients = async (
+  clientName,
+  clientProtocol,
+  clientDownloadUrl,
+) => {
+  try {
+    const result = await client.post(`api/admin/vpnClient`, {
+      clientName: clientName,
+      clientProtocol: clientProtocol,
+      clientDownloadUrl: clientDownloadUrl,
+    });
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getVpnClient = async (id) => {
+  try {
+    const result = await client.get(`api/admin/vpnClient`, {
+      params: {
+        id: id,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editVpnClients = async (
+  id,
+  clientName,
+  clientProtocol,
+  clientDownloadUrl,
+) => {
+  try {
+    const result = await client.put(
+      `api/admin/vpnClient`,
+      {
+        clientName: clientName,
+        clientProtocol: clientProtocol,
+        clientDownloadUrl: clientDownloadUrl,
+      },
+      {
+        params: {
+          id: id,
+        },
+      },
+    );
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

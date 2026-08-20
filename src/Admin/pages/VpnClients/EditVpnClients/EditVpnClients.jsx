@@ -3,6 +3,9 @@ import FormLayout from "../../../layout/FormLayout/FormLayout";
 import FormBtn from "../../../components/FormBtn/FormBtn";
 import Inputs from "../../../../components/ui/Inputs/Inputs";
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { editVpnClients, getVpnClient } from "../../../../services/api";
+import { errorSwal, ServerErrorSwal, successSwal } from "../../../../Swals/Swals";
 
 function EditVpnClients() {
   const {
@@ -12,19 +15,37 @@ function EditVpnClients() {
     reset,
   } = useForm();
 
+  const navigate = useNavigate();
 
-  const handleFormSubmit = (data) => {
-    console.log(data);
+  const param = useParams();
+
+  const handleFormSubmit = async (data) => {
+    const result = await editVpnClients(
+      param.id,
+      data.name,
+      data.protocol,
+      data.downloadUrl,
+    );
+
+    if (!result?.success) {
+      errorSwal("خط در ویرایش کلاینت", "کلاینت ویرایش نشد");
+    } else successSwal("کلاینت با موفقیت ویرایش شد", "کلاینت ویرایش شد");
+
+    navigate("/admin/vpnClients");
+  };
+
+  const getHandle = async (id) => {
+    const result = await getVpnClient(id);
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    reset(result.data);
   };
 
   useEffect(() => {
-    const data = ({
-      name: "V2RayN",
-      protocol: "VLESS/VMESS",
-      downloadUrl:
-        "https://github.com/2dust/v2rayNG/releases/download/2.2.6/v2rayNG_2.2.6-fdroid_arm64-v8a.apk",
-    });
-    reset(data);
+    getHandle(param.id);
   }, []);
   return (
     <FormLayout>

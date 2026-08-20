@@ -91,7 +91,7 @@ function AppRoutes() {
 
           <Route path="/admin/vpnClients" element={<VpnClients />} />
           <Route path="/admin/vpnClients/add" element={<AddVpnClients />} />
-          <Route path="/admin/vpnClients/edit" element={<EditVpnClients />} />
+          <Route path="/admin/vpnClients/edit/:id" element={<EditVpnClients />} />
 
           <Route path="/admin/products/mobile" element={<Mobile />} />
           <Route path="/admin/products/mobile/add" element={<AddMobile />} />
