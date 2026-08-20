@@ -3,7 +3,7 @@ import FormLayout from "../../../layout/FormLayout/FormLayout";
 import FormBtn from "../../../components/FormBtn/FormBtn";
 import Selects from "../../../../components/ui/Selects/Selects";
 import Inputs from "../../../../components/ui/Inputs/Inputs";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { editBrand, getBrand } from "../../../../services/api";
 import { errorSwal, successSwal } from "../../../../Swals/Swals";
@@ -21,7 +21,7 @@ function EditBrands() {
   const param = useParams();
 
   const handleFormSubmit = async (data) => {
-    const result = await editBrand(param.id,data.name, data.category);
+    const result = await editBrand(param.id, data.name, data.category);
 
     if (!result?.success) {
       errorSwal("خط در ویرایش برند", "برند ویرایش نشد");

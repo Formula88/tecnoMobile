@@ -319,3 +319,91 @@ export const editVpnClients = async (
     console.log(error);
   }
 };
+
+export const getServicesA = async () => {
+  try {
+    const result = await client.get(`api/admin/services`);
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteServicesA = async (id) => {
+  try {
+    const result = await client.delete(`api/admin/services`, {
+      params: {
+        id: id,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addServicesA = async (
+  name,
+  description,
+  priceIn,
+  priceOut,
+  warranty,
+) => {
+  try {
+    const result = await client.post(`api/admin/services`, {
+      name: name,
+      description: description,
+      priceIn: priceIn,
+      priceOut: priceOut,
+      warranty: warranty,
+    });
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getServiceA = async (id) => {
+  try {
+    const result = await client.get(`api/admin/services`, {
+      params: {
+        id: id,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editServicesA = async (
+  name,
+  description,
+  priceIn,
+  priceOut,
+  warranty,
+  id
+) => {
+  try {
+    const result = await client.put(
+      `api/admin/services`,
+      {
+        name: name,
+        description: description,
+        priceIn: priceIn,
+        priceOut: priceOut,
+        warranty: warranty,
+      },
+      {
+        params: {
+          id: id,
+        },
+      },
+    );
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

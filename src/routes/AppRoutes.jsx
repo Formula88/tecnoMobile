@@ -136,7 +136,7 @@ function AppRoutes() {
 
           <Route path="/admin/services/" element={<ServicesA />} />
           <Route path="/admin/services/add" element={<AddServices />} />
-          <Route path="/admin/services/edit" element={<EditServices />} />
+          <Route path="/admin/services/edit/:id" element={<EditServices />} />
 
           <Route
             path="/admin/ServiceReservation"

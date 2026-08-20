@@ -3,38 +3,35 @@ import AdminLayout from "../../layout/AdminLayout";
 import EditBtn from "../../components/EditBtn/EditBtn";
 import DeleteBtn from "../../components/DeleteBtn/DeleteBtn";
 import AddBtn from "../../components/AddBtn/AddBtn";
-import { getDiscountAmount } from "../../../utils/Utils";
+import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
+import { deleteServicesA, getServiceA } from "../../../services/api";
 
 function ServicesA() {
   const [data, setData] = useState([]);
 
+  const getHandle = async () => {
+    const result = await getServiceA();
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    setData(result.data);
+  };
+
+  const deleteHandle = async (id) => {
+    const result = await deleteServicesA(id);
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    setData((prevData) => prevData.filter((user) => user.id !== id));
+    successSwal("سرویس با موفقیت حذف شد", "حذف شد");
+  };
+
   useEffect(() => {
-    setData([
-      {
-        id: 50,
-        name: "تعمیر کامل گوشی",
-        description: "بررسی و تعمیر کامل دستگاه",
-        priceIn: 1000000,
-        priceOut: 2500000,
-        warranty: "0",
-      },
-      {
-        id: 49,
-        name: "نصب رام اختصاصی",
-        description: "نصب ROM سفارشی",
-        priceIn: 200000,
-        priceOut: 450000,
-        warranty: "0",
-      },
-      {
-        id: 48,
-        name: "تعمیر فلش مموری",
-        description: "رفع مشکل حافظه داخلی",
-        priceIn: 400000,
-        priceOut: 800000,
-        warranty: "0",
-      },
-    ]);
+    getHandle();
   }, []);
   return (
     <AdminLayout>
@@ -65,15 +62,19 @@ function ServicesA() {
                 <td>{Number(value.priceOut).toLocaleString("fa-IR")} تومان</td>
                 <td>
                   {value.warranty > 0 ? (
-                    <span className="text-nowrap">{value.userCount} ماه</span>
+                    <span className="text-nowrap">{value.warranty} ماه</span>
                   ) : (
                     <span className="text-nowrap">ندارد</span>
                   )}
                 </td>
                 <td className="w-25">
                   <div className="d-flex justify-content-around">
-                    <EditBtn link={"/admin/services/edit"} />
-                    <DeleteBtn />
+                    <EditBtn link={`/admin/services/edit/${value.id}`} />
+                    <DeleteBtn
+                      btnHandle={() => {
+                        deleteHandle(value.id);
+                      }}
+                    />
                   </div>
                 </td>
               </tr>

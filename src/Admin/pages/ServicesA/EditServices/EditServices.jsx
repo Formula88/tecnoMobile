@@ -2,10 +2,10 @@ import { useForm } from "react-hook-form";
 import FormLayout from "../../../layout/FormLayout/FormLayout";
 import FormBtn from "../../../components/FormBtn/FormBtn";
 import Inputs from "../../../../components/ui/Inputs/Inputs";
-import { useEffect, useState } from "react";
-import InputFile from "../../../../components/ui/InputFile/InputFile";
-import Selects from "../../../../components/ui/Selects/Selects";
-import Textareas from "../../../../components/ui/Textareas/Textareas";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { errorSwal, successSwal } from "../../../../Swals/Swals";
+import { editServicesA, getServiceA } from "../../../../services/api";
 
 function EditServices() {
   const {
@@ -15,21 +15,39 @@ function EditServices() {
     reset,
   } = useForm();
 
-  const handleFormSubmit = (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+
+  const param = useParams();
+
+  const handleFormSubmit = async (data) => {
+    const result = await editServicesA(
+      data.name,
+      data.description,
+      data.priceIn,
+      data.priceOut,
+      data.warranty,
+      param.id,
+    );
+
+    if (!result?.success) {
+      errorSwal("خط در ویرایش سرویس", "سرویس ویرایش نشد");
+    } else successSwal("سرویس با موفقیت ویرایش شد", "سرویس ویرایش شد");
+
+    navigate("/admin/services");
+  };
+
+  const getHandle = async (id) => {
+    const result = await getServiceA(id);
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    reset(result.data);
   };
 
   useEffect(() => {
-    const data = {
-      id: 50,
-      name: "تعمیر کامل گوشی",
-      description: "بررسی و تعمیر کامل دستگاه",
-      priceIn: 1000000,
-      priceOut: 2500000,
-      warranty: "0",
-    };
-
-    reset(data)
+    getHandle(param.id);
   }, []);
 
   return (

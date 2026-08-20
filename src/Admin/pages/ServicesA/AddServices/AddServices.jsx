@@ -2,10 +2,9 @@ import { useForm } from "react-hook-form";
 import FormLayout from "../../../layout/FormLayout/FormLayout";
 import FormBtn from "../../../components/FormBtn/FormBtn";
 import Inputs from "../../../../components/ui/Inputs/Inputs";
-import { useState } from "react";
-import InputFile from "../../../../components/ui/InputFile/InputFile";
-import Selects from "../../../../components/ui/Selects/Selects";
-import Textareas from "../../../../components/ui/Textareas/Textareas";
+import { errorSwal, successSwal } from "../../../../Swals/Swals";
+import { useNavigate } from "react-router-dom";
+import { addServicesA } from "../../../../services/api";
 
 function AddServices() {
   const {
@@ -14,8 +13,17 @@ function AddServices() {
     formState: { errors },
   } = useForm();
 
-  const handleFormSubmit = (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+
+
+  const handleFormSubmit = async (data) => {
+    const result = await addServicesA(data.name,data.description,data.priceIn,data.priceOut,data.warranty);
+
+    if (!result?.success) {
+      errorSwal("خطا در افرودن سرویس", "سرویس اضافه نشد");
+    } else successSwal("سرویس با موفقیت اضافه شد", "سرویس اضافه شد");
+
+    navigate("/admin/services");
   };
 
   return (
