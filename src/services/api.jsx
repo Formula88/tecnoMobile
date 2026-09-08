@@ -383,7 +383,7 @@ export const editServicesA = async (
   priceIn,
   priceOut,
   warranty,
-  id
+  id,
 ) => {
   try {
     const result = await client.put(
@@ -394,6 +394,102 @@ export const editServicesA = async (
         priceIn: priceIn,
         priceOut: priceOut,
         warranty: warranty,
+      },
+      {
+        params: {
+          id: id,
+        },
+      },
+    );
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getVpnPlans = async () => {
+  try {
+    const result = await client.get(`api/admin/vpn`);
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteVpnPlan = async (id) => {
+  try {
+    const result = await client.delete(`api/admin/vpn`, {
+      params: {
+        id: id,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addVpnPlan = async (
+  name,
+  price,
+  discount,
+  duration,
+  traffic,
+  userCount,
+  clientId,
+) => {
+  try {
+    const result = await client.post(`api/admin/vpn`, {
+      name: name,
+      price: price,
+      discount: discount,
+      duration: duration,
+      traffic: traffic,
+      userCount: userCount,
+      clientId: clientId,
+    });
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getVpnPlan = async (id) => {
+  try {
+    const result = await client.get(`api/admin/vpn`, {
+      params: {
+        id: id,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editVpnPlan = async (
+  name,
+  price,
+  discount,
+  duration,
+  traffic,
+  userCount,
+  clientId,
+  id,
+) => {
+  try {
+    const result = await client.put(
+      `api/admin/vpn`,
+      {
+        name: name,
+        price: price,
+        discount: discount,
+        duration: duration,
+        traffic: traffic,
+        userCount: userCount,
+        clientId: clientId,
       },
       {
         params: {

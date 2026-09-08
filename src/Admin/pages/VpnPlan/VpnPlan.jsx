@@ -4,47 +4,37 @@ import EditBtn from "../../components/EditBtn/EditBtn";
 import DeleteBtn from "../../components/DeleteBtn/DeleteBtn";
 import AddBtn from "../../components/AddBtn/AddBtn";
 import { getDiscountAmount } from "../../../utils/Utils";
+import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
+import { deleteVpnPlan, getVpnPlans } from "../../../services/api";
 
 function VpnPlan() {
   const [data, setData] = useState([]);
 
+  const getHandle = async () => {
+    const result = await getVpnPlans();
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    setData(result.data);
+  };
+
+  const deleteHandle = async (id) => {
+    const result = await deleteVpnPlan(id);
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    setData((prevData) => prevData.filter((user) => user.id !== id));
+    successSwal("پلن با موفقیت حذف شد", "حذف شد");
+  };
+
   useEffect(() => {
-    setData([
-      {
-        id: 1,
-        name: "پلن عادی",
-        price: 290000,
-        discount: 0,
-        duration: "0",
-        traffic: "100",
-        userCount: "3",
-        protocol: "VLESS/VMESS",
-        clientName: "V2RayN",
-      },
-      {
-        id: 2,
-        name: "پلن گلد",
-        price: 490000,
-        discount: 0,
-        duration: "0",
-        traffic: "250",
-        userCount: "3",
-        protocol: "OpenVPN",
-        clientName: "open vpn",
-      },
-      {
-        id: 3,
-        name: "پلن پیریمیوم",
-        price: 990000,
-        discount: 0,
-        duration: "3",
-        traffic: "0",
-        userCount: "3",
-        protocol: "V2ray/SSH",
-        clientName: "Npv Tunnel",
-      },
-    ]);
+    getHandle();
   }, []);
+
   return (
     <AdminLayout>
       <AddBtn link={"/admin/vpn/add"} />
@@ -105,11 +95,15 @@ function VpnPlan() {
                   )}
                 </td>
                 <td>{value.clientName}</td>
-                <td>{value.protocol}</td>
+                <td>{value.clientProtocol}</td>
                 <td className="w-25">
                   <div className="d-flex justify-content-around">
-                    <EditBtn link={"/admin/vpn/edit"} />
-                    <DeleteBtn />
+                    <EditBtn link={`/admin/vpn/edit/${value.id}`} />
+                    <DeleteBtn
+                      btnHandle={() => {
+                        deleteHandle(value.id);
+                      }}
+                    />
                   </div>
                 </td>
               </tr>

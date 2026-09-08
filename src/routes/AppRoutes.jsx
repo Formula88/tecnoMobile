@@ -132,7 +132,7 @@ function AppRoutes() {
 
           <Route path="/admin/vpn" element={<VpnPlan />} />
           <Route path="/admin/vpn/add" element={<AddVpnPlan />} />
-          <Route path="/admin/vpn/edit" element={<EditVpnPlan />} />
+          <Route path="/admin/vpn/edit/:id" element={<EditVpnPlan />} />
 
           <Route path="/admin/services/" element={<ServicesA />} />
           <Route path="/admin/services/add" element={<AddServices />} />

@@ -2,10 +2,15 @@ import { useForm } from "react-hook-form";
 import FormLayout from "../../../layout/FormLayout/FormLayout";
 import FormBtn from "../../../components/FormBtn/FormBtn";
 import Inputs from "../../../../components/ui/Inputs/Inputs";
-import { useState } from "react";
-import InputFile from "../../../../components/ui/InputFile/InputFile";
+import {
+  errorSwal,
+  ServerErrorSwal,
+  successSwal,
+} from "../../../../Swals/Swals";
+import { useNavigate } from "react-router-dom";
+import { addVpnPlan, getVpnClients } from "../../../../services/api";
 import Selects from "../../../../components/ui/Selects/Selects";
-import Textareas from "../../../../components/ui/Textareas/Textareas";
+import { useEffect, useState } from "react";
 
 function AddVpnPlan() {
   const {
@@ -14,9 +19,47 @@ function AddVpnPlan() {
     formState: { errors },
   } = useForm();
 
-  const handleFormSubmit = (data) => {
-    console.log(data);
+  const [clients, setClients] = useState([]);
+  const navigate = useNavigate();
+
+  const handleFormSubmit = async (data) => {
+    const result = await addVpnPlan(
+      data.name,
+      data.price,
+      data.discount,
+      data.duration,
+      data.traffic,
+      data.userCount,
+      data.clientId,
+    );
+
+    if (!result?.success) {
+      errorSwal("خطا در افرودن پلن", "پلن اضافه نشد");
+    } else successSwal("پلن با موفقیت اضافه شد", "پلن اضافه شد");
+
+    navigate("/admin/vpn");
   };
+
+  const getClient = async () => {
+    const result = await getVpnClients();
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    setClients(
+      result.data.map((value) => {
+        return {
+          value: value.id,
+          text: value.name,
+        };
+      }),
+    );
+  };
+
+  useEffect(() => {
+    getClient();
+  }, []);
 
   return (
     <FormLayout>
@@ -98,7 +141,7 @@ function AddVpnPlan() {
           error={errors}
           name={"clientId"}
           label={"کلاینت"}
-          items={["V2RayN", "open vpn", "Npv Tunnel"]}
+          items={clients}
         />
         <FormBtn text={"افزودن وی پی ان"} />
       </form>

@@ -3,9 +3,14 @@ import FormLayout from "../../../layout/FormLayout/FormLayout";
 import FormBtn from "../../../components/FormBtn/FormBtn";
 import Inputs from "../../../../components/ui/Inputs/Inputs";
 import { useEffect, useState } from "react";
-import InputFile from "../../../../components/ui/InputFile/InputFile";
 import Selects from "../../../../components/ui/Selects/Selects";
-import Textareas from "../../../../components/ui/Textareas/Textareas";
+import { editVpnPlan, getVpnClients, getVpnPlan } from "../../../../services/api";
+import {
+  errorSwal,
+  ServerErrorSwal,
+  successSwal,
+} from "../../../../Swals/Swals";
+import { useNavigate, useParams } from "react-router-dom";
 
 function EditVpnPlan() {
   const {
@@ -15,24 +20,60 @@ function EditVpnPlan() {
     reset,
   } = useForm();
 
-  const handleFormSubmit = (data) => {
-    console.log(data);
+  const [clients, setClients] = useState([]);
+  const navigate = useNavigate();
+
+  const param = useParams();
+
+  const getClient = async () => {
+    const result = await getVpnClients();
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    setClients(
+      result.data.map((value) => {
+        return {
+          value: value.id,
+          text: value.name,
+        };
+      }),
+    );
+  };
+
+  const handleFormSubmit = async (data) => {
+    const result = await editVpnPlan(
+      data.name,
+      data.price,
+      data.discount,
+      data.duration,
+      data.traffic,
+      data.userCount,
+      data.clientId,
+      param.id,
+    );
+
+    if (!result?.success) {
+      errorSwal("خط در ویرایش پلن", "پلن ویرایش نشد");
+    } else successSwal("پلن با موفقیت ویرایش شد", "پلن ویرایش شد");
+
+    navigate("/admin/vpn");
+  };
+
+  const getHandle = async (id) => {
+    const result = await getVpnPlan(id);
+    if (!result?.success) {
+      ServerErrorSwal();
+      return;
+    }
+
+    reset(result.data);
   };
 
   useEffect(() => {
-    const data = {
-      id: 1,
-      name: "پلن عادی",
-      price: 290000,
-      discount: 0,
-      duration: "0",
-      traffic: "100",
-      userCount: "3",
-      protocol: "VLESS/VMESS",
-      clientId: "V2RayN",
-    };
-
-    reset(data);
+    getHandle(param.id);
+    getClient();
   }, []);
 
   return (
@@ -115,7 +156,7 @@ function EditVpnPlan() {
           error={errors}
           name={"clientId"}
           label={"کلاینت"}
-          items={["V2RayN", "open vpn", "Npv Tunnel"]}
+          items={clients}
         />
         <FormBtn text={"افزودن وی پی ان"} />
       </form>
