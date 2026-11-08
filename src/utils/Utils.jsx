@@ -15,6 +15,17 @@ export const toPersianDigits = (value) => {
   return value.toString().replace(/\d/g, (digit) => persianDigits[digit]);
 };
 
+export const normalizeSearchText = (str) => {
+  if (str === null || str === undefined) return "";
+  return str
+    .toString()
+    .toLowerCase()
+    .replace(/[ي]/g, "ی")
+    .replace(/[ك]/g, "ک")
+    .replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d).toString())
+    .trim();
+};
+
 export const parseProductImages = (imgs) => {
   if (!imgs) return [];
   if (Array.isArray(imgs)) return imgs;

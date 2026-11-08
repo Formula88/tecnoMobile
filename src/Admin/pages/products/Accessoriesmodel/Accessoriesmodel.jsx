@@ -3,14 +3,24 @@ import EditBtn from "../../../components/EditBtn/EditBtn";
 import DeleteBtn from "../../../components/DeleteBtn/DeleteBtn";
 import AddBtn from "../../../components/AddBtn/AddBtn";
 import ShowBtn from "../../../components/ShowBtn/ShowBtn";
-import { useEffect, useState } from "react";
-import { getDiscountAmount, formatPrice, toPersianDigits, parseProductImages, getImageUrl } from "../../../../utils/Utils";
+import AdminSearchBar from "../../../components/AdminSearchBar/AdminSearchBar";
+import { useEffect, useState, useMemo } from "react";
+import {
+  getDiscountAmount,
+  formatPrice,
+  toPersianDigits,
+  parseProductImages,
+  getImageUrl,
+  normalizeSearchText,
+} from "../../../../utils/Utils";
 import { deleteAdminProduct, getAdminProducts } from "../../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../../Swals/Swals";
+import { FaSearch } from "react-icons/fa";
 
 function Accessoriesmodel() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const loadData = async () => {
     setLoading(true);
@@ -37,9 +47,46 @@ function Accessoriesmodel() {
     }
   };
 
+  const filteredData = useMemo(() => {
+    if (!searchTerm.trim()) return data;
+    const term = normalizeSearchText(searchTerm);
+    return data.filter((item) => {
+      let extra = {};
+      try {
+        extra = typeof item.extra === "string" ? JSON.parse(item.extra) : (item.extra || {});
+      } catch {
+        extra = {};
+      }
+      const name = normalizeSearchText(item.name || item.NAME);
+      const desc = normalizeSearchText(item.description);
+      const brand = normalizeSearchText(item.brand || item.brandName);
+      const price = item.price ? item.price.toString() : "";
+      const model = normalizeSearchText(extra.model);
+      const color = normalizeSearchText(extra.color);
+
+      return (
+        name.includes(term) ||
+        desc.includes(term) ||
+        brand.includes(term) ||
+        price.includes(term) ||
+        model.includes(term) ||
+        color.includes(term)
+      );
+    });
+  }, [data, searchTerm]);
+
   return (
     <AdminLayout>
-      <AddBtn link={"/admin/products/accessoriesmodel/add"} />
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3" dir="rtl">
+        <AdminSearchBar
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="جستجو در کالای مدل‌دار، مدل دستگاه، رنگ، قیمت..."
+          count={filteredData.length}
+          totalCount={data.length}
+        />
+        <AddBtn link={"/admin/products/accessoriesmodel/add"} text="افزودن لوازم مدل‌دار" />
+      </div>
 
       <div className="table-responsive">
         <table
@@ -56,7 +103,8 @@ function Accessoriesmodel() {
               <th>قیمت نهایی</th>
               <th>برند</th>
               <th>تصویر</th>
-              <th>مدل‌های پشتیبانی‌شده</th>
+              <th>مدل سازگار</th>
+              <th>رنگ</th>
               <th>گارانتی</th>
               <th>تنظیمات</th>
             </tr>
@@ -65,14 +113,30 @@ function Accessoriesmodel() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="11" className="py-4 text-center">درحال بارگذاری اطلاعات...</td>
+                <td colSpan="12" className="py-4 text-center">درحال بارگذاری اطلاعات...</td>
               </tr>
             ) : data.length === 0 ? (
               <tr>
-                <td colSpan="11" className="py-4 text-center text-secondary">هیچ کالای مدل‌داری ثبت نشده است.</td>
+                <td colSpan="12" className="py-4 text-center text-secondary">هیچ کالایی ثبت نشده است.</td>
+              </tr>
+            ) : filteredData.length === 0 ? (
+              <tr>
+                <td colSpan="12" className="py-5 text-center">
+                  <div className="d-flex flex-column align-items-center justify-content-center gap-2">
+                    <FaSearch style={{ fontSize: "1.8rem", color: "#64748b" }} />
+                    <span className="text-secondary">هیچ کالایی منطبق با «{searchTerm}» پیدا نشد.</span>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-info mt-1"
+                      onClick={() => setSearchTerm("")}
+                    >
+                      پاک کردن فیلتر
+                    </button>
+                  </div>
+                </td>
               </tr>
             ) : (
-              data.map((value, index) => {
+              filteredData.map((value, index) => {
                 let extra = {};
                 try {
                   extra = typeof value.extra === "string" ? JSON.parse(value.extra) : (value.extra || {});
@@ -83,13 +147,12 @@ function Accessoriesmodel() {
                 const imgs = parseProductImages(value.imgs);
                 const firstImg = getImageUrl(imgs[0]);
                 const finalPrice = getDiscountAmount(value.price, value.discount);
-                const modelsList = Array.isArray(extra.models) ? extra.models.join(" ، ") : "-";
 
                 return (
                   <tr key={value.id}>
                     <td>{toPersianDigits(index + 1)}</td>
                     <td className="fw-bold text-nowrap">{value.name || value.NAME}</td>
-                    <td style={{ minWidth: "200px", maxWidth: "300px" }}>
+                    <td style={{ minWidth: "180px", maxWidth: "250px" }}>
                       <div className="text-truncate">{value.description}</div>
                     </td>
                     <td className="text-nowrap">{formatPrice(value.price)} تومان</td>
@@ -115,9 +178,8 @@ function Accessoriesmodel() {
                         <span className="text-muted">بدون عکس</span>
                       )}
                     </td>
-                    <td style={{ maxWidth: "200px" }}>
-                      <div className="text-truncate" title={modelsList}>{modelsList}</div>
-                    </td>
+                    <td className="text-nowrap">{extra.model || "-"}</td>
+                    <td className="text-nowrap">{extra.color || "-"}</td>
                     <td className="text-nowrap">
                       {extra.warranty > 0 ? `${toPersianDigits(extra.warranty)} ماه` : "ندارد"}
                     </td>

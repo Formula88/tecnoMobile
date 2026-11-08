@@ -1,0 +1,104 @@
+.searchContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  max-width: 500px;
+  min-width: 260px;
+
+  @media (max-width: 576px) {
+    max-width: 100%;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    background-color: #0e141d;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 10px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: rgba(20, 153, 230, 0.35);
+    }
+
+    &:focus-within {
+      border-color: #1499e6;
+      box-shadow: 0 0 0 3px rgba(20, 153, 230, 0.18);
+      background-color: #111823;
+
+      .searchIcon {
+        color: #1499e6;
+      }
+    }
+
+    .searchIcon {
+      position: absolute;
+      right: 14px;
+      color: #64748b;
+      font-size: 0.9rem;
+      pointer-events: none;
+      transition: color 0.2s ease;
+    }
+
+    .input {
+      width: 100%;
+      height: 42px;
+      padding: 0 40px 0 38px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #f1f5f9;
+      font-size: 0.88rem;
+      font-family: inherit;
+
+      &::placeholder {
+        color: #64748b;
+        font-size: 0.84rem;
+      }
+    }
+
+    .clearBtn {
+      position: absolute;
+      left: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      border-radius: 50%;
+      color: #94a3b8;
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(239, 68, 68, 0.2);
+        color: #f87171;
+      }
+    }
+  }
+
+  .countBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    color: #94a3b8;
+    font-size: 0.78rem;
+    white-space: nowrap;
+
+    .highlight {
+      color: #38bdf8;
+      margin: 0 2px;
+    }
+  }
+}

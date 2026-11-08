@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import AdminLayout from "../../layout/AdminLayout";
 import EditBtn from "../../components/EditBtn/EditBtn";
 import DeleteBtn from "../../components/DeleteBtn/DeleteBtn";
 import AddBtn from "../../components/AddBtn/AddBtn";
-import { formatPrice, getDiscountAmount, toPersianDigits } from "../../../utils/Utils";
+import AdminSearchBar from "../../components/AdminSearchBar/AdminSearchBar";
+import { formatPrice, getDiscountAmount, toPersianDigits, normalizeSearchText } from "../../../utils/Utils";
 import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
 import { deleteVpnPlan, getVpnPlans } from "../../../services/api";
+import { FaSearch } from "react-icons/fa";
 
 function VpnPlan() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getHandle = async () => {
     setLoading(true);
@@ -37,9 +40,40 @@ function VpnPlan() {
     getHandle();
   }, []);
 
+  const filteredData = useMemo(() => {
+    if (!searchTerm.trim()) return data;
+    const term = normalizeSearchText(searchTerm);
+    return data.filter((plan) => {
+      const name = normalizeSearchText(plan.name);
+      const client = normalizeSearchText(plan.clientName);
+      const proto = normalizeSearchText(plan.clientProtocol);
+      const price = plan.price ? plan.price.toString() : "";
+      const duration = plan.duration ? plan.duration.toString() : "";
+      const traffic = plan.traffic ? plan.traffic.toString() : "";
+
+      return (
+        name.includes(term) ||
+        client.includes(term) ||
+        proto.includes(term) ||
+        price.includes(term) ||
+        duration.includes(term) ||
+        traffic.includes(term)
+      );
+    });
+  }, [data, searchTerm]);
+
   return (
     <AdminLayout>
-      <AddBtn link={"/admin/vpn/add"} text="افزودن پلن جدید VPN" />
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3" dir="rtl">
+        <AdminSearchBar
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="جستجو در نام پلن، پروتکل، کلاینت، قیمت..."
+          count={filteredData.length}
+          totalCount={data.length}
+        />
+        <AddBtn link={"/admin/vpn/add"} text="افزودن پلن جدید VPN" />
+      </div>
 
       <div className="table-responsive">
         <table
@@ -74,8 +108,24 @@ function VpnPlan() {
                   هیچ پلن VPN ثبت نشده است.
                 </td>
               </tr>
+            ) : filteredData.length === 0 ? (
+              <tr>
+                <td colSpan="11" className="py-5 text-center">
+                  <div className="d-flex flex-column align-items-center justify-content-center gap-2">
+                    <FaSearch style={{ fontSize: "1.8rem", color: "#64748b" }} />
+                    <span className="text-secondary">هیچ پلنی با عبارت «{searchTerm}» پیدا نشد.</span>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-info mt-1"
+                      onClick={() => setSearchTerm("")}
+                    >
+                      پاک کردن فیلتر
+                    </button>
+                  </div>
+                </td>
+              </tr>
             ) : (
-              data.map((value, index) => {
+              filteredData.map((value, index) => {
                 const finalPrice = getDiscountAmount(value.price, value.discount);
                 return (
                   <tr key={value.id}>

@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import AdminLayout from "../../layout/AdminLayout";
 import EditBtn from "../../components/EditBtn/EditBtn";
 import DeleteBtn from "../../components/DeleteBtn/DeleteBtn";
+import AdminSearchBar from "../../components/AdminSearchBar/AdminSearchBar";
 import { deleteUser, getUsers } from "../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
-import { toPersianDigits } from "../../../utils/Utils";
-import { FaUserShield, FaUser } from "react-icons/fa";
+import { toPersianDigits, normalizeSearchText } from "../../../utils/Utils";
+import { FaUserShield, FaUser, FaSearch } from "react-icons/fa";
 
 function Users() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getHandle = async () => {
     setLoading(true);
@@ -37,8 +39,31 @@ function Users() {
     getHandle();
   }, []);
 
+  const filteredData = useMemo(() => {
+    if (!searchTerm.trim()) return data;
+    const term = normalizeSearchText(searchTerm);
+    return data.filter((user) => {
+      const phone = normalizeSearchText(user.phone);
+      const id = user.id ? user.id.toString() : "";
+      const isAdmin = Number(user.admin) === 1;
+      const roleStr = isAdmin ? "مدیر ادمین admin" : "عادی کاربر user";
+
+      return phone.includes(term) || id.includes(term) || roleStr.includes(term);
+    });
+  }, [data, searchTerm]);
+
   return (
     <AdminLayout>
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3" dir="rtl">
+        <AdminSearchBar
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="جستجو در شماره تماس، شناسه، سطح دسترسی..."
+          count={filteredData.length}
+          totalCount={data.length}
+        />
+      </div>
+
       <div className="table-responsive">
         <table
           className="table table-bordered table-hover text-center align-middle mb-0"
@@ -66,8 +91,24 @@ function Users() {
                   هیچ کاربری یافت نشد.
                 </td>
               </tr>
+            ) : filteredData.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="py-5 text-center">
+                  <div className="d-flex flex-column align-items-center justify-content-center gap-2">
+                    <FaSearch style={{ fontSize: "1.8rem", color: "#64748b" }} />
+                    <span className="text-secondary">هیچ کاربری با عبارت «{searchTerm}» پیدا نشد.</span>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-info mt-1"
+                      onClick={() => setSearchTerm("")}
+                    >
+                      پاک کردن فیلتر
+                    </button>
+                  </div>
+                </td>
+              </tr>
             ) : (
-              data.map((value, index) => {
+              filteredData.map((value, index) => {
                 const isAdmin = Number(value.admin) === 1;
                 return (
                   <tr key={value.id}>

@@ -1,15 +1,25 @@
 import AdminLayout from "../../../layout/AdminLayout";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import ShowBtn from "../../../components/ShowBtn/ShowBtn";
 import StatusSelect from "../../../components/StatusSelect/StatusSelect";
 import DeleteBtn from "../../../components/DeleteBtn/DeleteBtn";
+import AdminSearchBar from "../../../components/AdminSearchBar/AdminSearchBar";
 import { deleteAdminOrder, getAdminOrders, updateAdminOrderStatus } from "../../../../services/api";
-import { formatPrice, toPersianDigits } from "../../../../utils/Utils";
+import { formatPrice, toPersianDigits, normalizeSearchText } from "../../../../utils/Utils";
 import { ServerErrorSwal, successSwal } from "../../../../Swals/Swals";
+import { FaSearch } from "react-icons/fa";
+
+const statusMap = {
+  NotSent: "درحال ارسال NotSent",
+  sent: "ارسال شده sent",
+  delivered: "تحویل شده delivered",
+  cancelled: "لغو شده cancelled",
+};
 
 function OrdersA() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const loadData = async () => {
     setLoading(true);
@@ -48,8 +58,44 @@ function OrdersA() {
     }
   };
 
+
+
+  const filteredData = useMemo(() => {
+    if (!searchTerm.trim()) return data;
+    const term = normalizeSearchText(searchTerm);
+    return data.filter((order) => {
+      const id = order.id ? order.id.toString() : "";
+      const name = normalizeSearchText(order.fullName);
+      const phone = normalizeSearchText(order.phone);
+      const address = normalizeSearchText(order.address);
+      const codePost = order.codePost ? order.codePost.toString() : "";
+      const price = order.totalPrice ? order.totalPrice.toString() : "";
+      const statusText = normalizeSearchText(statusMap[order.status] || order.status);
+
+      return (
+        id.includes(term) ||
+        name.includes(term) ||
+        phone.includes(term) ||
+        address.includes(term) ||
+        codePost.includes(term) ||
+        price.includes(term) ||
+        statusText.includes(term)
+      );
+    });
+  }, [data, searchTerm]);
+
   return (
     <AdminLayout>
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3" dir="rtl">
+        <AdminSearchBar
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="جستجو در شماره سفارش، نام خریدار، شماره تماس، کد پستی..."
+          count={filteredData.length}
+          totalCount={data.length}
+        />
+      </div>
+
       <div className="table-responsive">
         <table
           className="table table-bordered table-hover text-center align-middle mb-0"
@@ -79,8 +125,24 @@ function OrdersA() {
               <tr>
                 <td colSpan="10" className="py-4 text-center text-secondary">هیچ سفارشی ثبت نشده است.</td>
               </tr>
+            ) : filteredData.length === 0 ? (
+              <tr>
+                <td colSpan="10" className="py-5 text-center">
+                  <div className="d-flex flex-column align-items-center justify-content-center gap-2">
+                    <FaSearch style={{ fontSize: "1.8rem", color: "#64748b" }} />
+                    <span className="text-secondary">هیچ سفارشی با عبارت «{searchTerm}» پیدا نشد.</span>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-info mt-1"
+                      onClick={() => setSearchTerm("")}
+                    >
+                      پاک کردن فیلتر
+                    </button>
+                  </div>
+                </td>
+              </tr>
             ) : (
-              data.map((value, index) => {
+              filteredData.map((value, index) => {
                 const dateStr = value.createdAt
                   ? new Date(value.createdAt).toLocaleDateString("fa-IR")
                   : "-";

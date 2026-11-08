@@ -1,15 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import AdminLayout from "../../layout/AdminLayout";
 import EditBtn from "../../components/EditBtn/EditBtn";
 import DeleteBtn from "../../components/DeleteBtn/DeleteBtn";
 import AddBtn from "../../components/AddBtn/AddBtn";
+import AdminSearchBar from "../../components/AdminSearchBar/AdminSearchBar";
 import { deleteBrand, getBrands } from "../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
-import { toPersianDigits } from "../../../utils/Utils";
+import { toPersianDigits, normalizeSearchText } from "../../../utils/Utils";
+import { FaSearch } from "react-icons/fa";
+
+const categoryTitle = {
+  mobile: "موبایل",
+  hardware: "سخت‌افزار",
+  accessory: "لوازم جانبی",
+};
 
 function Brands() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getHandle = async () => {
     setLoading(true);
@@ -37,15 +46,32 @@ function Brands() {
     getHandle();
   }, []);
 
-  const categoryTitle = {
-    mobile: "موبایل",
-    hardware: "سخت‌افزار",
-    accessory: "لوازم جانبی",
-  };
+
+
+  const filteredData = useMemo(() => {
+    if (!searchTerm.trim()) return data;
+    const term = normalizeSearchText(searchTerm);
+    return data.filter((item) => {
+      const name = normalizeSearchText(item.name);
+      const catKey = normalizeSearchText(item.category);
+      const catPersian = normalizeSearchText(categoryTitle[item.category]);
+
+      return name.includes(term) || catKey.includes(term) || catPersian.includes(term);
+    });
+  }, [data, searchTerm]);
 
   return (
     <AdminLayout>
-      <AddBtn link={"/admin/brands/add"} text="افزودن برند جدید" />
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3" dir="rtl">
+        <AdminSearchBar
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="جستجو در نام برند، دسته‌بندی..."
+          count={filteredData.length}
+          totalCount={data.length}
+        />
+        <AddBtn link={"/admin/brands/add"} text="افزودن برند جدید" />
+      </div>
 
       <div className="table-responsive">
         <table
@@ -73,8 +99,24 @@ function Brands() {
                   هیچ برندی ثبت نشده است.
                 </td>
               </tr>
+            ) : filteredData.length === 0 ? (
+              <tr>
+                <td colSpan="4" className="py-5 text-center">
+                  <div className="d-flex flex-column align-items-center justify-content-center gap-2">
+                    <FaSearch style={{ fontSize: "1.8rem", color: "#64748b" }} />
+                    <span className="text-secondary">هیچ برندی منطبق با «{searchTerm}» پیدا نشد.</span>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-info mt-1"
+                      onClick={() => setSearchTerm("")}
+                    >
+                      پاک کردن فیلتر
+                    </button>
+                  </div>
+                </td>
+              </tr>
             ) : (
-              data.map((value, index) => {
+              filteredData.map((value, index) => {
                 return (
                   <tr key={value.id}>
                     <td>{toPersianDigits(index + 1)}</td>

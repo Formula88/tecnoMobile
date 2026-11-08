@@ -3,14 +3,24 @@ import EditBtn from "../../../components/EditBtn/EditBtn";
 import DeleteBtn from "../../../components/DeleteBtn/DeleteBtn";
 import AddBtn from "../../../components/AddBtn/AddBtn";
 import ShowBtn from "../../../components/ShowBtn/ShowBtn";
-import { useEffect, useState } from "react";
-import { getDiscountAmount, formatPrice, toPersianDigits, parseProductImages, getImageUrl } from "../../../../utils/Utils";
+import AdminSearchBar from "../../../components/AdminSearchBar/AdminSearchBar";
+import { useEffect, useState, useMemo } from "react";
+import {
+  getDiscountAmount,
+  formatPrice,
+  toPersianDigits,
+  parseProductImages,
+  getImageUrl,
+  normalizeSearchText,
+} from "../../../../utils/Utils";
 import { deleteAdminProduct, getAdminProducts } from "../../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../../Swals/Swals";
+import { FaSearch } from "react-icons/fa";
 
 function Accessories() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const loadData = async () => {
     setLoading(true);
@@ -37,9 +47,44 @@ function Accessories() {
     }
   };
 
+  const filteredData = useMemo(() => {
+    if (!searchTerm.trim()) return data;
+    const term = normalizeSearchText(searchTerm);
+    return data.filter((item) => {
+      let extra = {};
+      try {
+        extra = typeof item.extra === "string" ? JSON.parse(item.extra) : (item.extra || {});
+      } catch {
+        extra = {};
+      }
+      const name = normalizeSearchText(item.name || item.NAME);
+      const desc = normalizeSearchText(item.description);
+      const brand = normalizeSearchText(item.brand || item.brandName);
+      const price = item.price ? item.price.toString() : "";
+      const color = normalizeSearchText(extra.color);
+
+      return (
+        name.includes(term) ||
+        desc.includes(term) ||
+        brand.includes(term) ||
+        price.includes(term) ||
+        color.includes(term)
+      );
+    });
+  }, [data, searchTerm]);
+
   return (
     <AdminLayout>
-      <AddBtn link={"/admin/products/accessories/add"} />
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3" dir="rtl">
+        <AdminSearchBar
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="جستجو در لوازم جانبی، برند، رنگ، قیمت..."
+          count={filteredData.length}
+          totalCount={data.length}
+        />
+        <AddBtn link={"/admin/products/accessories/add"} text="افزودن لوازم جانبی" />
+      </div>
 
       <div className="table-responsive">
         <table
@@ -56,6 +101,7 @@ function Accessories() {
               <th>قیمت نهایی</th>
               <th>برند</th>
               <th>تصویر</th>
+              <th>رنگ</th>
               <th>گارانتی</th>
               <th>تنظیمات</th>
             </tr>
@@ -64,14 +110,30 @@ function Accessories() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="10" className="py-4 text-center">درحال بارگذاری اطلاعات...</td>
+                <td colSpan="11" className="py-4 text-center">درحال بارگذاری اطلاعات...</td>
               </tr>
             ) : data.length === 0 ? (
               <tr>
-                <td colSpan="10" className="py-4 text-center text-secondary">هیچ لوازم جانبی ثبت نشده است.</td>
+                <td colSpan="11" className="py-4 text-center text-secondary">هیچ لوازم جانبی ثبت نشده است.</td>
+              </tr>
+            ) : filteredData.length === 0 ? (
+              <tr>
+                <td colSpan="11" className="py-5 text-center">
+                  <div className="d-flex flex-column align-items-center justify-content-center gap-2">
+                    <FaSearch style={{ fontSize: "1.8rem", color: "#64748b" }} />
+                    <span className="text-secondary">هیچ کالایی منطبق با «{searchTerm}» پیدا نشد.</span>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-info mt-1"
+                      onClick={() => setSearchTerm("")}
+                    >
+                      پاک کردن فیلتر
+                    </button>
+                  </div>
+                </td>
               </tr>
             ) : (
-              data.map((value, index) => {
+              filteredData.map((value, index) => {
                 let extra = {};
                 try {
                   extra = typeof value.extra === "string" ? JSON.parse(value.extra) : (value.extra || {});
@@ -87,7 +149,7 @@ function Accessories() {
                   <tr key={value.id}>
                     <td>{toPersianDigits(index + 1)}</td>
                     <td className="fw-bold text-nowrap">{value.name || value.NAME}</td>
-                    <td style={{ minWidth: "200px", maxWidth: "300px" }}>
+                    <td style={{ minWidth: "180px", maxWidth: "250px" }}>
                       <div className="text-truncate">{value.description}</div>
                     </td>
                     <td className="text-nowrap">{formatPrice(value.price)} تومان</td>
@@ -113,6 +175,7 @@ function Accessories() {
                         <span className="text-muted">بدون عکس</span>
                       )}
                     </td>
+                    <td className="text-nowrap">{extra.color || "-"}</td>
                     <td className="text-nowrap">
                       {extra.warranty > 0 ? `${toPersianDigits(extra.warranty)} ماه` : "ندارد"}
                     </td>

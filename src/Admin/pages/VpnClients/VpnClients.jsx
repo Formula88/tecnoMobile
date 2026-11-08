@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import AdminLayout from "../../layout/AdminLayout";
 import EditBtn from "../../components/EditBtn/EditBtn";
 import DeleteBtn from "../../components/DeleteBtn/DeleteBtn";
 import AddBtn from "../../components/AddBtn/AddBtn";
+import AdminSearchBar from "../../components/AdminSearchBar/AdminSearchBar";
 import { deleteVpnClient, getVpnClients } from "../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
-import { toPersianDigits } from "../../../utils/Utils";
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { toPersianDigits, normalizeSearchText } from "../../../utils/Utils";
+import { FaExternalLinkAlt, FaSearch } from "react-icons/fa";
 
 function VpnClients() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getHandle = async () => {
     setLoading(true);
@@ -38,9 +40,30 @@ function VpnClients() {
     getHandle();
   }, []);
 
+  const filteredData = useMemo(() => {
+    if (!searchTerm.trim()) return data;
+    const term = normalizeSearchText(searchTerm);
+    return data.filter((item) => {
+      const name = normalizeSearchText(item.name);
+      const proto = normalizeSearchText(item.protocol);
+      const url = normalizeSearchText(item.downloadUrl);
+
+      return name.includes(term) || proto.includes(term) || url.includes(term);
+    });
+  }, [data, searchTerm]);
+
   return (
     <AdminLayout>
-      <AddBtn link={"/admin/vpnClients/add"} text="افزودن کلاینت جدید" />
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3" dir="rtl">
+        <AdminSearchBar
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="جستجو در نام کلاینت، پروتکل..."
+          count={filteredData.length}
+          totalCount={data.length}
+        />
+        <AddBtn link={"/admin/vpnClients/add"} text="افزودن کلاینت جدید" />
+      </div>
 
       <div className="table-responsive">
         <table
@@ -69,8 +92,24 @@ function VpnClients() {
                   هیچ کلاینتی ثبت نشده است.
                 </td>
               </tr>
+            ) : filteredData.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="py-5 text-center">
+                  <div className="d-flex flex-column align-items-center justify-content-center gap-2">
+                    <FaSearch style={{ fontSize: "1.8rem", color: "#64748b" }} />
+                    <span className="text-secondary">هیچ کلاینتی با عبارت «{searchTerm}» پیدا نشد.</span>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-info mt-1"
+                      onClick={() => setSearchTerm("")}
+                    >
+                      پاک کردن فیلتر
+                    </button>
+                  </div>
+                </td>
+              </tr>
             ) : (
-              data.map((value, index) => {
+              filteredData.map((value, index) => {
                 return (
                   <tr key={value.id}>
                     <td>{toPersianDigits(index + 1)}</td>

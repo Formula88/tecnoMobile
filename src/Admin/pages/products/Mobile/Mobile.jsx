@@ -2,15 +2,25 @@ import AdminLayout from "../../../layout/AdminLayout";
 import EditBtn from "../../../components/EditBtn/EditBtn";
 import DeleteBtn from "../../../components/DeleteBtn/DeleteBtn";
 import AddBtn from "../../../components/AddBtn/AddBtn";
-import { useEffect, useState } from "react";
-import { getDiscountAmount, formatPrice, toPersianDigits, parseProductImages, getImageUrl } from "../../../../utils/Utils";
+import AdminSearchBar from "../../../components/AdminSearchBar/AdminSearchBar";
+import { useEffect, useState, useMemo } from "react";
+import {
+  getDiscountAmount,
+  formatPrice,
+  toPersianDigits,
+  parseProductImages,
+  getImageUrl,
+  normalizeSearchText,
+} from "../../../../utils/Utils";
 import ShowBtn from "../../../components/ShowBtn/ShowBtn";
 import { deleteAdminProduct, getAdminProducts } from "../../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../../Swals/Swals";
+import { FaSearch } from "react-icons/fa";
 
 function Mobile() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const loadData = async () => {
     setLoading(true);
@@ -37,9 +47,50 @@ function Mobile() {
     }
   };
 
+  const filteredData = useMemo(() => {
+    if (!searchTerm.trim()) return data;
+    const term = normalizeSearchText(searchTerm);
+    return data.filter((item) => {
+      let extra = {};
+      try {
+        extra = typeof item.extra === "string" ? JSON.parse(item.extra) : (item.extra || {});
+      } catch {
+        extra = {};
+      }
+      const name = normalizeSearchText(item.name || item.NAME);
+      const desc = normalizeSearchText(item.description);
+      const brand = normalizeSearchText(item.brand || item.brandName);
+      const price = item.price ? item.price.toString() : "";
+      const phoneType = normalizeSearchText(extra.phoneType);
+      const cpu = normalizeSearchText(extra.phoneInformation?.cpu);
+      const memory = normalizeSearchText(extra.phoneInformation?.memory);
+      const camera = normalizeSearchText(extra.phoneInformation?.camera);
+
+      return (
+        name.includes(term) ||
+        desc.includes(term) ||
+        brand.includes(term) ||
+        price.includes(term) ||
+        phoneType.includes(term) ||
+        cpu.includes(term) ||
+        memory.includes(term) ||
+        camera.includes(term)
+      );
+    });
+  }, [data, searchTerm]);
+
   return (
     <AdminLayout>
-      <AddBtn link={"/admin/products/mobile/add"} />
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3" dir="rtl">
+        <AdminSearchBar
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="جستجو در نام، برند، مشخصات، قیمت..."
+          count={filteredData.length}
+          totalCount={data.length}
+        />
+        <AddBtn link={"/admin/products/mobile/add"} text="افزودن موبایل جدید" />
+      </div>
 
       <div className="table-responsive">
         <table
@@ -73,8 +124,24 @@ function Mobile() {
               <tr>
                 <td colSpan="13" className="py-4 text-center text-secondary">هیچ موبایلی ثبت نشده است.</td>
               </tr>
+            ) : filteredData.length === 0 ? (
+              <tr>
+                <td colSpan="13" className="py-5 text-center">
+                  <div className="d-flex flex-column align-items-center justify-content-center gap-2">
+                    <FaSearch style={{ fontSize: "1.8rem", color: "#64748b" }} />
+                    <span className="text-secondary">هیچ موبایلی منطبق با «{searchTerm}» پیدا نشد.</span>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-info mt-1"
+                      onClick={() => setSearchTerm("")}
+                    >
+                      پاک کردن فیلتر
+                    </button>
+                  </div>
+                </td>
+              </tr>
             ) : (
-              data.map((value, index) => {
+              filteredData.map((value, index) => {
                 let extra = {};
                 try {
                   extra = typeof value.extra === "string" ? JSON.parse(value.extra) : (value.extra || {});
