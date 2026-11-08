@@ -47,10 +47,40 @@ function VpnClients() {
       const name = normalizeSearchText(item.name);
       const proto = normalizeSearchText(item.protocol);
       const url = normalizeSearchText(item.downloadUrl);
+      const types = normalizeSearchText(item.configTypes || "");
 
-      return name.includes(term) || proto.includes(term) || url.includes(term);
+      return (
+        name.includes(term) ||
+        proto.includes(term) ||
+        url.includes(term) ||
+        types.includes(term)
+      );
     });
   }, [data, searchTerm]);
+
+  const renderConfigBadges = (configTypes = "") => {
+    const types = configTypes.split(",").map((t) => t.trim().toLowerCase());
+    return (
+      <div className="d-flex flex-wrap justify-content-center gap-1">
+        {types.includes("link") && (
+          <span className="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30 px-2 py-1">
+            لینک
+          </span>
+        )}
+        {types.includes("qr") && (
+          <span className="badge bg-info bg-opacity-20 text-info border border-info border-opacity-30 px-2 py-1">
+            QR کد
+          </span>
+        )}
+        {types.includes("file") && (
+          <span className="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30 px-2 py-1">
+            فایل کانفیگ
+          </span>
+        )}
+        {types.length === 0 && <span className="text-muted">-</span>}
+      </div>
+    );
+  };
 
   return (
     <AdminLayout>
@@ -58,7 +88,7 @@ function VpnClients() {
         <AdminSearchBar
           value={searchTerm}
           onChange={setSearchTerm}
-          placeholder="جستجو در نام کلاینت، پروتکل..."
+          placeholder="جستجو در نام کلاینت، پروتکل، روش‌های ارائه..."
           count={filteredData.length}
           totalCount={data.length}
         />
@@ -75,6 +105,7 @@ function VpnClients() {
               <th>ردیف</th>
               <th>نام کلاینت</th>
               <th>پروتکل</th>
+              <th>روش‌های ارائه کانفیگ</th>
               <th>لینک دانلود</th>
               <th>عملیات</th>
             </tr>
@@ -82,19 +113,19 @@ function VpnClients() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="5" className="py-4 text-center">
+                <td colSpan="6" className="py-4 text-center">
                   درحال بارگذاری کلاینت‌ها...
                 </td>
               </tr>
             ) : data.length === 0 ? (
               <tr>
-                <td colSpan="5" className="py-4 text-center text-secondary">
+                <td colSpan="6" className="py-4 text-center text-secondary">
                   هیچ کلاینتی ثبت نشده است.
                 </td>
               </tr>
             ) : filteredData.length === 0 ? (
               <tr>
-                <td colSpan="5" className="py-5 text-center">
+                <td colSpan="6" className="py-5 text-center">
                   <div className="d-flex flex-column align-items-center justify-content-center gap-2">
                     <FaSearch style={{ fontSize: "1.8rem", color: "#64748b" }} />
                     <span className="text-secondary">هیچ کلاینتی با عبارت «{searchTerm}» پیدا نشد.</span>
@@ -119,6 +150,7 @@ function VpnClients() {
                         {value.protocol}
                       </span>
                     </td>
+                    <td>{renderConfigBadges(value.configTypes)}</td>
                     <td style={{ maxWidth: "250px" }}>
                       {value.downloadUrl ? (
                         <a

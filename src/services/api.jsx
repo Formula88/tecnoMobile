@@ -329,12 +329,13 @@ export const deleteVpnClient = async (id) => {
   }
 };
 
-export const addVpnClients = async (clientName, clientProtocol, clientDownloadUrl) => {
+export const addVpnClients = async (clientName, clientProtocol, clientDownloadUrl, configTypes = "link,qr") => {
   try {
     const result = await client.post(`api/admin/vpnClient`, {
       clientName,
       clientProtocol,
       clientDownloadUrl,
+      configTypes: Array.isArray(configTypes) ? configTypes.join(",") : configTypes,
     });
     return result.data;
   } catch (error) {
@@ -355,11 +356,16 @@ export const getVpnClient = async (id) => {
   }
 };
 
-export const editVpnClients = async (id, clientName, clientProtocol, clientDownloadUrl) => {
+export const editVpnClients = async (id, clientName, clientProtocol, clientDownloadUrl, configTypes = "link,qr") => {
   try {
     const result = await client.put(
       `api/admin/vpnClient`,
-      { clientName, clientProtocol, clientDownloadUrl },
+      {
+        clientName,
+        clientProtocol,
+        clientDownloadUrl,
+        configTypes: Array.isArray(configTypes) ? configTypes.join(",") : configTypes,
+      },
       { params: { id } },
     );
     return result.data;
@@ -640,6 +646,89 @@ export const deleteAdminRepairOrder = async (id) => {
     return result.data;
   } catch (error) {
     console.error("deleteAdminRepairOrder error:", error);
+    return { success: false, message: error?.response?.data?.message || error.message };
+  }
+};
+
+// User & Admin VPN Orders APIs
+
+export const getUserVpnOrders = async (phone = null) => {
+  try {
+    const params = phone ? { phone } : {};
+    const { data } = await client.get(`api/vpnOrders`, { params });
+    return data;
+  } catch (error) {
+    console.error("getUserVpnOrders error:", error);
+    return { success: false, message: error?.response?.data?.message || error.message };
+  }
+};
+
+export const createVpnOrder = async (orderData) => {
+  try {
+    const { data } = await client.post(`api/vpnOrders`, orderData);
+    return data;
+  } catch (error) {
+    console.error("createVpnOrder error:", error);
+    return { success: false, message: error?.response?.data?.message || error.message };
+  }
+};
+
+export const getAdminVpnOrders = async () => {
+  try {
+    const result = await client.get(`api/admin/vpnOrders`);
+    return result.data;
+  } catch (error) {
+    console.error("getAdminVpnOrders error:", error);
+    return { success: false, message: error?.response?.data?.message || error.message };
+  }
+};
+
+export const getAdminVpnOrder = async (id) => {
+  try {
+    const result = await client.get(`api/admin/vpnOrders`, {
+      params: { id },
+    });
+    return result.data;
+  } catch (error) {
+    console.error("getAdminVpnOrder error:", error);
+    return { success: false, message: error?.response?.data?.message || error.message };
+  }
+};
+
+export const updateAdminVpnOrderStatus = async (id, status) => {
+  try {
+    const result = await client.put(
+      `api/admin/vpnOrders`,
+      { status },
+      { params: { id } },
+    );
+    return result.data;
+  } catch (error) {
+    console.error("updateAdminVpnOrderStatus error:", error);
+    return { success: false, message: error?.response?.data?.message || error.message };
+  }
+};
+
+export const deleteAdminVpnOrder = async (id) => {
+  try {
+    const result = await client.delete(`api/admin/vpnOrders`, {
+      params: { id },
+    });
+    return result.data;
+  } catch (error) {
+    console.error("deleteAdminVpnOrder error:", error);
+    return { success: false, message: error?.response?.data?.message || error.message };
+  }
+};
+
+export const setAdminVpnOrderConfig = async (formDataOrData) => {
+  try {
+    const isFormData = typeof FormData !== "undefined" && formDataOrData instanceof FormData;
+    const config = isFormData ? { headers: { "Content-Type": "multipart/form-data" } } : {};
+    const result = await client.post(`api/admin/vpnOrders`, formDataOrData, config);
+    return result.data;
+  } catch (error) {
+    console.error("setAdminVpnOrderConfig error:", error);
     return { success: false, message: error?.response?.data?.message || error.message };
   }
 };
