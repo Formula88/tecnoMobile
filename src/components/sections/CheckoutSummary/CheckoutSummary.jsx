@@ -38,10 +38,16 @@ function CheckoutSummary() {
         <span>{formatPrice(totalPriceProduct)}</span>
         <Toman />
       </div>
-      <Link to={"/checkout"} className={`btnPrimary ${styles.btnPay}`}>
-        <span>ادامه ثبت سفارش</span>
-        <FaChevronLeft />
-      </Link>
+      {productCount > 0 ? (
+        <Link to={"/checkout"} className={`btnPrimary ${styles.btnPay}`}>
+          <span>ادامه ثبت سفارش</span>
+          <FaChevronLeft />
+        </Link>
+      ) : (
+        <button disabled className={`btnPrimary ${styles.btnPay}`} style={{ opacity: 0.5, cursor: "not-allowed" }}>
+          <span>سبد خرید خالی است</span>
+        </button>
+      )}
       <Link to={"/"} className={styles.btnBack}>
         <span>بازگشت به خانه</span>
         <FaChevronRight />

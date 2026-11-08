@@ -21,17 +21,14 @@ function ProductBuy({ price, discount, models }) {
     if (models?.length > 0 && selectedModel === null) {
       setSelectedModel(models[0]);
     }
-  }, [models]);
+  }, [models, selectedModel]);
 
   const params = useParams();
   const {
     handleIncreaseProductQty,
     handleDecreaseProductQtt,
     getProductQty,
-    cardItem,
   } = useContext(Context);
-
-  console.log(cardItem);
 
   return (
     <>

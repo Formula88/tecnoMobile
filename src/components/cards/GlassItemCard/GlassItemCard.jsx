@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import styles from "./GlassItemCard.module.scss";
 import Tilt from "react-parallax-tilt";
+import { parseProductImages, getImageUrl } from "../../../utils/Utils";
 
 function GlassItemCard(props) {
+  const images = parseProductImages(props.img);
+  const img = getImageUrl(images[0]);
 
-  const img = JSON.parse(props.img)[0]
-  
   return (
     <>
       <Link to={`/Product/${props.id}`} className="w-100 d-flex justify-content-center">

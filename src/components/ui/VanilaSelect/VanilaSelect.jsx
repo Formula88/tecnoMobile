@@ -9,7 +9,7 @@ function VanilaSelect({ name, label, items, onChange }) {
       <label htmlFor={inputId} className={styles.label}>
         {label}
       </label>
-      <select id={inputId} className={styles.input} onChange={onChange}>
+      <select id={inputId} name={name} className={styles.input} onChange={onChange}>
         {items.map((item, index) => {
           return (
             <option value={item.name} key={index}>

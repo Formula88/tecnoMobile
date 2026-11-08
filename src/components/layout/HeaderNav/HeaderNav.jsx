@@ -4,13 +4,13 @@ import Checkbox from "../Hamburger/Hamburger";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useRef } from "react";
 import { Context } from "../../../context/AppContext";
 import { toPersianDigits } from "../../../utils/Utils";
 import { RiAdminFill } from "react-icons/ri";
 
 function HeaderNav() {
-  const { isLogin, userType, setScrollEnabled, productCount } =
+  const { userType, setScrollEnabled, productCount } =
     useContext(Context);
 
   const Links = {
@@ -127,7 +127,7 @@ function HeaderNav() {
           </li>
         </ul>
         <div className={styles.icons}>
-          <Link to={Links.profile}>
+          <Link to={Links.profile} onClick={closeMenu}>
             <FaUser className={styles.icon} />
           </Link>
           <Link
@@ -142,6 +142,11 @@ function HeaderNav() {
               </span>
             )}
           </Link>
+          {userType === "admin" && (
+            <Link to={Links.admin} onClick={closeMenu}>
+              <RiAdminFill className={styles.icon} />
+            </Link>
+          )}
         </div>
       </div>
     </>

@@ -2,9 +2,9 @@ import { toPersianDigits } from "../../../utils/Utils";
 import VPNCardBuy from "../../sections/VPNCardBuy/VPNCardBuy";
 import VpnCardInfo from "../../sections/VpnCardInfo/VpnCardInfo";
 import styles from "./VPNCard.module.scss";
+import { successSwal } from "../../../Swals/Swals";
 
 function VPNCard({
-  id,
   name,
   price,
   discount,
@@ -28,6 +28,10 @@ function VPNCard({
     vpnDuration = `${toPersianDigits(duration)} ماه`;
   }
 
+  const handleOrder = () => {
+    successSwal(`پلن ${name} با موفقیت انتخاب شد. سرویس شما به زودی در بخش سرویس‌های VPN فعال خواهد شد.`, "ثبت درخواست VPN");
+  };
+
   return (
     <div className={styles.vpnCard}>
       <h3 className={styles.title}>{name}</h3>
@@ -39,7 +43,7 @@ function VPNCard({
         <VpnCardInfo title={"پروتکل"} text={protocol} />
       </ul>
       <VPNCardBuy price={price} discount={discount} />
-      <button className={`btnPrimary ${styles.btn}`}>ثبت سفارش</button>
+      <button className={`btnPrimary ${styles.btn}`} onClick={handleOrder}>ثبت سفارش</button>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-
 import { toPersianDigits } from "../../../utils/Utils";
 import DetailsList from "../DetailsList/DetailsList";
 import PhoneInformation from "../PhoneInformation/PhoneInformation";
@@ -7,27 +6,36 @@ import styles from "./ProductInfo.module.scss";
 
 function ProductInfo(props) {
   const isMobile = props.productType === "mobile";
-  const extra = JSON.parse(props.extra ?? null) || {};
+  
+  let extra = {};
+  if (typeof props.extra === "object" && props.extra !== null) {
+    extra = props.extra;
+  } else if (typeof props.extra === "string") {
+    try {
+      extra = JSON.parse(props.extra);
+    } catch {
+      extra = {};
+    }
+  }
 
   let warranty;
   if (extra.warranty !== undefined && extra.warranty !== null) {
-    if (extra.warranty < 1) {
-      warranty = "ندارد"
-    }
-    else {
-      warranty = toPersianDigits(extra.warranty) + " ماه"
+    if (Number(extra.warranty) < 1) {
+      warranty = "ندارد";
+    } else {
+      warranty = toPersianDigits(extra.warranty) + " ماه";
     }
   }
 
   return (
     <>
       <div className={styles.ProductInfo}>
-        {isMobile && (
+        {isMobile && extra.phoneType && (
           <span className={styles.phoneType}>{extra.phoneType}</span>
         )}
         <h1 className={styles.title}>{props.title}</h1>
         <p className={styles.description}>{props.description}</p>
-        {isMobile && <PhoneInformation extra={extra.phoneInformation} />}
+        {isMobile && extra.phoneInformation && <PhoneInformation extra={extra.phoneInformation} />}
         <div className={styles.details}>
           <h3>جزئیات :</h3>
           <ul>

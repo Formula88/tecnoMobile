@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { useLocalStorage, useScrollbar } from "../hooks/hooks";
 import { registerLoading } from "../services/loadingService";
-import { getMe } from "../services/api";
+import { getMe, logout } from "../services/api";
 
 export const Context = createContext();
 
@@ -10,22 +10,38 @@ function AppContext({ children }) {
   const [isLogin, setIsLogin] = useState(false);
   const [userType, setUserType] = useState("public");
   const [userNumber, setUserNumber] = useState("");
+  const [isAuthChecking, setIsAuthChecking] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
-      const result = await getMe();
-      if (result?.success) {
-        setIsLogin(true);
-        setUserType(result.user.userType);
-        setUserNumber(result.user.phoneNumber);
-      } else {
+      try {
+        const result = await getMe();
+        if (result?.success && result.user) {
+          setIsLogin(true);
+          setUserType(result.user.userType);
+          setUserNumber(result.user.phoneNumber);
+        } else {
+          setIsLogin(false);
+          setUserType("public");
+          setUserNumber("");
+        }
+      } catch {
         setIsLogin(false);
         setUserType("public");
+      } finally {
+        setIsAuthChecking(false);
       }
     };
 
     checkAuth();
   }, []);
+
+  const logoutUser = async () => {
+    await logout();
+    setIsLogin(false);
+    setUserType("public");
+    setUserNumber("");
+  };
 
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -48,7 +64,6 @@ function AppContext({ children }) {
         if (item.id == id && item.model == model) {
           return { ...item, qty: item.qty + 1 };
         }
-
         return item;
       });
     });
@@ -70,7 +85,6 @@ function AppContext({ children }) {
         if (item.id == id && item.model == model) {
           return { ...item, qty: item.qty - 1 };
         }
-
         return item;
       });
     });
@@ -89,9 +103,11 @@ function AppContext({ children }) {
   const priceProduct = cardItem.reduce((price, item) => {
     return price + item.price * item.qty;
   }, 0);
+
   const totalPriceProduct = cardItem.reduce((totalPrice, item) => {
     return totalPrice + item.totalPrice * item.qty;
   }, 0);
+
   const discountProduct = priceProduct - totalPriceProduct;
 
   const cardItemRemoveProduct = (id, model = null) => {
@@ -100,6 +116,10 @@ function AppContext({ children }) {
         (item) => !(item.id == id && item.model == model),
       );
     });
+  };
+
+  const clearCart = () => {
+    setCardItem([]);
   };
 
   return (
@@ -111,6 +131,9 @@ function AppContext({ children }) {
         setUserType,
         userNumber,
         setUserNumber,
+        isAuthChecking,
+        logoutUser,
+        scrollbarRef,
         setScrollEnabled,
         isLoading,
         handleIncreaseProductQty,
@@ -119,6 +142,7 @@ function AppContext({ children }) {
         cardItem,
         productCount,
         cardItemRemoveProduct,
+        clearCart,
         priceProduct,
         totalPriceProduct,
         discountProduct,

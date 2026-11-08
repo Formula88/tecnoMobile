@@ -5,16 +5,19 @@ import {
   formatPrice,
   getDiscountAmount,
   toPersianDigits,
+  parseProductImages,
+  getImageUrl,
 } from "../../../utils/Utils";
 
 function ProductsCard({ imgs, title, description, id, price, discount }) {
-  const img = JSON.parse(imgs)[0];
+  const images = parseProductImages(imgs);
+  const img = getImageUrl(images[0]);
   let totalPrice = price;
   if (discount > 0) {
     totalPrice = getDiscountAmount(price, discount);
   }
   return (
-    <Link to={`/Product/${id ?? 2}`} className={styles.card}>
+    <Link to={`/Product/${id}`} className={styles.card}>
       <div className={styles.img}>
         <img src={img} alt={title} />
       </div>

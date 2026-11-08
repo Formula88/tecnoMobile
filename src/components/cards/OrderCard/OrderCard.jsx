@@ -11,7 +11,29 @@ import {
 import Toman from "../../../icon/Toman";
 import { formatPrice, toPersianDigits } from "../../../utils/Utils";
 
-function OrderCard({ status }) {
+function OrderCard({ id, status, totalPrice, createdAt }) {
+  const isSent = status === "sent" || status === true;
+  const isDelivered = status === "delivered";
+  const isCancelled = status === "cancelled";
+
+  let statusText = "درحال ارسال";
+  let statusClass = styles.sending;
+
+  if (isDelivered) {
+    statusText = "تحویل داده شده";
+    statusClass = styles.send;
+  } else if (isSent) {
+    statusText = "ارسال شده";
+    statusClass = styles.send;
+  } else if (isCancelled) {
+    statusText = "لغو شده";
+    statusClass = styles.sending;
+  }
+
+  const formattedDate = createdAt
+    ? new Date(createdAt).toLocaleDateString("fa-IR")
+    : "ثبت شده";
+
   return (
     <div className={styles.orderCard}>
       <div className={styles.boxes}>
@@ -24,7 +46,7 @@ function OrderCard({ status }) {
               <h3 className={styles.titleText}>شماره سفارش</h3>
             </div>
             <div className={styles.text}>
-              <span className={styles.id}>{`#${toPersianDigits(19254)}`}</span>
+              <span className={styles.id}>{`#${toPersianDigits(id || 19254)}`}</span>
             </div>
           </div>
           <div className={styles.item}>
@@ -35,16 +57,9 @@ function OrderCard({ status }) {
               <h3 className={styles.titleText}>وضعیت سفارش</h3>
             </div>
             <div className={styles.text}>
-              {status && (
-                <span className={`${styles.status} ${styles.send}`}>
-                  ارسال شده
-                </span>
-              )}
-              {!status && (
-                <span className={`${styles.status} ${styles.sending}`}>
-                  درحال ارسال
-                </span>
-              )}
+              <span className={`${styles.status} ${statusClass}`}>
+                {statusText}
+              </span>
             </div>
           </div>
         </div>
@@ -58,7 +73,7 @@ function OrderCard({ status }) {
             </div>
             <div className={styles.text}>
               <div className={styles.price}>
-                <span>{formatPrice(192500000)}</span>
+                <span>{formatPrice(totalPrice || 0)}</span>
                 <Toman />
               </div>
             </div>
@@ -71,12 +86,12 @@ function OrderCard({ status }) {
               <h3 className={styles.titleText}>تاریخ سفارش</h3>
             </div>
             <div className={styles.text}>
-              <span className={styles.date}>1405/4/01</span>
+              <span className={styles.date}>{toPersianDigits(formattedDate)}</span>
             </div>
           </div>
         </div>
       </div>
-      <Link to={"/OrderDetails"} className={`btnOutline ${styles.btn}`}>
+      <Link to={`/OrderDetails?id=${id}`} className={`btnOutline ${styles.btn}`}>
         مشاهده جزئیات
       </Link>
     </div>

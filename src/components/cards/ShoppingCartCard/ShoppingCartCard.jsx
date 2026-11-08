@@ -5,11 +5,14 @@ import {
   formatPrice,
   getDiscountAmount,
   toPersianDigits,
+  parseProductImages,
+  getImageUrl,
 } from "../../../utils/Utils";
 import Toman from "../../../icon/Toman";
 import { useContext, useEffect, useState } from "react";
 import { GetProduct } from "../../../services/api";
 import { Context } from "../../../context/AppContext";
+import { ServerErrorSwal } from "../../../Swals/Swals";
 
 function ShoppingCartCard({ id, model, qty }) {
   const [product, setProduct] = useState({});
@@ -22,7 +25,7 @@ function ShoppingCartCard({ id, model, qty }) {
         ServerErrorSwal();
       }
     });
-  }, []);
+  }, [id]);
 
   const {
     cardItemRemoveProduct,
@@ -30,7 +33,8 @@ function ShoppingCartCard({ id, model, qty }) {
     handleDecreaseProductQtt,
   } = useContext(Context);
 
-  const img = product.imgs ? JSON.parse(product.imgs)[0] : "";
+  const images = parseProductImages(product.imgs);
+  const img = getImageUrl(images[0]);
 
   let totalPrice = product.price;
   if (product.discount > 0) {

@@ -1,31 +1,46 @@
 import Swal from "sweetalert2";
 
-export const ServerErrorSwal = () => {
+export const ServerErrorSwal = (message) => {
   Swal.fire({
     icon: "error",
     title: "ارور",
-    text: "سرور دچار مشکل شده است",
-    cancelButtonText: "باشه",
+    text: message || "سرور دچار مشکل شده است",
+    confirmButtonText: "باشه",
     theme: "dark",
   });
 };
 
 export const successSwal = (text, title) => {
-  Swal.fire({
-    title: title,
+  return Swal.fire({
+    title: title || "عملیات موفق",
     text: text,
     icon: "success",
-    cancelButtonText: "باشه",
+    confirmButtonText: "باشه",
     theme: "dark",
   });
 };
 
 export const errorSwal = (text, title) => {
-  Swal.fire({
-    title: title,
+  return Swal.fire({
+    title: title || "خطا",
     text: text,
     icon: "error",
-    cancelButtonText: "باشه",
+    confirmButtonText: "باشه",
     theme: "dark",
   });
+};
+
+export const confirmSwal = async (text, title = "آیا مطمئن هستید؟", confirmButtonText = "بله، حذف شود") => {
+  const result = await Swal.fire({
+    title: title,
+    text: text,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#1499e6",
+    confirmButtonText: confirmButtonText,
+    cancelButtonText: "انصراف",
+    theme: "dark",
+  });
+  return result.isConfirmed;
 };

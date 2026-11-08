@@ -1,7 +1,7 @@
 @use "sass:color";
 
 $primary: #1499e6;
-$secondru: #1e293b;
+$secondary: #1e293b;
 $tertiary: #101415;
 $neutral: #f8fafc;
 
@@ -10,9 +10,10 @@ $neutral: #f8fafc;
 * {
   font-family: "Vazir", sans-serif;
   box-sizing: border-box;
-  body {
-    background-color: $tertiary;
-  }
+}
+
+body {
+  background-color: $tertiary;
 }
 
 ul {

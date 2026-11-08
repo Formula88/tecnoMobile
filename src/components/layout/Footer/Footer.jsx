@@ -5,7 +5,7 @@ import { RiTelegram2Fill } from "react-icons/ri";
 import { AiFillInstagram } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-function Footer(props) {
+function Footer() {
   return (
     <>
       <footer className={styles.footer}>

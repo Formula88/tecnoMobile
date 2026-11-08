@@ -4,14 +4,11 @@ import "swiper/css/pagination";
 import "swiper/css";
 
 import styles from "./SliderImg.module.scss";
+import { parseProductImages, getImageUrl } from "../../../utils/Utils";
 
 function SliderImg({ images = [] }) {
-  const safeImgs =
-    typeof images === "string"
-      ? JSON.parse(images)
-      : Array.from(images)
-      ? images
-      : [];
+  const safeImgs = parseProductImages(images);
+
   return (
     <>
       <Swiper
@@ -19,12 +16,13 @@ function SliderImg({ images = [] }) {
         modules={[Pagination]}
         pagination={{ type: "fraction" }}
         slidesPerView={1}
-        loop={images.length > 1}
+        loop={safeImgs.length > 1}
       >
-        {safeImgs?.map((img, index) => {
+        {safeImgs.map((img, index) => {
+          const src = getImageUrl(img);
           return (
             <SwiperSlide key={index}>
-              <img src={img} alt={`product-${index}`} />
+              <img src={src} alt={`product-${index}`} />
             </SwiperSlide>
           );
         })}

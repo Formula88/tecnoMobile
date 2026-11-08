@@ -1,13 +1,22 @@
 let setLoading = null;
+let activeRequests = 0;
 
 export const registerLoading = (setter) => {
   setLoading = setter;
 };
 
 export const showLoading = () => {
-  setLoading?.(true);
+  activeRequests++;
+  if (activeRequests === 1) {
+    setLoading?.(true);
+  }
 };
 
 export const hideLoading = () => {
-  setLoading?.(false);
+  if (activeRequests > 0) {
+    activeRequests--;
+  }
+  if (activeRequests === 0) {
+    setLoading?.(false);
+  }
 };

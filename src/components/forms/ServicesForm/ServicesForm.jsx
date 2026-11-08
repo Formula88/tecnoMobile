@@ -1,9 +1,10 @@
-import { successSwal } from "../../../Swals/Swals";
+import { successSwal, errorSwal } from "../../../Swals/Swals";
 import Inputs from "../../ui/Inputs/Inputs";
 import Selects from "../../ui/Selects/Selects";
 import Textareas from "../../ui/Textareas/Textareas";
 import styles from "./ServicesForm.module.scss";
 import { useForm } from "react-hook-form";
+import { createRepairOrder } from "../../../services/api";
 
 function ServicesForm() {
   const {
@@ -13,9 +14,14 @@ function ServicesForm() {
     reset,
   } = useForm();
 
-  const onSubmit = (data) => {
-    reset();
-    successSwal("منتظر بررسی متخصصان ما باشید", "پیام ارسال شد");
+  const onSubmit = async (data) => {
+    const result = await createRepairOrder(data);
+    if (result?.success) {
+      reset();
+      successSwal("درخواست شما با موفقیت ثبت شد. کارشناسان ما به زودی با شما تماس می‌گیرند.", "رزرو موفق");
+    } else {
+      errorSwal(result?.message || "مشکلی در ثبت درخواست به وجود آمد", "خطا");
+    }
   };
 
   return (
@@ -44,7 +50,7 @@ function ServicesForm() {
               register={register}
               name={"number"}
               option={{
-                required: "لظفا شماره تماس خود را کنید",
+                required: "لطفا شماره تماس خود را وارد کنید",
                 pattern: {
                   value: /^09\d{9}$/,
                   message: "شماره موبایل معتبر نیست",
@@ -62,7 +68,7 @@ function ServicesForm() {
               register={register}
               name={"deviceType"}
               option={{
-                required: "لطفا دستگاه مورد نظز خود را انتخاب کنید",
+                required: "لطفا دستگاه مورد نظر خود را انتخاب کنید",
               }}
               label={"دستگاه مورد نظر"}
               error={errors}

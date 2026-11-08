@@ -1,9 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Inputs from "../../components/ui/Inputs/Inputs";
 import Toman from "../../icon/Toman";
 import { formatPrice } from "../../utils/Utils";
 import styles from "./ReceiverInfo.module.scss";
 import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import { Context } from "../../context/AppContext";
+import { createOrder } from "../../services/api";
+import { errorSwal, successSwal } from "../../Swals/Swals";
 
 function ReceiverInfo() {
   const {
@@ -11,9 +15,39 @@ function ReceiverInfo() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const handleReceiverInfo = (data) => {
-    console.log(data);
+
+  const navigate = useNavigate();
+  const { cardItem, totalPriceProduct, clearCart } = useContext(Context);
+
+  const shippingCost = 150000;
+  const grandTotal = totalPriceProduct + shippingCost;
+
+  const handleReceiverInfo = async (data) => {
+    if (!cardItem || cardItem.length === 0) {
+      errorSwal("سبد خرید شما خالی است", "خطا");
+      navigate("/ShoppingCart");
+      return;
+    }
+
+    const orderPayload = {
+      fullName: data.name,
+      phone: data.number,
+      codePost: data.postalCode,
+      address: data.address,
+      items: cardItem,
+      totalPrice: grandTotal,
+    };
+
+    const result = await createOrder(orderPayload);
+    if (result?.success) {
+      clearCart();
+      await successSwal("سفارش شما با موفقیت ثبت شد", "ثبت سفارش موفق");
+      navigate("/Orders");
+    } else {
+      errorSwal(result?.message || "مشکلی در ثبت سفارش پیش آمد", "خطا در ثبت سفارش");
+    }
   };
+
   return (
     <div className={styles.receiverInfo}>
       <h1 className={styles.title}>مشخصات دریافت‌کننده</h1>
@@ -33,7 +67,7 @@ function ReceiverInfo() {
             register={register}
             name={"number"}
             option={{
-              required: "لظفا شماره تماس خود را کنید",
+              required: "لطفا شماره تماس خود را وارد کنید",
               pattern: {
                 value: /^09\d{9}$/,
                 message: "شماره موبایل معتبر نیست",
@@ -76,7 +110,7 @@ function ReceiverInfo() {
             <div className={styles.pricePost}>
               <span>هزینه ارسال :</span>
               <div className={styles.price}>
-                <span>{formatPrice(150000)}</span>
+                <span>{formatPrice(shippingCost)}</span>
                 <Toman />
               </div>
             </div>
@@ -85,7 +119,7 @@ function ReceiverInfo() {
             <div className={styles.totalPrice}>
               <span>هزینه کل :</span>
               <div className={styles.price}>
-                <span>{formatPrice(1250000)}</span>
+                <span>{formatPrice(grandTotal)}</span>
                 <Toman />
               </div>
             </div>
@@ -93,7 +127,7 @@ function ReceiverInfo() {
         </div>
         <input
           type="submit"
-          value="پرداخت"
+          value="پرداخت و ثبت نهایی"
           className={`btnPrimary ${styles.btn}`}
         />
         <Link to={"/ShoppingCart"} className={styles.back}>
