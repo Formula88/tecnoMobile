@@ -194,7 +194,11 @@ export const createRepairOrder = async (repairData) => {
     return data;
   } catch (error) {
     console.error("createRepairOrder error:", error);
-    return { success: false, message: error?.response?.data?.message || error.message };
+    return {
+      success: false,
+      hasUnderReview: error?.response?.data?.hasUnderReview || false,
+      message: error?.response?.data?.message || error.message,
+    };
   }
 };
 
@@ -634,6 +638,20 @@ export const getAdminRepairOrders = async () => {
     return result.data;
   } catch (error) {
     console.error("getAdminRepairOrders error:", error);
+    return { success: false, message: error?.response?.data?.message || error.message };
+  }
+};
+
+export const updateAdminRepairOrderStatus = async (id, status) => {
+  try {
+    const result = await client.put(
+      `api/admin/repairOrders`,
+      { status },
+      { params: { id } },
+    );
+    return result.data;
+  } catch (error) {
+    console.error("updateAdminRepairOrderStatus error:", error);
     return { success: false, message: error?.response?.data?.message || error.message };
   }
 };

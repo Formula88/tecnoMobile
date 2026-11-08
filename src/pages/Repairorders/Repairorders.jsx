@@ -37,7 +37,8 @@ function Repairorders() {
                     phoneNumber={item.phoneNumber}
                     deviceType={item.deviceType}
                     serviceType={item.serviceType}
-                    reviewed={false}
+                    reviewed={item.status === "reviewed"}
+                    status={item.status}
                   />
                 </div>
               ))}

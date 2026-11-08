@@ -1,11 +1,22 @@
 import { useEffect, useState, useMemo } from "react";
 import AdminLayout from "../../layout/AdminLayout";
 import DeleteBtn from "../../components/DeleteBtn/DeleteBtn";
+import StatusSelect from "../../components/StatusSelect/StatusSelect";
 import AdminSearchBar from "../../components/AdminSearchBar/AdminSearchBar";
-import { deleteAdminRepairOrder, getAdminRepairOrders } from "../../../services/api";
+import {
+  deleteAdminRepairOrder,
+  getAdminRepairOrders,
+  updateAdminRepairOrderStatus,
+} from "../../../services/api";
 import { toPersianDigits, normalizeSearchText } from "../../../utils/Utils";
-import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
+import { ServerErrorSwal, successSwal, errorSwal } from "../../../Swals/Swals";
 import { FaSearch } from "react-icons/fa";
+
+const statusLabelMap = {
+  under_review: "درحال بررسی under_review",
+  reviewed: "بررسی شده reviewed",
+  cancelled: "لغو شده cancelled",
+};
 
 function ServiceReservation() {
   const [data, setData] = useState([]);
@@ -27,6 +38,19 @@ function ServiceReservation() {
     loadData();
   }, []);
 
+  const handleStatusChange = async (id, newStatus) => {
+    const result = await updateAdminRepairOrderStatus(id, newStatus);
+    if (!result?.success) {
+      errorSwal(result?.message || "خطا در تغییر وضعیت رزرو", "خطا");
+      return;
+    }
+
+    setData((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, status: newStatus } : item)),
+    );
+    successSwal("وضعیت رزرو خدمات با موفقیت به‌روزرسانی شد", "تغییر وضعیت");
+  };
+
   const handleDelete = async (id) => {
     const result = await deleteAdminRepairOrder(id);
     if (result?.success) {
@@ -41,18 +65,20 @@ function ServiceReservation() {
     if (!searchTerm.trim()) return data;
     const term = normalizeSearchText(searchTerm);
     return data.filter((item) => {
-      const name = normalizeSearchText(item.fullName);
-      const phone = normalizeSearchText(item.phoneNumber);
-      const device = normalizeSearchText(item.deviceType);
-      const service = normalizeSearchText(item.serviceType);
-      const desc = normalizeSearchText(item.description);
+      const name = normalizeSearchText(item.fullName || "");
+      const phone = normalizeSearchText(item.phoneNumber || "");
+      const device = normalizeSearchText(item.deviceType || "");
+      const service = normalizeSearchText(item.serviceType || "");
+      const desc = normalizeSearchText(item.description || "");
+      const statusText = normalizeSearchText(statusLabelMap[item.status] || item.status || "");
 
       return (
         name.includes(term) ||
         phone.includes(term) ||
         device.includes(term) ||
         service.includes(term) ||
-        desc.includes(term)
+        desc.includes(term) ||
+        statusText.includes(term)
       );
     });
   }, [data, searchTerm]);
@@ -63,7 +89,7 @@ function ServiceReservation() {
         <AdminSearchBar
           value={searchTerm}
           onChange={setSearchTerm}
-          placeholder="جستجو در نام متقاضی، شماره تماس، نوع دستگاه، سرویس..."
+          placeholder="جستجو در نام متقاضی، شماره تماس، نوع دستگاه، سرویس، وضعیت..."
           count={filteredData.length}
           totalCount={data.length}
         />
@@ -82,21 +108,22 @@ function ServiceReservation() {
               <th>نوع دستگاه</th>
               <th>نوع سرویس</th>
               <th>توضیحات مشکل</th>
-              <th>تنظیمات</th>
+              <th>وضعیت رزرو</th>
+              <th>عملیات</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="7" className="py-4 text-center">درحال بارگذاری اطلاعات...</td>
+                <td colSpan="8" className="py-4 text-center">درحال بارگذاری اطلاعات...</td>
               </tr>
             ) : data.length === 0 ? (
               <tr>
-                <td colSpan="7" className="py-4 text-center text-secondary">هیچ درخواست تعمیری ثبت نشده است.</td>
+                <td colSpan="8" className="py-4 text-center text-secondary">هیچ درخواست تعمیری ثبت نشده است.</td>
               </tr>
             ) : filteredData.length === 0 ? (
               <tr>
-                <td colSpan="7" className="py-5 text-center">
+                <td colSpan="8" className="py-5 text-center">
                   <div className="d-flex flex-column align-items-center justify-content-center gap-2">
                     <FaSearch style={{ fontSize: "1.8rem", color: "#64748b" }} />
                     <span className="text-secondary">هیچ درخواستی با عبارت «{searchTerm}» پیدا نشد.</span>
@@ -119,12 +146,26 @@ function ServiceReservation() {
                     <td className="text-nowrap">{toPersianDigits(value.phoneNumber)}</td>
                     <td className="text-nowrap">{value.deviceType || "ثبت نشده"}</td>
                     <td className="text-nowrap">{value.serviceType || "ثبت نشده"}</td>
-                    <td style={{ minWidth: "220px", maxWidth: "350px" }}>
+                    <td style={{ minWidth: "200px", maxWidth: "320px" }}>
                       <div className="text-truncate" title={value.description}>{value.description || "بدون توضیح"}</div>
                     </td>
                     <td>
+                      <StatusSelect
+                        items={[
+                          { name: "under_review", value: "درحال بررسی" },
+                          { name: "reviewed", value: "بررسی شده" },
+                          { name: "cancelled", value: "لغو شده" },
+                        ]}
+                        defaultValue={value.status || "under_review"}
+                        onChange={(e) => handleStatusChange(value.id, e.target.value)}
+                      />
+                    </td>
+                    <td>
                       <div className="d-flex justify-content-center">
-                        <DeleteBtn btnHandle={() => handleDelete(value.id)} />
+                        <DeleteBtn
+                          confirmText="آیا از حذف این درخواست رزرو اطمینان دارید؟"
+                          btnHandle={() => handleDelete(value.id)}
+                        />
                       </div>
                     </td>
                   </tr>

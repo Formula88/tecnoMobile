@@ -3,7 +3,10 @@ import { FaUser, FaPhone, FaTools } from "react-icons/fa";
 import { MdDevices } from "react-icons/md";
 import { toPersianDigits } from "../../../utils/Utils";
 
-function RepairorderCard({ fullName, phoneNumber, deviceType, serviceType, reviewed }) {
+function RepairorderCard({ fullName, phoneNumber, deviceType, serviceType, reviewed, status }) {
+  const isReviewed = reviewed || status === "reviewed";
+  const isCancelled = status === "cancelled";
+
   return (
     <div className={styles.repairorderCard}>
       <div className={styles.boxes}>
@@ -40,8 +43,12 @@ function RepairorderCard({ fullName, phoneNumber, deviceType, serviceType, revie
           </div>
         </div>
       </div>
-      {reviewed ? (
+      {isReviewed ? (
         <span className={styles.reviewed}>بررسی شده است</span>
+      ) : isCancelled ? (
+        <span className={styles.noReviewed} style={{ borderColor: "#ef4444", color: "#f87171" }}>
+          لغو شده
+        </span>
       ) : (
         <span className={styles.noReviewed}>درحال بررسی ...</span>
       )}
