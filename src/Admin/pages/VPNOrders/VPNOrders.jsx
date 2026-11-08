@@ -14,7 +14,7 @@ import { ServerErrorSwal, successSwal, errorSwal } from "../../../Swals/Swals";
 import { FaSearch, FaCheck, FaTimes } from "react-icons/fa";
 
 const statusMap = {
-  pending: "در انتظار کانفیگ pending",
+  pending: "درحال آماده‌سازی pending",
   active: "فعال active",
   expired: "منقضی شده expired",
   cancelled: "لغو شده cancelled",
@@ -244,7 +244,7 @@ function VPNOrders() {
                     <td>
                       <StatusSelect
                         items={[
-                          { name: "pending", value: "در انتظار کانفیگ" },
+                          { name: "pending", value: "درحال آماده‌سازی" },
                           { name: "active", value: "فعال" },
                           { name: "expired", value: "منقضی شده" },
                           { name: "cancelled", value: "لغو شده" },

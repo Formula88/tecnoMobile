@@ -37,14 +37,24 @@ function VPNServicesCard({ order }) {
     successSwal("لینک کانفیگ در کلیپ‌بورد کپی شد", "کپی شد");
   };
 
+  const planTraffic = order.planTraffic ?? order.traffic ?? 0;
+  const planDuration = order.planDuration ?? order.duration ?? 0;
+  const planUserCount = order.planUserCount ?? order.userCount ?? 1;
+  const planName = order.planName ?? order.name ?? "پلن اختصاصی VPN";
+
   return (
     <>
       <div className={styles.VPNServicesCard}>
         <div className={styles.right}>
           <div className={styles.feature}>
-            <h2 className={`${styles.title} fw-bold text-info`}>
-              {order.planName || "پلن اختصاصی"}
-            </h2>
+            <div className="d-flex align-items-center justify-content-between w-100 flex-wrap gap-2">
+              <h2 className={`${styles.title} fw-bold text-info`}>{planName}</h2>
+              {order.id && (
+                <span className="badge bg-secondary bg-opacity-25 text-secondary border border-secondary border-opacity-25 small">
+                  سفارش #{toPersianDigits(order.id)}
+                </span>
+              )}
+            </div>
           </div>
 
           <div className={styles.feature}>
@@ -53,8 +63,8 @@ function VPNServicesCard({ order }) {
             </div>
             <span className={styles.title}>
               حجم :{" "}
-              {Number(order.planTraffic) > 0
-                ? `${toPersianDigits(order.planTraffic)} گیگابایت`
+              {Number(planTraffic) > 0
+                ? `${toPersianDigits(planTraffic)} گیگابایت`
                 : "نامحدود"}
             </span>
           </div>
@@ -65,8 +75,8 @@ function VPNServicesCard({ order }) {
             </div>
             <span className={styles.title}>
               مدت زمان :{" "}
-              {Number(order.planDuration) > 0
-                ? `${toPersianDigits(order.planDuration)} ماه`
+              {Number(planDuration) > 0
+                ? `${toPersianDigits(planDuration)} ماه`
                 : "نامحدود"}
             </span>
           </div>
@@ -76,7 +86,7 @@ function VPNServicesCard({ order }) {
               <FiUsers />
             </div>
             <span className={styles.title}>
-              تعداد کاربر : {toPersianDigits(order.planUserCount || 1)} کاربر
+              تعداد کاربر : {toPersianDigits(planUserCount)} کاربر
             </span>
           </div>
 
@@ -86,6 +96,8 @@ function VPNServicesCard({ order }) {
                 <FaCheckCircle className="text-success" />
               ) : status === "expired" ? (
                 <FaTimesCircle className="text-danger" />
+              ) : status === "cancelled" ? (
+                <FaTimesCircle className="text-secondary" />
               ) : (
                 <FaClock className="text-warning" />
               )}
@@ -104,7 +116,7 @@ function VPNServicesCard({ order }) {
                 <span className="badge bg-secondary">لغو شده</span>
               ) : (
                 <span className="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25">
-                  در انتظار آماده‌سازی کانفیگ
+                  درحال آماده‌سازی
                 </span>
               )}
             </span>
@@ -119,13 +131,13 @@ function VPNServicesCard({ order }) {
             </span>
           </div>
 
-          {/* If config is NOT ready / pending, DO NOT render config buttons! Render notice instead */}
+          {/* When config is NOT ready / order is in preparation, DO NOT render config action buttons! */}
           {!isConfigReady ? (
             <div className={styles.pendingNotice}>
-              <FaClock style={{ fontSize: "1.3rem" }} />
-              <span className="fw-bold">کانفیگ درحال آماده‌سازی</span>
-              <span className="small opacity-75">
-                به محض آپلود کانفیگ توسط پشتیبانی، دکمه‌های دریافت فعال خواهند شد.
+              <FaClock style={{ fontSize: "1.4rem" }} className="text-warning" />
+              <span className="fw-bold fs-6">درحال آماده‌سازی</span>
+              <span className="small opacity-80">
+                سفارش شما با موفقیت ثبت شد و کانفیگ اختصاصی درحال آماده‌سازی توسط تیم فنی است. پس از آماده‌سازی، دکمه‌های دریافت کانفیگ در همین کادر فعال می‌شوند.
               </span>
             </div>
           ) : (
@@ -183,7 +195,7 @@ function VPNServicesCard({ order }) {
               style={{ border: "1px solid #64748b", color: "#cbd5e1" }}
             >
               <HiOutlineDownload className={styles.icon} />
-              <span>دانلود کلاینت {order.clientName}</span>
+              <span>دانلود نرم‌افزار کلاینت</span>
             </a>
           )}
         </div>

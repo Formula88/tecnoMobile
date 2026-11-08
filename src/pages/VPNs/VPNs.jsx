@@ -34,6 +34,7 @@ function VPNs() {
                   <div className="col" key={value.id}>
                     <VPNCard
                       id={value.id}
+                      clientId={value.clientId}
                       name={value.name}
                       price={value.price}
                       discount={value.discount}
