@@ -2,15 +2,14 @@ import { useForm } from "react-hook-form";
 import FormLayout from "../../../layout/FormLayout/FormLayout";
 import Selects from "../../../../components/ui/Selects/Selects";
 import FormBtn from "../../../components/FormBtn/FormBtn";
-import { toPersianDigits } from "../../../../utils/Utils";
 import { useNavigate, useParams } from "react-router-dom";
 import { updateUser } from "../../../../services/api";
 import { errorSwal, successSwal } from "../../../../Swals/Swals";
 
 function UsersEdit() {
   const params = useParams();
-
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -18,7 +17,7 @@ function UsersEdit() {
   } = useForm();
 
   const handleFormSubmit = async (data) => {
-    let admin;
+    let admin = 0;
     if (data.userType === "ادمین") {
       admin = 1;
     } else if (data.userType === "کاربر عادی") {
@@ -28,15 +27,14 @@ function UsersEdit() {
     const result = await updateUser(params.id, admin);
 
     if (!result?.success) {
-      errorSwal("وضعیت کاربر تغیر نکرد", "کاربر ویرایش نشد");
+      errorSwal("وضعیت کاربر تغییر نکرد", "خطا در ویرایش");
     } else {
       successSwal(
-        "وضعیت کاربر با موفقیت تغیر پیدا کرد",
-        "ویرایش موفقیت امیز بود",
+        "وضعیت کاربر با موفقیت تغییر پیدا کرد",
+        "ویرایش موفقیت‌آمیز بود",
       );
+      navigate("/admin/users");
     }
-
-    navigate("/admin/users");
   };
 
   return (

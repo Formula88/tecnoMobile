@@ -6,7 +6,7 @@ import Inputs from "../../../../components/ui/Inputs/Inputs";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { editBrand, getBrand } from "../../../../services/api";
-import { errorSwal, successSwal } from "../../../../Swals/Swals";
+import { errorSwal, successSwal, ServerErrorSwal } from "../../../../Swals/Swals";
 
 function EditBrands() {
   const {

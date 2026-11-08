@@ -4,72 +4,38 @@ import DeleteBtn from "../../../components/DeleteBtn/DeleteBtn";
 import AddBtn from "../../../components/AddBtn/AddBtn";
 import ShowBtn from "../../../components/ShowBtn/ShowBtn";
 import { useEffect, useState } from "react";
-import { getDiscountAmount } from "../../../../utils/Utils";
+import { getDiscountAmount, formatPrice, toPersianDigits, parseProductImages, getImageUrl } from "../../../../utils/Utils";
+import { deleteAdminProduct, getAdminProducts } from "../../../../services/api";
+import { ServerErrorSwal, successSwal } from "../../../../Swals/Swals";
 
 function Hardware() {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const loadData = async () => {
+    setLoading(true);
+    const result = await getAdminProducts("hardware");
+    if (result?.success && Array.isArray(result.data)) {
+      setData(result.data);
+    } else {
+      ServerErrorSwal();
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    setData([
-      {
-        id: 1,
-        NAME: "GPU Ultra 900",
-        description: "کارت گرافیک اولترا 900",
-        price: "210000000",
-        discount: "9",
-        brandId: "17",
-        productType: "hardware",
-        imgs: [
-          "http://localhost/tecnomobile/api/public/upload/Ultra%20900.png",
-        ],
-        details:
-          "کارت گرافیک Ultra 900 با بهره‌گیری از فناوری‌های پیشرفته پردازش تصویر و معماری بهینه، عملکردی روان و قدرتمند را در اجرای بازی‌ها، طراحی سه‌بعدی و پردازش‌های گرافیکی ارائه می‌دهد. این محصول با مصرف انرژی مناسب و پشتیبانی از رزولوشن‌های بالا، گزینه‌ای ایده‌آل برای کاربران حرفه‌ای و علاقه‌مندان به دنیای گرافیک محسوب می‌شود.",
-        extra: {
-          warranty: "0",
-        },
-        dateAdded: "2026-06-14 12:17:26",
-        showInHome: "1",
-      },
-      {
-        id: 2,
-        NAME: "GPU Ultra 900",
-        description: "کارت گرافیک اولترا 900",
-        price: "210000000",
-        discount: "9",
-        brandId: "17",
-        productType: "hardware",
-        imgs: [
-          "http://localhost/tecnomobile/api/public/upload/Ultra%20900.png",
-        ],
-        details:
-          "کارت گرافیک Ultra 900 با بهره‌گیری از فناوری‌های پیشرفته پردازش تصویر و معماری بهینه، عملکردی روان و قدرتمند را در اجرای بازی‌ها، طراحی سه‌بعدی و پردازش‌های گرافیکی ارائه می‌دهد. این محصول با مصرف انرژی مناسب و پشتیبانی از رزولوشن‌های بالا، گزینه‌ای ایده‌آل برای کاربران حرفه‌ای و علاقه‌مندان به دنیای گرافیک محسوب می‌شود.",
-        extra: {
-          warranty: "10",
-        },
-        dateAdded: "2026-06-14 12:17:26",
-        showInHome: "1",
-      },
-      {
-        id: 3,
-        NAME: "GPU Ultra 900",
-        description: "کارت گرافیک اولترا 900",
-        price: "210000000",
-        discount: "0",
-        brandId: "17",
-        productType: "hardware",
-        imgs: [
-          "http://localhost/tecnomobile/api/public/upload/Ultra%20900.png",
-        ],
-        details:
-          "کارت گرافیک Ultra 900 با بهره‌گیری از فناوری‌های پیشرفته پردازش تصویر و معماری بهینه، عملکردی روان و قدرتمند را در اجرای بازی‌ها، طراحی سه‌بعدی و پردازش‌های گرافیکی ارائه می‌دهد. این محصول با مصرف انرژی مناسب و پشتیبانی از رزولوشن‌های بالا، گزینه‌ای ایده‌آل برای کاربران حرفه‌ای و علاقه‌مندان به دنیای گرافیک محسوب می‌شود.",
-        extra: {
-          warranty: "0",
-        },
-        dateAdded: "2026-06-14 12:17:26",
-        showInHome: "1",
-      },
-    ]);
+    loadData();
   }, []);
+
+  const handleDelete = async (id) => {
+    const result = await deleteAdminProduct(id);
+    if (result?.success) {
+      setData((prev) => prev.filter((item) => item.id !== id));
+      successSwal("قطعه سخت‌افزاری با موفقیت حذف شد", "حذف شد");
+    } else {
+      ServerErrorSwal(result?.message || "خطا در حذف قطعه");
+    }
+  };
 
   return (
     <AdminLayout>
@@ -90,101 +56,77 @@ function Hardware() {
               <th>قیمت نهایی</th>
               <th>برند</th>
               <th>تصویر</th>
-              <th>جزئیات</th>
               <th>گارانتی</th>
               <th>تنظیمات</th>
             </tr>
           </thead>
 
           <tbody>
-            {data.map((value, index) => {
-              return (
-                <tr key={value.id}>
-                  {/* شماره */}
-                  <td>{index + 1}</td>
+            {loading ? (
+              <tr>
+                <td colSpan="10" className="py-4 text-center">درحال بارگذاری اطلاعات...</td>
+              </tr>
+            ) : data.length === 0 ? (
+              <tr>
+                <td colSpan="10" className="py-4 text-center text-secondary">هیچ قطعه سخت‌افزاری ثبت نشده است.</td>
+              </tr>
+            ) : (
+              data.map((value, index) => {
+                let extra = {};
+                try {
+                  extra = typeof value.extra === "string" ? JSON.parse(value.extra) : (value.extra || {});
+                } catch {
+                  extra = {};
+                }
 
-                  {/* نام */}
-                  <td className="fw-bold text-nowrap">{value.NAME}</td>
+                const imgs = parseProductImages(value.imgs);
+                const firstImg = getImageUrl(imgs[0]);
+                const finalPrice = getDiscountAmount(value.price, value.discount);
 
-                  {/* توضیحات */}
-                  <td
-                    style={{
-                      minWidth: "220px",
-                      maxWidth: "300px",
-                    }}
-                  >
-                    <div className="text-truncate">{value.description}</div>
-                  </td>
-
-                  {/* قیمت */}
-                  <td className="text-nowrap">
-                    {Number(value.price).toLocaleString("fa-IR")} تومان
-                  </td>
-
-                  {/* تخفیف */}
-                  <td>
-                    <span className="badge bg-danger">{value.discount}%</span>
-                  </td>
-
-                  {/* قیمت نهایی */}
-                  <td className="text-nowrap fw-bold">
-                    {Number(
-                      getDiscountAmount(value.price, value.discount),
-                    ).toLocaleString("fa-IR")}{" "}
-                    تومان
-                  </td>
-
-                  {/* برند */}
-                  <td className="text-nowrap">{value.brandId}</td>
-
-                  {/* تصویر */}
-                  <td>
-                    <img
-                      src={value.imgs[0]}
-                      alt={value.NAME}
-                      width="70"
-                      height="70"
-                      style={{
-                        objectFit: "contain",
-                        borderRadius: "8px",
-                      }}
-                    />
-                  </td>
-
-                  {/* جزئیات */}
-                  <td
-                    style={{
-                      minWidth: "300px",
-                      maxWidth: "400px",
-                    }}
-                  >
-                    <div className="text-truncate" title={value.details}>
-                      {value.details}
-                    </div>
-                  </td>
-
-                  {/* گارانتی */}
-                  {Number(value.extra.warranty) > 0 ? (
-                    <td className="text-nowrap">{value.extra.warranty} ماه</td>
-                  ) : (
-                    <td className="text-nowrap">ندارد</td>
-                  )}
-
-                  {/* تنظیمات */}
-                  <td style={{ minWidth: "150px" }}>
-                    <div className="d-flex justify-content-center gap-2">
-                      <ShowBtn link={`/Product/${value.id}`} />
-
-                      <EditBtn
-                        link={`/admin/Products/hardware/edit/${value.id}`}
-                      />
-
-                      <DeleteBtn />
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+                return (
+                  <tr key={value.id}>
+                    <td>{toPersianDigits(index + 1)}</td>
+                    <td className="fw-bold text-nowrap">{value.name || value.NAME}</td>
+                    <td style={{ minWidth: "200px", maxWidth: "300px" }}>
+                      <div className="text-truncate">{value.description}</div>
+                    </td>
+                    <td className="text-nowrap">{formatPrice(value.price)} تومان</td>
+                    <td>
+                      {value.discount > 0 ? (
+                        <span className="badge bg-danger">{toPersianDigits(value.discount)}%</span>
+                      ) : (
+                        <span className="badge bg-secondary">۰%</span>
+                      )}
+                    </td>
+                    <td className="text-nowrap fw-bold">{formatPrice(finalPrice)} تومان</td>
+                    <td className="text-nowrap">{value.brand || value.brandId}</td>
+                    <td>
+                      {firstImg ? (
+                        <img
+                          src={firstImg}
+                          alt={value.name}
+                          width="60"
+                          height="60"
+                          style={{ objectFit: "contain", borderRadius: "8px" }}
+                        />
+                      ) : (
+                        <span className="text-muted">بدون عکس</span>
+                      )}
+                    </td>
+                    <td className="text-nowrap">
+                      {extra.warranty > 0 ? `${toPersianDigits(extra.warranty)} ماه` : "ندارد"}
+                    </td>
+                    <td style={{ minWidth: "150px" }}>
+                      <div className="d-flex justify-content-center gap-2">
+                        <ShowBtn link={`/Product/${value.id}`} />
+                        <EditBtn link={`/admin/products/hardware/edit/${value.id}`} />
+                        <DeleteBtn btnHandle={() => handleDelete(value.id)} />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
       </div>

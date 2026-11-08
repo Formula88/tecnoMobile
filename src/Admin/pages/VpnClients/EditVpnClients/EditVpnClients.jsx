@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import FormLayout from "../../../layout/FormLayout/FormLayout";
 import FormBtn from "../../../components/FormBtn/FormBtn";
 import Inputs from "../../../../components/ui/Inputs/Inputs";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { editVpnClients, getVpnClient } from "../../../../services/api";
 import { errorSwal, ServerErrorSwal, successSwal } from "../../../../Swals/Swals";

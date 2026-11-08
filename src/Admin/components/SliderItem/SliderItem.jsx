@@ -1,18 +1,26 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./SliderItem.module.scss";
 
-function SliderItem({ title, items }) {
+function SliderItem({ title, items, onItemClick }) {
   return (
     <div className={styles.itemBox}>
-      <h2 className={styles.title}>{title}</h2>
-      <ul>
-        {items.map((value, index) => {
+      <span className={styles.groupTitle}>{title}</span>
+      <ul className={styles.list}>
+        {items.map((item, index) => {
+          const Icon = item.icon;
           return (
             <li key={index}>
-              <Link to={value.link} className={styles.item}>
-                {<value.icon />}
-                <span className={styles.itemTitle}>{value.text}</span>
-              </Link>
+              <NavLink
+                to={item.link}
+                onClick={onItemClick}
+                end={item.link === "/admin/panel" || item.link === "/"}
+                className={({ isActive }) =>
+                  `${styles.item} ${isActive ? styles.activeItem : ""}`
+                }
+              >
+                {Icon && <Icon className={styles.icon} />}
+                <span className={styles.itemTitle}>{item.text}</span>
+              </NavLink>
             </li>
           );
         })}

@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./FormLayout.module.scss";
-import { FaChevronLeft } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
+import AdminLayout from "../AdminLayout";
 
-function FormLayout({ children }) {
+function FormLayout({ children, title }) {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -10,15 +11,26 @@ function FormLayout({ children }) {
   };
 
   return (
-    <div className={styles.formLayout}>
-      <div className={styles.box}>
-        {children}
-        <div className={styles.back} onClick={handleBack}>
-          <span>بازگشت به صفحه قبلی</span>
-          <FaChevronLeft />
+    <AdminLayout>
+      <div className={styles.formLayout} dir="rtl">
+        <div className={styles.header}>
+          <button
+            type="button"
+            className={styles.backBtn}
+            onClick={handleBack}
+            title="بازگشت"
+          >
+            <FaArrowRight className={styles.backIcon} />
+            <span>بازگشت به صفحه قبلی</span>
+          </button>
+          {title && <h2 className={styles.title}>{title}</h2>}
+        </div>
+
+        <div className={styles.box}>
+          {children}
         </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 }
 

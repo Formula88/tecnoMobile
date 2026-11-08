@@ -2,10 +2,12 @@ import { useForm } from "react-hook-form";
 import FormLayout from "../../../../layout/FormLayout/FormLayout";
 import FormBtn from "../../../../components/FormBtn/FormBtn";
 import Inputs from "../../../../../components/ui/Inputs/Inputs";
-import { useEffect } from "react";
-import InputFile from "../../../../../components/ui/InputFile/InputFile";
+import { useEffect, useState } from "react";
 import Selects from "../../../../../components/ui/Selects/Selects";
 import Textareas from "../../../../../components/ui/Textareas/Textareas";
+import { useNavigate, useParams } from "react-router-dom";
+import { editAdminProduct, getAdminProduct, getBrands } from "../../../../../services/api";
+import { errorSwal, ServerErrorSwal, successSwal } from "../../../../../Swals/Swals";
 
 function EditMobile() {
   const {
@@ -15,65 +17,83 @@ function EditMobile() {
     reset,
   } = useForm();
 
-  const handleFormSubmit = (data) => {
-    console.log(data);
-  };
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [brands, setBrands] = useState([]);
 
   useEffect(() => {
-    const data = {
-      NAME: "iPhone 13 Pro Max",
-      description: "گوشی اپل iPhone 13 Pro Max",
-      price: 280000000,
-      discount: 10,
-      brandId: 1,
-      productType: "mobile",
+    getBrands().then((res) => {
+      if (res?.success && Array.isArray(res.data)) {
+        setBrands(res.data.map((b) => ({ value: b.id, text: b.name })));
+      }
+    });
 
-      imgs: [
-        "http://localhost/tecnomobile/api/public/upload/iPhone1.png",
-        "http://localhost/tecnomobile/api/public/upload/iPhone2.png",
-        "http://localhost/tecnomobile/api/public/upload/iPhone3.png",
-        "http://localhost/tecnomobile/api/public/upload/iPhone4.png",
-        "http://localhost/tecnomobile/api/public/upload/iPhone5.png",
-      ],
+    if (id) {
+      getAdminProduct(id).then((res) => {
+        if (res?.success && res.data) {
+          const p = res.data;
+          let extra = {};
+          try {
+            extra = typeof p.extra === "string" ? JSON.parse(p.extra) : (p.extra || {});
+          } catch {
+            extra = {};
+          }
+          const info = extra.phoneInformation || {};
 
-      details: "گوشی iPhone 13 Pro Max یکی از پرچم‌داران محبوب اپل است.",
+          reset({
+            NAME: p.name,
+            description: p.description,
+            price: p.price,
+            discount: p.discount,
+            brandId: p.brandId,
+            status: extra.status || "نو",
+            phoneType: extra.phoneType || "پرچمدار",
+            cpu: info.cpu || "",
+            camera: info.camera || "",
+            memory: info.memory || "",
+            battery: info.battery || "",
+            warranty: extra.warranty || "0",
+            details: p.details || "",
+          });
+        } else {
+          ServerErrorSwal("محصول مورد نظر یافت نشد");
+        }
+      });
+    }
+  }, [id, reset]);
 
-      extra: {
-        status: "نو",
-        warranty: "6",
-        phoneType: "پرچمدار",
-
-        phoneInformation: {
-          cpu: "Hexa-core CPU",
-          camera: 12,
-          memory: 256,
-          battery: 4352,
-        },
+  const handleFormSubmit = async (data) => {
+    const extra = {
+      status: data.status,
+      warranty: parseInt(data.warranty, 10) || 0,
+      phoneType: data.phoneType,
+      phoneInformation: {
+        cpu: data.cpu,
+        camera: data.camera,
+        memory: data.memory,
+        battery: data.battery,
       },
     };
 
-    reset({
-      NAME: data.NAME,
+    const payload = {
+      name: data.NAME,
       description: data.description,
       price: data.price,
-      discount: data.discount,
+      discount: data.discount || 0,
       brandId: data.brandId,
-
-      imgs: data.imgs,
-
+      productType: "mobile",
       details: data.details,
+      extra: extra,
+    };
 
-      status: data.extra.status,
-      warranty: data.extra.warranty,
-      phoneType: data.extra.phoneType,
-
-      cpu: data.extra.phoneInformation.cpu,
-      camera: data.extra.phoneInformation.camera,
-      memory: data.extra.phoneInformation.memory,
-      battery: data.extra.phoneInformation.battery,
-    });
-
-  }, [reset]);
+    const result = await editAdminProduct(id, payload);
+    if (result?.success) {
+      await successSwal("اطلاعات گوشی با موفقیت ویرایش شد", "عملیات موفق");
+      navigate("/admin/products/mobile");
+    } else {
+      errorSwal(result?.message || "خطا در ویرایش اطلاعات", "خطا");
+    }
+  };
 
   return (
     <FormLayout>
@@ -104,34 +124,24 @@ function EditMobile() {
               error={errors}
               name={"price"}
               label={"قیمت (تومان)"}
-              placeholder="مثلا 280000000"
               type="number"
             />
           </div>
-
           <div className="col">
             <Inputs
               register={register}
               option={{
                 required: "لطفا درصد تخفیف را وارد کنید",
-                min: {
-                  value: 0,
-                  message: "درصد نمی‌تواند کمتر از 0 باشد",
-                },
-                max: {
-                  value: 100,
-                  message: "درصد نمی‌تواند بیشتر از 100 باشد",
-                },
+                min: { value: 0, message: "درصد نمی‌تواند کمتر از 0 باشد" },
+                max: { value: 100, message: "درصد نمی‌تواند بیشتر از 100 باشد" },
               }}
               error={errors}
               name={"discount"}
               label={"تخفیف (%)"}
-              placeholder="مثلا 10"
               type="number"
             />
           </div>
         </div>
-
 
         <Selects
           register={register}
@@ -139,7 +149,7 @@ function EditMobile() {
           error={errors}
           name={"brandId"}
           label={"برند"}
-          items={["شیائومی", "سامسونگ", "اپل"]}
+          items={brands.length > 0 ? brands : ["سامسونگ", "اپل", "شیائومی"]}
         />
 
         <div className="row row-cols-2">
@@ -153,7 +163,6 @@ function EditMobile() {
               items={["نو", "درحد نو", "کارکرده", "نیاز به تعمیر"]}
             />
           </div>
-
           <div className="col">
             <Selects
               register={register}
@@ -162,12 +171,12 @@ function EditMobile() {
               name={"phoneType"}
               label={"نوع گوشی"}
               items={[
-                "گیمینگ",
-                "مناسب روزمره",
-                "مناسب عکاسی",
                 "پرچمدار",
                 "میان رده",
                 "پایین رده",
+                "گیمینگ",
+                "مناسب روزمره",
+                "مناسب عکاسی",
               ]}
             />
           </div>
@@ -181,10 +190,8 @@ function EditMobile() {
               error={errors}
               name={"cpu"}
               label={"CPU"}
-              placeholder="مثلا Hexa-core CPU"
             />
           </div>
-
           <div className="col">
             <Inputs
               register={register}
@@ -192,11 +199,9 @@ function EditMobile() {
               error={errors}
               name={"camera"}
               label={"دوربین (MP)"}
-              placeholder="مثلا 12"
               type="number"
             />
           </div>
-
           <div className="col">
             <Inputs
               register={register}
@@ -204,11 +209,9 @@ function EditMobile() {
               error={errors}
               name={"memory"}
               label={"حافظه (GB)"}
-              placeholder="مثلا 256"
               type="number"
             />
           </div>
-
           <div className="col">
             <Inputs
               register={register}
@@ -216,7 +219,6 @@ function EditMobile() {
               error={errors}
               name={"battery"}
               label={"باتری (mAh)"}
-              placeholder="مثلا 4352"
               type="number"
             />
           </div>
@@ -228,7 +230,6 @@ function EditMobile() {
           error={errors}
           name={"warranty"}
           label={"گارانتی (ماه)"}
-          placeholder="مثلا 6 (اگر گارانتی ندارد 0 وارد کنید)"
           type="number"
         />
 
@@ -238,10 +239,8 @@ function EditMobile() {
           error={errors}
           name={"details"}
           label={"جزئیات محصول"}
-          placeholder="توضیحات کامل محصول"
         />
-
-        <FormBtn text={"ویرایش گوشی"} />
+        <FormBtn text={"ذخیره تغییرات"} />
       </form>
     </FormLayout>
   );

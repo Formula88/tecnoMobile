@@ -2,10 +2,13 @@ import { useForm } from "react-hook-form";
 import FormLayout from "../../../../layout/FormLayout/FormLayout";
 import FormBtn from "../../../../components/FormBtn/FormBtn";
 import Inputs from "../../../../../components/ui/Inputs/Inputs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputFile from "../../../../../components/ui/InputFile/InputFile";
 import Selects from "../../../../../components/ui/Selects/Selects";
 import Textareas from "../../../../../components/ui/Textareas/Textareas";
+import { useNavigate } from "react-router-dom";
+import { addAdminProduct, getBrands } from "../../../../../services/api";
+import { errorSwal, successSwal } from "../../../../../Swals/Swals";
 
 function AddMobile() {
   const {
@@ -14,34 +17,53 @@ function AddMobile() {
     formState: { errors },
   } = useForm();
 
-  const handleFormSubmit = (data) => {
-    const mobileData = {
-      NAME: data.NAME,
-      description: data.description,
-      price: data.price,
-      discount: data.discount,
-      brandId: data.brandId,
-      productType: "mobile",
+  const navigate = useNavigate();
+  const [brands, setBrands] = useState([]);
 
-      imgs: data.imgs,
+  useEffect(() => {
+    getBrands().then((res) => {
+      if (res?.success && Array.isArray(res.data)) {
+        setBrands(res.data.map((b) => ({ value: b.id, text: b.name })));
+      }
+    });
+  }, []);
 
-      details: data.details,
+  const handleFormSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("name", data.NAME);
+    formData.append("description", data.description);
+    formData.append("price", data.price);
+    formData.append("discount", data.discount || 0);
+    formData.append("brandId", data.brandId);
+    formData.append("productType", "mobile");
+    formData.append("details", data.details);
 
-      extra: {
-        status: data.status,
-        warranty: data.warranty,
-        phoneType: data.phoneType,
-
-        phoneInformation: {
-          cpu: data.cpu,
-          camera: data.camera,
-          memory: data.memory,
-          battery: data.battery,
-        },
+    const extra = {
+      status: data.status,
+      warranty: parseInt(data.warranty, 10) || 0,
+      phoneType: data.phoneType,
+      phoneInformation: {
+        cpu: data.cpu,
+        camera: data.camera,
+        memory: data.memory,
+        battery: data.battery,
       },
     };
+    formData.append("extra", JSON.stringify(extra));
 
-    console.log(mobileData);
+    if (data.imgs && data.imgs.length > 0) {
+      for (let i = 0; i < data.imgs.length; i++) {
+        formData.append("imgs[]", data.imgs[i]);
+      }
+    }
+
+    const result = await addAdminProduct(formData);
+    if (result?.success) {
+      await successSwal("گوشی با موفقیت اضافه شد", "عملیات موفق");
+      navigate("/admin/products/mobile");
+    } else {
+      errorSwal(result?.message || "خطا در افزودن گوشی", "خطا");
+    }
   };
 
   return (
@@ -82,38 +104,35 @@ function AddMobile() {
               register={register}
               option={{
                 required: "لطفا درصد تخفیف را وارد کنید",
-                min: {
-                  value: 0,
-                  message: "درصد نمی‌تواند کمتر از 0 باشد",
-                },
-                max: {
-                  value: 100,
-                  message: "درصد نمی‌تواند بیشتر از 100 باشد",
-                },
+                min: { value: 0, message: "درصد نمی‌تواند کمتر از 0 باشد" },
+                max: { value: 100, message: "درصد نمی‌تواند بیشتر از 100 باشد" },
               }}
               error={errors}
               name={"discount"}
               label={"تخفیف (%)"}
               placeholder="مثلا 10"
               type="number"
-              value="0"
+              defaultValue="0"
             />
           </div>
         </div>
+
         <InputFile
           register={register}
           option={{ required: "لطفا حداقل یک عکس وارد کنید" }}
           name={"imgs"}
           error={errors}
         />
+
         <Selects
           register={register}
           option={{ required: "لطفا برند را انتخاب کنید" }}
           error={errors}
           name={"brandId"}
           label={"برند"}
-          items={["شیائومی", "سامسونگ", "اپل"]}
+          items={brands.length > 0 ? brands : ["سامسونگ", "اپل", "شیائومی"]}
         />
+
         <div className="row row-cols-2">
           <div className="col">
             <Selects
@@ -133,16 +152,17 @@ function AddMobile() {
               name={"phoneType"}
               label={"نوع گوشی"}
               items={[
-                "گیمینگ",
-                "مناسب روزمره",
-                "مناسب عکاسی",
                 "پرچمدار",
                 "میان رده",
                 "پایین رده",
+                "گیمینگ",
+                "مناسب روزمره",
+                "مناسب عکاسی",
               ]}
             />
           </div>
         </div>
+
         <div className="row row-cols-2">
           <div className="col">
             <Inputs

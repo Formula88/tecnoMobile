@@ -1,14 +1,31 @@
-.btn {
-  width: 125px;
-  height: 40px;
-  box-shadow: none;
-  border-radius: 6px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  gap: 10px;
-  transition: 0.25s;
+.selectWrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.select {
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  border-radius: 8px;
+  background-color: #0e141d;
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #1499e6;
+  }
+
+  &:focus {
+    border-color: #1499e6;
+    box-shadow: 0 0 0 2px rgba(20, 153, 230, 0.25);
+  }
+
+  .option {
+    background-color: #0e141d;
+    color: #e2e8f0;
+  }
 }

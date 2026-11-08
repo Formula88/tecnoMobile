@@ -4,18 +4,22 @@ import EditBtn from "../../components/EditBtn/EditBtn";
 import DeleteBtn from "../../components/DeleteBtn/DeleteBtn";
 import { deleteUser, getUsers } from "../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
+import { toPersianDigits } from "../../../utils/Utils";
+import { FaUserShield, FaUser } from "react-icons/fa";
 
 function Users() {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getHandle = async () => {
+    setLoading(true);
     const result = await getUsers();
     if (!result?.success) {
       ServerErrorSwal();
-      return;
+    } else {
+      setData(result.data || []);
     }
-
-    setData(result.data);
+    setLoading(false);
   };
 
   const deleteHandle = async (id) => {
@@ -32,47 +36,77 @@ function Users() {
   useEffect(() => {
     getHandle();
   }, []);
+
   return (
     <AdminLayout>
-      <table
-        className="table table-bordered table-hover table-striped text-center align-middle"
-        dir="rtl"
-      >
-        <thead>
-          <tr className="table-dark">
-            <th>ردیف</th>
-            <th>شماره تماس</th>
-            <th>وضعیت کاربر</th>
-            <th>تاریخ ورود</th>
-            <th>مدیریت</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((value, index) => {
-            return (
-              <tr key={value.id}>
-                <td>{index + 1}</td>
-                <td>{value.phone}</td>
-                <td>
-                  {value.admin == 0 && "کاربر عادی"}
-                  {value.admin == 1 && "ادمین"}
-                </td>
-                <td>{value.createdAt}</td>
-                <td className="w-25">
-                  <div className="d-flex justify-content-around">
-                    <EditBtn link={`/admin/users/edit/${value.id}`}/>
-                    <DeleteBtn
-                      btnHandle={() => {
-                        deleteHandle(value.id);
-                      }}
-                    />
-                  </div>
+      <div className="table-responsive">
+        <table
+          className="table table-bordered table-hover text-center align-middle mb-0"
+          dir="rtl"
+        >
+          <thead className="table-dark">
+            <tr>
+              <th>ردیف</th>
+              <th>شماره تماس</th>
+              <th>سطح دسترسی</th>
+              <th>تاریخ عضویت</th>
+              <th>عملیات</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="5" className="py-4 text-center">
+                  درحال بارگذاری اطلاعات کاربران...
                 </td>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ) : data.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="py-4 text-center text-secondary">
+                  هیچ کاربری یافت نشد.
+                </td>
+              </tr>
+            ) : (
+              data.map((value, index) => {
+                const isAdmin = Number(value.admin) === 1;
+                return (
+                  <tr key={value.id}>
+                    <td>{toPersianDigits(index + 1)}</td>
+                    <td className="fw-bold">{toPersianDigits(value.phone)}</td>
+                    <td>
+                      {isAdmin ? (
+                        <span className="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 d-inline-flex align-items-center gap-1 px-2 py-1">
+                          <FaUserShield />
+                          <span>مدیر سیستم</span>
+                        </span>
+                      ) : (
+                        <span className="badge bg-secondary bg-opacity-25 text-light border border-secondary border-opacity-25 d-inline-flex align-items-center gap-1 px-2 py-1">
+                          <FaUser />
+                          <span>کاربر عادی</span>
+                        </span>
+                      )}
+                    </td>
+                    <td>
+                      {value.createdAt
+                        ? toPersianDigits(new Date(value.createdAt).toLocaleDateString("fa-IR"))
+                        : "-"}
+                    </td>
+                    <td>
+                      <div className="d-flex justify-content-center gap-2">
+                        <EditBtn link={`/admin/users/edit/${value.id}`} />
+                        <DeleteBtn
+                          confirmText="آیا از حذف این کاربر اطمینان دارید؟"
+                          btnHandle={() => deleteHandle(value.id)}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
     </AdminLayout>
   );
 }

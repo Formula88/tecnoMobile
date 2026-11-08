@@ -1,14 +1,31 @@
 import styles from "./DeleteBtn.module.scss";
 import { FaTrash } from "react-icons/fa";
-function DeleteBtn({ btnHandle = () => {} }) {
+import { confirmSwal } from "../../../Swals/Swals";
+
+function DeleteBtn({
+  btnHandle = () => {},
+  confirmText = "آیا از حذف این مورد اطمینان دارید؟",
+  text = "حذف",
+}) {
+  const handleClick = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const confirmed = await confirmSwal(confirmText);
+    if (confirmed) {
+      btnHandle();
+    }
+  };
+
   return (
-    <div
+    <button
+      type="button"
       className={styles.btn}
-      onClick={btnHandle}
+      onClick={handleClick}
+      title={text}
     >
-      <span className={styles.text}>حذف</span>
-      <FaTrash />
-    </div>
+      <FaTrash className={styles.icon} />
+      <span className={styles.text}>{text}</span>
+    </button>
   );
 }
 

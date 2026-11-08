@@ -2,10 +2,12 @@ import { useForm } from "react-hook-form";
 import FormLayout from "../../../../layout/FormLayout/FormLayout";
 import FormBtn from "../../../../components/FormBtn/FormBtn";
 import Inputs from "../../../../../components/ui/Inputs/Inputs";
-import { useEffect } from "react";
-import InputFile from "../../../../../components/ui/InputFile/InputFile";
 import Selects from "../../../../../components/ui/Selects/Selects";
 import Textareas from "../../../../../components/ui/Textareas/Textareas";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { editAdminProduct, getAdminProduct, getBrands } from "../../../../../services/api";
+import { errorSwal, ServerErrorSwal, successSwal } from "../../../../../Swals/Swals";
 
 function EditAccessories() {
   const {
@@ -15,120 +17,110 @@ function EditAccessories() {
     reset,
   } = useForm();
 
-  const handleFormSubmit = (data) => {
-    const hardwareData = {
-      NAME: data.NAME,
-      description: data.description,
-      price: data.price,
-      discount: data.discount,
-      brandId: data.brandId,
-      productType: "hardware",
-
-      imgs: data.imgs,
-
-      details: data.details,
-
-      extra: {
-        warranty: data.warranty,
-      },
-    };
-
-    console.log(hardwareData);
-  };
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [brands, setBrands] = useState([]);
 
   useEffect(() => {
-    const data = {
-      id: 1,
-      NAME: "airpad pro",
-      description: "airpad pro iphone",
-      price: 210000000,
-      discount: 0,
-      brandId: "ASUS",
-      productType: "hardware",
+    getBrands().then((res) => {
+      if (res?.success && Array.isArray(res.data)) {
+        setBrands(res.data.map((b) => ({ value: b.id, text: b.name })));
+      }
+    });
 
-      imgs: ["http://localhost/tecnomobile/api/public/upload/Ultra%20900.png"],
+    if (id) {
+      getAdminProduct(id).then((res) => {
+        if (res?.success && res.data) {
+          const p = res.data;
+          let extra = {};
+          try {
+            extra = typeof p.extra === "string" ? JSON.parse(p.extra) : (p.extra || {});
+          } catch {
+            extra = {};
+          }
 
-      details:
-        "کارت گرافیک Ultra 900 با بهره‌گیری از فناوری‌های پیشرفته پردازش تصویر و معماری بهینه، عملکردی روان و قدرتمند را در اجرای بازی‌ها، طراحی سه‌بعدی و پردازش‌های گرافیکی ارائه می‌دهد.",
+          reset({
+            NAME: p.name,
+            description: p.description,
+            price: p.price,
+            discount: p.discount,
+            brandId: p.brandId,
+            warranty: extra.warranty || "0",
+            details: p.details || "",
+          });
+        } else {
+          ServerErrorSwal("کالای مورد نظر یافت نشد");
+        }
+      });
+    }
+  }, [id, reset]);
 
-      extra: {
-        warranty: "10",
-      },
+  const handleFormSubmit = async (data) => {
+    const extra = {
+      warranty: parseInt(data.warranty, 10) || 0,
     };
 
-    reset({
-      NAME: data.NAME,
+    const payload = {
+      name: data.NAME,
       description: data.description,
       price: data.price,
-      discount: data.discount,
+      discount: data.discount || 0,
       brandId: data.brandId,
-
-      imgs: data.imgs,
-
+      productType: "accessories",
       details: data.details,
+      extra: extra,
+    };
 
-      warranty: data.extra.warranty,
-    });
-  }, [reset]);
+    const result = await editAdminProduct(id, payload);
+    if (result?.success) {
+      await successSwal("لوازم جانبی با موفقیت ویرایش شد", "عملیات موفق");
+      navigate("/admin/products/accessories");
+    } else {
+      errorSwal(result?.message || "خطا در ویرایش", "خطا");
+    }
+  };
 
   return (
     <FormLayout>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <Inputs
           register={register}
-          option={{
-            required: "لطفا نام محصول را وارد کنید",
-          }}
+          option={{ required: "لطفا نام محصول را وارد کنید" }}
           error={errors}
           name={"NAME"}
           label={"نام محصول"}
-          placeholder="مثلا GPU Ultra 900"
         />
 
         <Inputs
           register={register}
-          option={{
-            required: "لطفا توضیحات را وارد کنید",
-          }}
+          option={{ required: "لطفا توضیحات را وارد کنید" }}
           error={errors}
           name={"description"}
-          label={"توضیحات"}
-          placeholder="توضیحات کوتاه محصول"
+          label={"توضیحات کوتاه"}
         />
 
         <div className="row row-cols-2">
           <div className="col">
             <Inputs
               register={register}
-              option={{
-                required: "لطفا قیمت را وارد کنید",
-              }}
+              option={{ required: "لطفا قیمت را وارد کنید" }}
               error={errors}
               name={"price"}
               label={"قیمت (تومان)"}
-              placeholder="مثلا 210000000"
               type="number"
             />
           </div>
-
           <div className="col">
             <Inputs
               register={register}
               option={{
                 required: "لطفا درصد تخفیف را وارد کنید",
-                min: {
-                  value: 0,
-                  message: "درصد نمی‌تواند کمتر از 0 باشد",
-                },
-                max: {
-                  value: 100,
-                  message: "درصد نمی‌تواند بیشتر از 100 باشد",
-                },
+                min: { value: 0, message: "درصد نمی‌تواند کمتر از 0 باشد" },
+                max: { value: 100, message: "درصد نمی‌تواند بیشتر از 100 باشد" },
               }}
               error={errors}
               name={"discount"}
               label={"تخفیف (%)"}
-              placeholder="مثلا 10"
               type="number"
             />
           </div>
@@ -136,43 +128,31 @@ function EditAccessories() {
 
         <Selects
           register={register}
-          option={{
-            required: "لطفا برند را انتخاب کنید",
-          }}
+          option={{ required: "لطفا برند را انتخاب کنید" }}
           error={errors}
           name={"brandId"}
           label={"برند"}
-          items={["ASUS", "MSI", "Gigabyte", "Intel", "AMD", "NVIDIA"]}
+          items={brands.length > 0 ? brands : ["سامسونگ", "اپل", "شیائومی"]}
         />
 
         <Inputs
           register={register}
-          option={{
-            required: "لطفا مدت گارانتی را وارد کنید",
-            min: {
-              value: 0,
-              message: "گارانتی نمی‌تواند کمتر از 0 باشد",
-            },
-          }}
+          option={{ required: "لطفا مدت گارانتی را وارد کنید" }}
           error={errors}
           name={"warranty"}
           label={"گارانتی (ماه)"}
-          placeholder="مثلا 12 (اگر گارانتی ندارد 0 وارد کنید)"
           type="number"
         />
 
         <Textareas
           register={register}
-          option={{
-            required: "لطفا جزئیات محصول را وارد کنید",
-          }}
+          option={{ required: "لطفا جزئیات محصول را وارد کنید" }}
           error={errors}
           name={"details"}
-          label={"جزئیات محصول"}
-          placeholder="توضیحات کامل محصول"
+          label={"جزئیات کامل محصول"}
         />
 
-        <FormBtn text={"ویرایش سخت افزار"} />
+        <FormBtn text={"ذخیره تغییرات"} />
       </form>
     </FormLayout>
   );
