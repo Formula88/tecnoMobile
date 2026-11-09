@@ -16,6 +16,7 @@ import {
 import { deleteAdminProduct, getAdminProducts } from "../../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../../Swals/Swals";
 import { FaSearch } from "react-icons/fa";
+import { AdminTableSkeleton } from "../../../../components/ui/Skeleton/Skeleton";
 
 function Accessories() {
   const [data, setData] = useState([]);
@@ -109,9 +110,7 @@ function Accessories() {
 
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="11" className="py-4 text-center">درحال بارگذاری اطلاعات...</td>
-              </tr>
+              <AdminTableSkeleton rows={5} columns={11} />
             ) : data.length === 0 ? (
               <tr>
                 <td colSpan="11" className="py-4 text-center text-secondary">هیچ لوازم جانبی ثبت نشده است.</td>

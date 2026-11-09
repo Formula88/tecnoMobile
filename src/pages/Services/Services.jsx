@@ -7,6 +7,7 @@ import styles from "./Services.module.scss";
 import { GetServices } from "../../services/api";
 import { ServerErrorSwal } from "../../Swals/Swals";
 import ServiceCard from "../../components/cards/ServiceCard/ServiceCard";
+import { ServiceCardSkeleton } from "../../components/ui/Skeleton/Skeleton";
 import ServicesForm from "../../components/forms/ServicesForm/ServicesForm";
 import { useScrollTo } from "../../hooks/hooks";
 
@@ -14,6 +15,7 @@ function Services() {
   const [services, setServices] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const handlePageChange = (event) => {
     const selectedPage = event.selected + 1;
@@ -23,7 +25,9 @@ function Services() {
   useScrollTo("form");
 
   useEffect(() => {
+    setLoading(true);
     GetServices(currentPage).then((result) => {
+      setLoading(false);
       if (result?.success === true) {
         setServices(result.data);
         setPageCount(result.countPage);
@@ -40,19 +44,27 @@ function Services() {
         <div className={styles.serviceCards}>
           <div className="container">
             <div className="row row-cols-lg-3 row-cols-sm-2 row-cols-1 justify-content-center">
-              {services.map((service) => {
-                return (
-                  <div className="col d-flex align-items-stretch mb-4" key={service.id}>
-                    <ServiceCard
-                      title={service.name}
-                      description={service.description}
-                      priceIn={service.priceIn}
-                      priceOut={service.priceOut}
-                      warranty={service.warranty}
-                    />
+              {loading ? (
+                Array.from({ length: 6 }).map((_, idx) => (
+                  <div className="col d-flex align-items-stretch mb-4" key={idx}>
+                    <ServiceCardSkeleton />
                   </div>
-                );
-              })}
+                ))
+              ) : (
+                services.map((service) => {
+                  return (
+                    <div className="col d-flex align-items-stretch mb-4" key={service.id}>
+                      <ServiceCard
+                        title={service.name}
+                        description={service.description}
+                        priceIn={service.priceIn}
+                        priceOut={service.priceOut}
+                        warranty={service.warranty}
+                      />
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
         </div>

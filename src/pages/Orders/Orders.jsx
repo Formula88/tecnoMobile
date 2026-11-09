@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import OrderCard from "../../components/cards/OrderCard/OrderCard";
+import { OrderCardSkeleton } from "../../components/ui/Skeleton/Skeleton";
 import Footer from "../../components/layout/Footer/Footer";
 import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
 import styles from "./Orders.module.scss";
@@ -25,7 +26,11 @@ function Orders() {
         <h1 className={styles.title}>سفارشات شما</h1>
         <div className="container">
           {loading ? (
-            <p className="text-center text-white py-4">درحال بارگذاری سفارشات...</p>
+            <div>
+              {Array.from({ length: 3 }).map((_, idx) => (
+                <OrderCardSkeleton key={idx} />
+              ))}
+            </div>
           ) : orders.length === 0 ? (
             <p className="text-center text-secondary py-5">هنوز هیچ سفارشی ثبت نکرده‌اید.</p>
           ) : (

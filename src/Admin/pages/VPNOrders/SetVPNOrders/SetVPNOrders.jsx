@@ -7,6 +7,7 @@ import { errorSwal, ServerErrorSwal, successSwal } from "../../../../Swals/Swals
 import { getImageUrl, toPersianDigits } from "../../../../utils/Utils";
 import { FaLink, FaQrcode, FaFileAlt, FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
 import { HiOutlineDownload } from "react-icons/hi";
+import { Skeleton } from "../../../../components/ui/Skeleton/Skeleton";
 
 function SetVPNOrders() {
   const [searchParams] = useSearchParams();
@@ -117,7 +118,20 @@ function SetVPNOrders() {
   if (loading) {
     return (
       <FormLayout>
-        <div className="py-5 text-center text-white">درحال بارگذاری اطلاعات سفارش...</div>
+        <div className="card bg-dark bg-opacity-50 border-secondary border-opacity-50 p-4 mb-4 rounded-3 text-white" dir="rtl">
+          <Skeleton width="180px" height="24px" className="mb-3" />
+          <div className="row g-3">
+            <div className="col-12 col-md-6"><Skeleton width="70%" height="20px" /></div>
+            <div className="col-12 col-md-6"><Skeleton width="80%" height="20px" /></div>
+            <div className="col-12 col-md-6"><Skeleton width="60%" height="20px" /></div>
+            <div className="col-12 col-md-6"><Skeleton width="75%" height="20px" /></div>
+          </div>
+          <div className="mt-4 pt-3 border-top border-secondary border-opacity-25 d-flex flex-column gap-3">
+            <Skeleton width="40%" height="20px" />
+            <Skeleton width="100%" height="80px" borderRadius="8px" />
+            <Skeleton width="100%" height="45px" borderRadius="8px" className="mt-2" />
+          </div>
+        </div>
       </FormLayout>
     );
   }

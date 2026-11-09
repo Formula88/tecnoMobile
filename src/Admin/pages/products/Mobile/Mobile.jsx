@@ -16,6 +16,7 @@ import ShowBtn from "../../../components/ShowBtn/ShowBtn";
 import { deleteAdminProduct, getAdminProducts } from "../../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../../Swals/Swals";
 import { FaSearch } from "react-icons/fa";
+import { AdminTableSkeleton } from "../../../../components/ui/Skeleton/Skeleton";
 
 function Mobile() {
   const [data, setData] = useState([]);
@@ -117,9 +118,7 @@ function Mobile() {
 
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="13" className="py-4 text-center">درحال بارگذاری اطلاعات...</td>
-              </tr>
+              <AdminTableSkeleton rows={5} columns={13} />
             ) : data.length === 0 ? (
               <tr>
                 <td colSpan="13" className="py-4 text-center text-secondary">هیچ موبایلی ثبت نشده است.</td>

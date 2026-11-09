@@ -8,6 +8,7 @@ import { deleteVpnClient, getVpnClients } from "../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
 import { toPersianDigits, normalizeSearchText } from "../../../utils/Utils";
 import { FaExternalLinkAlt, FaSearch } from "react-icons/fa";
+import { AdminTableSkeleton } from "../../../components/ui/Skeleton/Skeleton";
 
 function VpnClients() {
   const [data, setData] = useState([]);
@@ -112,11 +113,7 @@ function VpnClients() {
           </thead>
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="6" className="py-4 text-center">
-                  درحال بارگذاری کلاینت‌ها...
-                </td>
-              </tr>
+              <AdminTableSkeleton rows={5} columns={6} />
             ) : data.length === 0 ? (
               <tr>
                 <td colSpan="6" className="py-4 text-center text-secondary">

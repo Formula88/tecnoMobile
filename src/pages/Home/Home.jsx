@@ -5,6 +5,7 @@ import { MdVpnKey } from "react-icons/md";
 
 import DescriptionCard from "../../components/cards/DescriptionCard/DescriptionCard";
 import GlassItemCard from "../../components/cards/GlassItemCard/GlassItemCard";
+import { GlassItemSkeleton } from "../../components/ui/Skeleton/Skeleton";
 import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
 import IntroHome from "../../components/sections/IntroHome/IntroHome";
 import NavElement from "../../components/ui/NavElement/NavElement";
@@ -17,9 +18,12 @@ import { ServerErrorSwal } from "../../Swals/Swals";
 
 function Home() {
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     GetItemInHome().then((result) => {
+      setLoading(false);
       if (result?.success === true) {
         setItems(result.data);
       } else {
@@ -35,18 +39,26 @@ function Home() {
         <div className="container">
           <NavElement title="محصولات برگزیده" link="/products" />
           <div className="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
-            {items.map((item, index) => {
-              return (
+            {loading ? (
+              Array.from({ length: 4 }).map((_, index) => (
                 <div className="col" key={index}>
-                  <GlassItemCard
-                    title={item.name}
-                    img={item.imgs}
-                    description={item.description}
-                    id={item.id}
-                  />
+                  <GlassItemSkeleton />
                 </div>
-              );
-            })}
+              ))
+            ) : (
+              items.map((item, index) => {
+                return (
+                  <div className="col" key={index}>
+                    <GlassItemCard
+                      title={item.name}
+                      img={item.imgs}
+                      description={item.description}
+                      id={item.id}
+                    />
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       </section>

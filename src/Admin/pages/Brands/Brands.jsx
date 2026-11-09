@@ -8,6 +8,7 @@ import { deleteBrand, getBrands } from "../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
 import { toPersianDigits, normalizeSearchText } from "../../../utils/Utils";
 import { FaSearch } from "react-icons/fa";
+import { AdminTableSkeleton } from "../../../components/ui/Skeleton/Skeleton";
 
 const categoryTitle = {
   mobile: "موبایل",
@@ -88,11 +89,7 @@ function Brands() {
           </thead>
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="4" className="py-4 text-center">
-                  درحال بارگذاری برندها...
-                </td>
-              </tr>
+              <AdminTableSkeleton rows={5} columns={4} />
             ) : data.length === 0 ? (
               <tr>
                 <td colSpan="4" className="py-4 text-center text-secondary">

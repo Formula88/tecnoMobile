@@ -4,6 +4,7 @@ import Footer from "../../components/layout/Footer/Footer";
 import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
 import ProductInfo from "../../components/sections/ProductInfo/ProductInfo";
 import SliderImg from "../../components/ui/SliderImg/SliderImg";
+import { ProductDetailSkeleton } from "../../components/ui/Skeleton/Skeleton";
 import styles from "./Product.module.scss";
 import { useParams } from "react-router-dom";
 import { GetProduct } from "../../services/api";
@@ -14,9 +15,12 @@ function Product() {
   const params = useParams();
 
   const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     GetProduct(params.id).then((result) => {
+      setLoading(false);
       if (result?.success === true) {
         setProduct(result.data);
       } else {
@@ -28,26 +32,30 @@ function Product() {
   return (
     <>
       <HeaderNav />
-      <section className={styles.product}>
-        <div className="container">
-          <Breadcrumb productType={product.productType}/>
-          <div className={styles.info}>
-            <div className={styles.img}>
-              <SliderImg images={product.imgs} />
+      {loading || !product?.name ? (
+        <ProductDetailSkeleton />
+      ) : (
+        <section className={styles.product}>
+          <div className="container">
+            <Breadcrumb productType={product.productType}/>
+            <div className={styles.info}>
+              <div className={styles.img}>
+                <SliderImg images={product.imgs} />
+              </div>
+              <ProductInfo
+                title={product.name}
+                description={product.description}
+                productType={product.productType}
+                extra={product.extra}
+                brand={product.brandName}
+                price={product.price}
+                discount={product.discount}
+              />
             </div>
-            <ProductInfo
-              title={product.name}
-              description={product.description}
-              productType={product.productType}
-              extra={product.extra}
-              brand={product.brandName}
-              price={product.price}
-              discount={product.discount}
-            />
+            <Details details={product.details} />
           </div>
-          <Details details={product.details} />
-        </div>
-      </section>
+        </section>
+      )}
       <Footer />
     </>
   );

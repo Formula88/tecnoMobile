@@ -3,6 +3,7 @@ import styles from "./VPNServices.module.scss";
 import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
 import Footer from "../../components/layout/Footer/Footer";
 import VPNServicesCard from "../../components/cards/VPNServicesCard/VPNServicesCard";
+import { VPNServicesCardSkeleton } from "../../components/ui/Skeleton/Skeleton";
 import { getUserVpnOrders } from "../../services/api";
 import { Context } from "../../context/AppContext";
 import { Link } from "react-router-dom";
@@ -41,11 +42,12 @@ function VPNServices() {
         <h1 className={styles.title}>سرویس‌های VPN شما</h1>
         <div className="container">
           {loading || isAuthChecking ? (
-            <div className="text-center py-5 text-secondary">
-              <div className="spinner-border text-info mb-3" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-              <div>درحال بارگذاری سرویس‌های VPN...</div>
+            <div className="row row-cols-1">
+              {Array.from({ length: 3 }).map((_, idx) => (
+                <div className="col mb-4" key={idx}>
+                  <VPNServicesCardSkeleton />
+                </div>
+              ))}
             </div>
           ) : !isLogin ? (
             <div className="text-center py-5 my-4" dir="rtl">

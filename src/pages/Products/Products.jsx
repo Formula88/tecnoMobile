@@ -5,6 +5,7 @@ import Pagination from "../../components/ui/Pagination/Pagination";
 import { useEffect, useState } from "react";
 import SearchBox from "../../components/ui/SearchBox/SearchBox";
 import ProductsCard from "../../components/cards/ProductsCard/ProductsCard";
+import { ProductCardSkeleton } from "../../components/ui/Skeleton/Skeleton";
 import { GetProducts } from "../../services/api";
 import { ServerErrorSwal } from "../../Swals/Swals";
 import FillterProducts from "../../components/sections/FillterProducts/FillterProducts";
@@ -16,6 +17,7 @@ function Products() {
   const [sort, setSort] = useState("newest");
   const [productType, setProductType] = useState("all");
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +25,9 @@ function Products() {
       setCurrentPage(1);
       return;
     }
+    setLoading(true);
     GetProducts(currentPage, searchValue, productType, sort).then((result) => {
+      setLoading(false);
       if (!result?.success) {
         ServerErrorSwal();
         return;
@@ -44,7 +48,9 @@ function Products() {
   };
 
   useEffect(() => {
+    setLoading(true);
     GetProducts(currentPage, searchValue, productType, sort).then((result) => {
+      setLoading(false);
       if (!result?.success) {
         ServerErrorSwal();
         return;
@@ -53,7 +59,7 @@ function Products() {
       setProducts(result.data);
       setPageCount(result.countPage);
     });
-  }, [currentPage,productType,sort]);
+  }, [currentPage, productType, sort]);
 
   return (
     <>
@@ -74,7 +80,13 @@ function Products() {
           <div
             className={`row row-cols-lg-4 row-cols-sm-2 row-cols-1 ${styles.productsCards}`}
           >
-            {products.length !== 0 ? (
+            {loading ? (
+              Array.from({ length: 8 }).map((_, idx) => (
+                <div className={`col ${styles.col} d-flex align-items-stretch mb-4`} key={idx}>
+                  <ProductCardSkeleton />
+                </div>
+              ))
+            ) : products.length !== 0 ? (
               products.map((value) => {
                 return (
                   <div className={`col ${styles.col} d-flex align-items-stretch mb-4`} key={value.id}>

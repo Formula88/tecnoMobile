@@ -11,6 +11,7 @@ import {
 import { toPersianDigits, normalizeSearchText } from "../../../utils/Utils";
 import { ServerErrorSwal, successSwal, errorSwal } from "../../../Swals/Swals";
 import { FaSearch } from "react-icons/fa";
+import { AdminTableSkeleton } from "../../../components/ui/Skeleton/Skeleton";
 
 const statusLabelMap = {
   under_review: "درحال بررسی under_review",
@@ -114,9 +115,7 @@ function ServiceReservation() {
           </thead>
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="8" className="py-4 text-center">درحال بارگذاری اطلاعات...</td>
-              </tr>
+              <AdminTableSkeleton rows={5} columns={8} />
             ) : data.length === 0 ? (
               <tr>
                 <td colSpan="8" className="py-4 text-center text-secondary">هیچ درخواست تعمیری ثبت نشده است.</td>

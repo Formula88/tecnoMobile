@@ -7,6 +7,7 @@ import { deleteUser, getUsers } from "../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
 import { toPersianDigits, normalizeSearchText } from "../../../utils/Utils";
 import { FaUserShield, FaUser, FaSearch } from "react-icons/fa";
+import { AdminTableSkeleton } from "../../../components/ui/Skeleton/Skeleton";
 
 function Users() {
   const [data, setData] = useState([]);
@@ -90,11 +91,7 @@ function Users() {
           </thead>
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="7" className="py-4 text-center">
-                  درحال بارگذاری اطلاعات کاربران...
-                </td>
-              </tr>
+              <AdminTableSkeleton rows={5} columns={7} />
             ) : data.length === 0 ? (
               <tr>
                 <td colSpan="7" className="py-4 text-center text-secondary">

@@ -8,6 +8,7 @@ import { deleteAdminOrder, getAdminOrders, updateAdminOrderStatus } from "../../
 import { formatPrice, toPersianDigits, normalizeSearchText } from "../../../../utils/Utils";
 import { ServerErrorSwal, successSwal } from "../../../../Swals/Swals";
 import { FaSearch } from "react-icons/fa";
+import { AdminTableSkeleton } from "../../../../components/ui/Skeleton/Skeleton";
 
 const statusMap = {
   NotSent: "درحال ارسال NotSent",
@@ -118,9 +119,7 @@ function OrdersA() {
 
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="10" className="py-4 text-center">درحال بارگذاری سفارشات...</td>
-              </tr>
+              <AdminTableSkeleton rows={5} columns={10} />
             ) : data.length === 0 ? (
               <tr>
                 <td colSpan="10" className="py-4 text-center text-secondary">هیچ سفارشی ثبت نشده است.</td>

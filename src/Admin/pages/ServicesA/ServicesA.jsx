@@ -8,6 +8,7 @@ import { ServerErrorSwal, successSwal } from "../../../Swals/Swals";
 import { deleteServicesA, getServiceA } from "../../../services/api";
 import { formatPrice, toPersianDigits, normalizeSearchText } from "../../../utils/Utils";
 import { FaSearch } from "react-icons/fa";
+import { AdminTableSkeleton } from "../../../components/ui/Skeleton/Skeleton";
 
 function ServicesA() {
   const [data, setData] = useState([]);
@@ -91,11 +92,7 @@ function ServicesA() {
           </thead>
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="7" className="py-4 text-center">
-                  درحال بارگذاری خدمات...
-                </td>
-              </tr>
+              <AdminTableSkeleton rows={5} columns={7} />
             ) : data.length === 0 ? (
               <tr>
                 <td colSpan="7" className="py-4 text-center text-secondary">

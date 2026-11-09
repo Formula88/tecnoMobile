@@ -13,18 +13,26 @@ import { useContext, useEffect, useState } from "react";
 import { GetProduct } from "../../../services/api";
 import { Context } from "../../../context/AppContext";
 import { ServerErrorSwal } from "../../../Swals/Swals";
+import { ShoppingCartCardSkeleton } from "../../ui/Skeleton/Skeleton";
 
 function ShoppingCartCard({ id, model, qty }) {
   const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    GetProduct(id).then((result) => {
-      if (result?.success === true) {
-        setProduct(result.data);
-      } else {
-        ServerErrorSwal();
-      }
-    });
+    setLoading(true);
+    GetProduct(id)
+      .then((result) => {
+        setLoading(false);
+        if (result?.success === true) {
+          setProduct(result.data);
+        } else {
+          ServerErrorSwal();
+        }
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   }, [id]);
 
   const {
@@ -32,6 +40,10 @@ function ShoppingCartCard({ id, model, qty }) {
     handleIncreaseProductQty,
     handleDecreaseProductQtt,
   } = useContext(Context);
+
+  if (loading || !product?.name) {
+    return <ShoppingCartCardSkeleton />;
+  }
 
   const images = parseProductImages(product.imgs);
   const img = getImageUrl(images[0]);

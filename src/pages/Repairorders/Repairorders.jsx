@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import RepairorderCard from "../../components/cards/RepairorderCard/RepairorderCard";
+import { RepairorderCardSkeleton } from "../../components/ui/Skeleton/Skeleton";
 import Footer from "../../components/layout/Footer/Footer";
 import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
 import styles from "./Repairorders.module.scss";
@@ -25,7 +26,13 @@ function Repairorders() {
         <h1 className={styles.title}>رزرو تعمیرات</h1>
         <div className="container">
           {loading ? (
-            <p className="text-center text-white py-4">درحال بارگذاری...</p>
+            <div className="row row-cols-xl-2 row-cols-1">
+              {Array.from({ length: 4 }).map((_, idx) => (
+                <div className="col mb-3" key={idx}>
+                  <RepairorderCardSkeleton />
+                </div>
+              ))}
+            </div>
           ) : repairs.length === 0 ? (
             <p className="text-center text-secondary py-5">هیچ نوبت تعمیری رزرو نشده است.</p>
           ) : (

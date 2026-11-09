@@ -5,6 +5,7 @@ import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
 import { formatPrice, toPersianDigits, parseProductImages, getImageUrl } from "../../utils/Utils";
 import styles from "./OrderDetails.module.scss";
 import { getUserOrderDetails } from "../../services/api";
+import { OrderDetailsSkeleton } from "../../components/ui/Skeleton/Skeleton";
 
 function OrderDetails() {
   const [searchParams] = useSearchParams();
@@ -39,7 +40,7 @@ function OrderDetails() {
         <h1 className={styles.title}>جزئیات سفارش</h1>
         <div className="container">
           {loading ? (
-            <p className="text-center text-white py-4">درحال بارگذاری جزئیات...</p>
+            <OrderDetailsSkeleton />
           ) : !order ? (
             <div className="text-center py-5">
               <p className="text-white mb-3">سفارش مورد نظر یافت نشد.</p>

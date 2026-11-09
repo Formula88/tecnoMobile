@@ -12,6 +12,7 @@ import {
 import { toPersianDigits, normalizeSearchText } from "../../../utils/Utils";
 import { ServerErrorSwal, successSwal, errorSwal } from "../../../Swals/Swals";
 import { FaSearch, FaCheck, FaTimes } from "react-icons/fa";
+import { AdminTableSkeleton } from "../../../components/ui/Skeleton/Skeleton";
 
 const statusMap = {
   pending: "درحال آماده‌سازی pending",
@@ -185,11 +186,7 @@ function VPNOrders() {
           </thead>
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="11" className="py-4 text-center">
-                  درحال بارگذاری سفارشات VPN...
-                </td>
-              </tr>
+              <AdminTableSkeleton rows={5} columns={11} />
             ) : data.length === 0 ? (
               <tr>
                 <td colSpan="11" className="py-4 text-center text-secondary">

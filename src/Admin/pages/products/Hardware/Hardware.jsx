@@ -16,6 +16,7 @@ import {
 import { deleteAdminProduct, getAdminProducts } from "../../../../services/api";
 import { ServerErrorSwal, successSwal } from "../../../../Swals/Swals";
 import { FaSearch } from "react-icons/fa";
+import { AdminTableSkeleton } from "../../../../components/ui/Skeleton/Skeleton";
 
 function Hardware() {
   const [data, setData] = useState([]);
@@ -112,9 +113,7 @@ function Hardware() {
 
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="10" className="py-4 text-center">درحال بارگذاری اطلاعات...</td>
-              </tr>
+              <AdminTableSkeleton rows={5} columns={10} />
             ) : data.length === 0 ? (
               <tr>
                 <td colSpan="10" className="py-4 text-center text-secondary">هیچ قطعه سخت‌افزاری ثبت نشده است.</td>
