@@ -1,8 +1,13 @@
+import { useState } from "react";
 import Tilt from "react-parallax-tilt";
 import styles from "./IntroHome.module.scss";
 import intro from "../../../assets/img/intro.webp";
 import { Link } from "react-router-dom";
+import { Skeleton } from "../../ui/Skeleton/Skeleton";
+
 function IntroHome() {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <>
       <section className={styles.intro}>
@@ -42,7 +47,20 @@ function IntroHome() {
                 glareBorderRadius="20px"
                 trackOnWindow={true}
               >
-                <img src={intro} alt="tecnomobile" className="noDrag" />
+                <div className={styles.imageContainer}>
+                  {!imageLoaded && (
+                    <Skeleton className={styles.heroSkeleton} borderRadius="20px" />
+                  )}
+                  <img
+                    src={intro}
+                    alt="tecnomobile"
+                    className={`noDrag ${imageLoaded ? styles.imgLoaded : styles.imgHidden}`}
+                    onLoad={() => setImageLoaded(true)}
+                    ref={(el) => {
+                      if (el?.complete) setImageLoaded(true);
+                    }}
+                  />
+                </div>
               </Tilt>
             </div>
             <div className={styles.shadow}></div>

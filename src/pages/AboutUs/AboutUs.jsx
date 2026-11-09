@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Footer from "../../components/layout/Footer/Footer";
 import HeaderNav from "../../components/layout/HeaderNav/HeaderNav";
 import { FaHistory } from "react-icons/fa";
@@ -7,7 +8,12 @@ import styles from "./AboutUs.module.scss";
 import img1 from "../../assets/img/AboutUs1.webp";
 import img2 from "../../assets/img/AboutUs2.webp";
 import AboutUsInfoCard from "../../components/cards/AboutUsInfoCard/AboutUsInfoCard";
+import { Skeleton } from "../../components/ui/Skeleton/Skeleton";
+
 function AboutUs() {
+  const [img1Loaded, setImg1Loaded] = useState(false);
+  const [img2Loaded, setImg2Loaded] = useState(false);
+
   return (
     <>
       <HeaderNav />
@@ -37,7 +43,20 @@ function AboutUs() {
                     کرده و به بزرگترین مرجع تأمین و نگهداری دستگاه‌های هوشمند
                     تبدیل شویم.
                   </p>
-                  <img src={img1} />
+                  <div className={styles.storyImgBox}>
+                    {!img1Loaded && (
+                      <Skeleton className={styles.storySkeleton} borderRadius="10px" />
+                    )}
+                    <img
+                      src={img1}
+                      alt="داستان تکنوموبایل"
+                      className={img1Loaded ? styles.imgLoaded : styles.imgHidden}
+                      onLoad={() => setImg1Loaded(true)}
+                      ref={(el) => {
+                        if (el?.complete) setImg1Loaded(true);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="col-lg-5 col-12">
@@ -90,7 +109,20 @@ function AboutUs() {
                 />
               </ul>
             </div>
-            <img src={img2} />
+            <div className={styles.mainImgBox}>
+              {!img2Loaded && (
+                <Skeleton className={styles.mainSkeleton} />
+              )}
+              <img
+                src={img2}
+                alt="تخصص فنی و مهندسی تکنوموبایل"
+                className={img2Loaded ? styles.imgLoaded : styles.imgHidden}
+                onLoad={() => setImg2Loaded(true)}
+                ref={(el) => {
+                  if (el?.complete) setImg2Loaded(true);
+                }}
+              />
+            </div>
           </div>
         </div>
       </section>
