@@ -10,24 +10,38 @@ function AppContext({ children }) {
   const [isLogin, setIsLogin] = useState(false);
   const [userType, setUserType] = useState("public");
   const [userNumber, setUserNumber] = useState("");
+  const [user, setUser] = useState(null);
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [isAuthChecking, setIsAuthChecking] = useState(true);
+
+  const loginUserSession = (userData) => {
+    setIsLogin(true);
+    setUserType(userData.userType || "public");
+    setUserNumber(userData.phoneNumber || userData.phone || "");
+    setUser(userData);
+    setUserName(userData.username || "");
+    setUserEmail(userData.email || "");
+  };
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const result = await getMe();
         if (result?.success && result.user) {
-          setIsLogin(true);
-          setUserType(result.user.userType);
-          setUserNumber(result.user.phoneNumber);
+          loginUserSession(result.user);
         } else {
           setIsLogin(false);
           setUserType("public");
           setUserNumber("");
+          setUser(null);
+          setUserName("");
+          setUserEmail("");
         }
       } catch {
         setIsLogin(false);
         setUserType("public");
+        setUser(null);
       } finally {
         setIsAuthChecking(false);
       }
@@ -41,6 +55,9 @@ function AppContext({ children }) {
     setIsLogin(false);
     setUserType("public");
     setUserNumber("");
+    setUser(null);
+    setUserName("");
+    setUserEmail("");
   };
 
   const [isLoading, setIsLoading] = useState(false);
@@ -131,6 +148,11 @@ function AppContext({ children }) {
         setUserType,
         userNumber,
         setUserNumber,
+        user,
+        setUser,
+        userName,
+        userEmail,
+        loginUserSession,
         isAuthChecking,
         logoutUser,
         scrollbarRef,

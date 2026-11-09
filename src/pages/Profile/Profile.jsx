@@ -19,7 +19,7 @@ function Profile() {
     Orders: "/Orders",
   };
 
-  const { userNumber, logoutUser } = useContext(Context);
+  const { user, userName, userEmail, userNumber, userType, logoutUser } = useContext(Context);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -36,7 +36,13 @@ function Profile() {
       <HeaderNav />
       <section className={styles.profile}>
         <div className="container">
-          <UserCard userNumber={userNumber} />
+          <UserCard
+            user={user}
+            userName={userName}
+            userEmail={userEmail}
+            userNumber={userNumber}
+            userType={userType}
+          />
           <div className={styles.profileCards}>
             <ProfileCard
               icon={<FaCartShopping />}

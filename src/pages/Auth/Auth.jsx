@@ -1,122 +1,96 @@
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import styles from "./Auth.module.scss";
 import logo from "../../assets/img/logo.svg";
-import OTPForm from "../../components/forms/OTPForm/OTPForm";
-import TimerOtp from "../../components/sections/TimerOtp/TimerOtp";
-import NumberForm from "../../components/forms/NumberForm/NumberForm";
-import { useTimer } from "../../hooks/hooks";
-import { Context } from "../../context/AppContext";
-import { getOPT, login, postOTP, sendNumber } from "../../services/api";
-import { useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { errorSwal, ServerErrorSwal } from "../../Swals/Swals";
-import { Link, useNavigate } from "react-router-dom";
+import LoginForm from "../../components/forms/LoginForm/LoginForm";
+import RegisterForm from "../../components/forms/RegisterForm/RegisterForm";
+import ForgotPasswordForm from "../../components/forms/ForgotPasswordForm/ForgotPasswordForm";
 
-const authPage = {
-  NUMBER: "number",
-  OTP: "otp",
+const MODES = {
+  LOGIN: "login",
+  REGISTER: "register",
+  FORGOT: "forgot",
 };
 
 function Auth() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    control,
-    reset,
-  } = useForm();
-
-  const navigate = useNavigate();
-
-  const { time, restartTimer, startTimer, stopTimer } = useTimer(120);
-
-  const [phoneNumber, setPhoneNumber] = useState("");
-
-  const { setIsLogin, setUserType, setUserNumber } = useContext(Context);
-
-  const [page, setPage] = useState(authPage.NUMBER);
-  const isOTPPage = page === authPage.OTP;
-
-  const handleFormSubmit = (data) => {
-    if (isOTPPage) {
-      handleOTPSubmit(data.OTP);
-    } else {
-      handleNumberSubmit(data);
-    }
-  };
-
-  const handleNumberSubmit = async (data) => {
-    const result = await sendNumber(data.phoneNumber);
-    if (!result?.success) {
-      ServerErrorSwal();
-      return;
-    }
-    setPhoneNumber(data.phoneNumber);
-    reset();
-    setPage(authPage.OTP);
-    await getOPT();
-  };
-
-  const handleResendOTP = async () => {
-    await getOPT();
-  };
-
-  const handleOTPSubmit = async (OTP) => {
-    const result = await postOTP(OTP);
-    if (!result?.success) {
-      errorSwal("لطفا دوباره تلاش کنید", "کد وارد شده صحیح نمیباشد");
-      return;
-    }
-    const status = await login();
-    if (status?.success === true) {
-      setIsLogin(true);
-      setUserType(status.userType);
-      setUserNumber(status.phoneNumber)
-      navigate("/");
-    }
-  };
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [mode, setMode] = useState(MODES.LOGIN);
 
   useEffect(() => {
-    if (!isOTPPage) return;
+    const qMode = searchParams.get("mode");
+    if (qMode === "register") {
+      setMode(MODES.REGISTER);
+    } else if (qMode === "forgot") {
+      setMode(MODES.FORGOT);
+    } else {
+      setMode(MODES.LOGIN);
+    }
+  }, [searchParams]);
 
-    startTimer();
-
-    return () => stopTimer();
-  }, [isOTPPage]);
-
-  const btnText = isOTPPage ? "تایید کد" : "ارسال کد تایید";
+  const handleTabChange = (newMode) => {
+    setMode(newMode);
+    setSearchParams(newMode === MODES.LOGIN ? {} : { mode: newMode });
+  };
 
   return (
     <div className={styles.auth}>
-      <img src={logo} alt="tecnomobile" className={styles.logo} />
-      <form onSubmit={handleSubmit(handleFormSubmit)} className={styles.form}>
-        {page === authPage.NUMBER && (
-          <NumberForm register={register} error={errors} />
-        )}
-        {page === authPage.OTP && (
-          <OTPForm control={control} error={errors} number={phoneNumber} />
-        )}
-        <input
-          type="submit"
-          value={btnText}
-          className={`btnPrimary ${styles.btn}`}
-        />
-        <div className={styles.box}>
-          <div className={styles.right}>
-            {isOTPPage && (
-              <TimerOtp
-                time={time}
-                restartTimer={restartTimer}
-                reSendOTP={handleResendOTP}
-              />
-            )}
+      <Link to="/" className={styles.logoWrapper}>
+        <img src={logo} alt="tecnomobile" className={styles.logo} />
+      </Link>
+
+      <div className={styles.card}>
+        {mode !== MODES.FORGOT ? (
+          <div className={styles.tabs}>
+            <button
+              type="button"
+              className={`${styles.tabBtn} ${
+                mode === MODES.LOGIN ? styles.active : ""
+              }`}
+              onClick={() => handleTabChange(MODES.LOGIN)}
+            >
+              ورود به حساب
+            </button>
+            <button
+              type="button"
+              className={`${styles.tabBtn} ${
+                mode === MODES.REGISTER ? styles.active : ""
+              }`}
+              onClick={() => handleTabChange(MODES.REGISTER)}
+            >
+              ثبت‌نام جدید
+            </button>
           </div>
-          <div className={styles.left}>
-            <Link to="/" className="btn btn-link">
-              بازگشت به صفحه اصلی
-            </Link>
+        ) : (
+          <div className={styles.forgotHeader}>
+            <h2 className={styles.forgotTitle}>بازیابی رمز عبور</h2>
           </div>
-        </div>
-      </form>
+        )}
+
+        {mode === MODES.LOGIN && (
+          <LoginForm
+            onSwitchToRegister={() => handleTabChange(MODES.REGISTER)}
+            onSwitchToForgot={() => handleTabChange(MODES.FORGOT)}
+          />
+        )}
+
+        {mode === MODES.REGISTER && (
+          <RegisterForm
+            onSwitchToLogin={() => handleTabChange(MODES.LOGIN)}
+          />
+        )}
+
+        {mode === MODES.FORGOT && (
+          <ForgotPasswordForm
+            onBackToLogin={() => handleTabChange(MODES.LOGIN)}
+          />
+        )}
+      </div>
+
+      <div className={styles.bottomBack}>
+        <Link to="/" className={styles.backLink}>
+          ← بازگشت به صفحه اصلی سایت
+        </Link>
+      </div>
     </div>
   );
 }

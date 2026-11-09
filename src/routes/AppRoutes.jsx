@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { lazy, Suspense, useContext, useEffect } from "react";
 
 import Home from "../pages/Home/Home";
@@ -8,6 +8,7 @@ import Services from "../pages/Services/Services";
 import Products from "../pages/Products/Products";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import Auth from "../pages/Auth/Auth";
+import ResetPassword from "../pages/ResetPassword/ResetPassword";
 import Profile from "../pages/Profile/Profile";
 import GuestRoute from "./GuestRoute";
 import ProtectedRoute from "./ProtectedRoute";
@@ -76,6 +77,11 @@ function AppRoutes() {
 
           <Route element={<GuestRoute />}>
             <Route path="/Auth" element={<Auth />} />
+            <Route path="/Login" element={<Navigate to="/Auth" replace />} />
+            <Route path="/Register" element={<Navigate to="/Auth?mode=register" replace />} />
+            <Route path="/ForgotPassword" element={<Navigate to="/Auth?mode=forgot" replace />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/ResetPassword" element={<Navigate to="/reset-password" replace />} />
           </Route>
 
           <Route element={<ProtectedRoute />}>

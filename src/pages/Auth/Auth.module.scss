@@ -1,79 +1,106 @@
 .auth {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  .logo {
-    width: 250px;
-    margin-bottom: 30px;
-  }
-  .form {
-    background-color: #1e1e1e;
-    padding: 30px;
-    max-width: 500px;
-    width: 100%;
-    display: block;
-    border-radius: 20px;
-    border: 1px solid #424242;
-    .btn {
-      font-size: 1.5em;
-      width: 100%;
-      display: inline-block;
-      outline: none;
-      border: none;
-      border-radius: 10px;
-      padding: 7px 0px;
+  padding: 30px 16px;
+  background-color: #121212;
+
+  .logoWrapper {
+    margin-bottom: 24px;
+    display: inline-block;
+    transition: transform 0.25s ease;
+
+    &:hover {
+      transform: scale(1.03);
     }
-    .box {
-      direction: rtl;
+
+    .logo {
+      width: 230px;
+      height: auto;
+    }
+  }
+
+  .card {
+    background-color: #1e1e1e;
+    padding: 32px 36px;
+    max-width: 480px;
+    width: 100%;
+    border-radius: 20px;
+    border: 1px solid #333;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+    direction: rtl;
+
+    .tabs {
       display: flex;
-      justify-content: space-between;
-      color: #1499e6;
-      margin-top: 20px;
-      .right {
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        .link {
-          padding: 0px;
-          opacity: 0.75;
-          transition: 0.5s;
-          cursor: pointer;
-          margin-bottom: 15px;
+      background-color: #121212;
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 28px;
+      border: 1px solid #292929;
+
+      .tabBtn {
+        flex: 1;
+        background: none;
+        border: none;
+        color: #94a3b8;
+        padding: 10px 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 9px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+
+        &.active {
+          background-color: #262626;
+          color: #fff;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
         }
-        .link:hover {
-          opacity: 1;
+
+        &:hover:not(.active) {
+          color: #cbd5e1;
         }
       }
-      .left {
-        a {
-          padding: 0px;
-        }
+    }
+
+    .forgotHeader {
+      text-align: center;
+      margin-bottom: 20px;
+
+      .forgotTitle {
+        color: #fff;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0;
+      }
+    }
+  }
+
+  .bottomBack {
+    margin-top: 24px;
+    text-align: center;
+
+    .backLink {
+      color: #64748b;
+      font-size: 0.88rem;
+      text-decoration: none;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #38bdf8;
       }
     }
   }
 }
 
-@media (max-width: 1399px) {
-}
-@media (max-width: 1199px) {
-}
-@media (max-width: 991px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 575px) {
-}
-@media (max-width: 500px) {
+@media (max-width: 540px) {
   .auth {
-    .form {
-      background-color: transparent;
-      border-radius: 0px;
-      border: none;
-      .box{
-        flex-wrap: wrap;
-      }
+    padding: 20px 12px;
+
+    .card {
+      padding: 24px 20px;
+      border-radius: 16px;
     }
   }
 }

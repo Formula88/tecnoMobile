@@ -90,6 +90,82 @@ export const GetVPNPlan = async () => {
 
 // Auth APIs
 
+export const loginUser = async ({ identifier, password }) => {
+  try {
+    const { data } = await client.post(`api/login`, {
+      identifier,
+      password,
+    });
+    return data;
+  } catch (error) {
+    console.error("loginUser error:", error);
+    return { success: false, message: error?.response?.data?.message || "خطا در برقراری ارتباط با سرور" };
+  }
+};
+
+export const registerUser = async ({ username, email, password, phoneNumber }) => {
+  try {
+    const { data } = await client.post(`api/register`, {
+      username,
+      email,
+      password,
+      phoneNumber,
+    });
+    return data;
+  } catch (error) {
+    console.error("registerUser error:", error);
+    return { success: false, message: error?.response?.data?.message || "خطا در ثبت‌نام کاربر" };
+  }
+};
+
+export const googleAuthUser = async (credential) => {
+  try {
+    const { data } = await client.post(`api/googleAuth`, {
+      credential,
+    });
+    return data;
+  } catch (error) {
+    console.error("googleAuthUser error:", error);
+    return { success: false, message: error?.response?.data?.message || "خطا در ورود با حساب گوگل" };
+  }
+};
+
+export const forgotPassword = async (email) => {
+  try {
+    const { data } = await client.post(`api/forgotPassword`, {
+      email,
+    });
+    return data;
+  } catch (error) {
+    console.error("forgotPassword error:", error);
+    return { success: false, message: error?.response?.data?.message || "خطا در ارسال ایمیل بازیابی" };
+  }
+};
+
+export const verifyResetToken = async (token) => {
+  try {
+    const { data } = await client.get(`api/verifyResetToken?token=${encodeURIComponent(token)}`);
+    return data;
+  } catch (error) {
+    console.error("verifyResetToken error:", error);
+    return { success: false, message: error?.response?.data?.message || "توکن نامعتبر است" };
+  }
+};
+
+export const resetPassword = async ({ token, password, confirmPassword }) => {
+  try {
+    const { data } = await client.post(`api/resetPassword`, {
+      token,
+      password,
+      confirmPassword,
+    });
+    return data;
+  } catch (error) {
+    console.error("resetPassword error:", error);
+    return { success: false, message: error?.response?.data?.message || "خطا در تغییر رمز عبور" };
+  }
+};
+
 export const sendNumber = async (phoneNumber) => {
   try {
     const { data } = await client.post(`api/user`, {

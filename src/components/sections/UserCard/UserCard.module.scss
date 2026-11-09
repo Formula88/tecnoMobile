@@ -5,34 +5,74 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
-  padding: 35px 0px;
+  gap: 16px;
+  padding: 32px 20px;
   border-radius: 20px;
+  direction: rtl;
+
   .icon {
-    width: 190px;
+    width: 130px;
+    height: auto;
   }
-  .title {
-    color: #d9d9d9;
-    font-size: 2em;
-    margin: 0px;
+
+  .userInfo {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .title {
+      color: #fff;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .meta {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      margin: 0;
+      direction: ltr;
+      display: inline-block;
+    }
+
+    .phone {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      margin: 0;
+      direction: rtl;
+    }
+
+    .roleBadge {
+      align-self: center;
+      margin-top: 4px;
+      padding: 4px 14px;
+      background: rgba(2, 132, 199, 0.15);
+      border: 1px solid rgba(2, 132, 199, 0.4);
+      color: #38bdf8;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
   }
 }
 
-@media (max-width: 1399px) {
-}
-@media (max-width: 1199px) {
-}
-@media (max-width: 991px) {
-}
-@media (max-width: 767px) {
-}
 @media (max-width: 575px) {
-    .userCard{
-        .icon{
-            width: 150px;
-        }
-        .title{
-            font-size: 1.4em;
-        }
+  .userCard {
+    padding: 24px 16px;
+
+    .icon {
+      width: 100px;
     }
+
+    .userInfo {
+      .title {
+        font-size: 1.3rem;
+      }
+      .meta,
+      .phone {
+        font-size: 0.85rem;
+      }
+    }
+  }
 }
