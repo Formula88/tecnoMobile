@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./VPNServicesCard.module.scss";
-import { FaDatabase, FaClock, FaCheckCircle, FaTimesCircle, FaFileDownload } from "react-icons/fa";
+import { FaDatabase, FaClock, FaFileDownload, FaShieldAlt } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import { FaRegCalendar } from "react-icons/fa6";
 import { BiLink } from "react-icons/bi";
@@ -45,159 +45,175 @@ function VPNServicesCard({ order }) {
   return (
     <>
       <div className={styles.VPNServicesCard}>
-        <div className={styles.right}>
-          <div className={styles.feature}>
-            <div className="d-flex align-items-center justify-content-between w-100 flex-wrap gap-2">
-              <h2 className={`${styles.title} fw-bold text-info`}>{planName}</h2>
-              {order.id && (
-                <span className="badge bg-secondary bg-opacity-25 text-secondary border border-secondary border-opacity-25 small">
-                  سفارش #{toPersianDigits(order.id)}
-                </span>
-              )}
-            </div>
+        {/* Card Header: Plan name, order ID, and status badge */}
+        <div className={styles.cardHeader}>
+          <div className={styles.headerTitleWrap}>
+            <h2 className={styles.planTitle}>{planName}</h2>
+            {order.id && (
+              <span className={styles.orderBadge}>
+                سفارش #{toPersianDigits(order.id)}
+              </span>
+            )}
           </div>
 
-          <div className={styles.feature}>
-            <div className={styles.icon}>
-              <FaDatabase />
-            </div>
-            <span className={styles.title}>
-              حجم :{" "}
-              {Number(planTraffic) > 0
-                ? `${toPersianDigits(planTraffic)} گیگابایت`
-                : "نامحدود"}
-            </span>
-          </div>
-
-          <div className={styles.feature}>
-            <div className={styles.icon}>
-              <FaRegCalendar />
-            </div>
-            <span className={styles.title}>
-              مدت زمان :{" "}
-              {Number(planDuration) > 0
-                ? `${toPersianDigits(planDuration)} ماه`
-                : "نامحدود"}
-            </span>
-          </div>
-
-          <div className={styles.feature}>
-            <div className={styles.icon}>
-              <FiUsers />
-            </div>
-            <span className={styles.title}>
-              تعداد کاربر : {toPersianDigits(planUserCount)} کاربر
-            </span>
-          </div>
-
-          <div className={styles.feature}>
-            <div className={styles.icon}>
-              {isConfigReady ? (
-                <FaCheckCircle className="text-success" />
-              ) : status === "expired" ? (
-                <FaTimesCircle className="text-danger" />
-              ) : status === "cancelled" ? (
-                <FaTimesCircle className="text-secondary" />
-              ) : (
-                <FaClock className="text-warning" />
-              )}
-            </div>
-            <span className={styles.title}>
-              وضعیت :{" "}
-              {isConfigReady ? (
-                <span className="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25">
-                  فعال (کانفیگ آماده)
-                </span>
-              ) : status === "expired" ? (
-                <span className="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25">
-                  منقضی شده
-                </span>
-              ) : status === "cancelled" ? (
-                <span className="badge bg-secondary">لغو شده</span>
-              ) : (
-                <span className="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25">
-                  درحال آماده‌سازی
-                </span>
-              )}
-            </span>
+          <div className={styles.statusBadgeWrap}>
+            {isConfigReady ? (
+              <span className={styles.statusActive}>
+                <span className={styles.dotActive} />
+                <span>فعال (کانفیگ آماده)</span>
+              </span>
+            ) : status === "expired" ? (
+              <span className={styles.statusExpired}>
+                <span className={styles.dotExpired} />
+                <span>منقضی شده</span>
+              </span>
+            ) : status === "cancelled" ? (
+              <span className={styles.statusCancelled}>
+                <span>لغو شده</span>
+              </span>
+            ) : (
+              <span className={styles.statusPending}>
+                <span className={styles.dotPending} />
+                <span>در انتظار آماده‌سازی کانفیگ</span>
+              </span>
+            )}
           </div>
         </div>
 
-        <div className={styles.left}>
-          <div className={styles.feature}>
-            <span className="small text-secondary">
-              کلاینت: <strong className="text-white">{order.clientName || "-"}</strong>
-              {order.clientProtocol ? ` (${order.clientProtocol})` : ""}
-            </span>
-          </div>
-
-          {/* When config is NOT ready / order is in preparation, DO NOT render config action buttons! */}
-          {!isConfigReady ? (
-            <div className={styles.pendingNotice}>
-              <FaClock style={{ fontSize: "1.4rem" }} className="text-warning" />
-              <span className="fw-bold fs-6">درحال آماده‌سازی</span>
-              <span className="small opacity-80">
-                سفارش شما با موفقیت ثبت شد و کانفیگ اختصاصی درحال آماده‌سازی توسط تیم فنی است. پس از آماده‌سازی، دکمه‌های دریافت کانفیگ در همین کادر فعال می‌شوند.
+        {/* Card Body: Specs on one side, Actions/Waiting on the other */}
+        <div className={styles.cardBody}>
+          {/* Specifications */}
+          <div className={styles.specsSection}>
+            <div className={styles.specItem}>
+              <div className={styles.specIcon}>
+                <FaDatabase />
+              </div>
+              <span className={styles.specLabel}>حجم ترافیک :</span>
+              <span className={styles.specValue}>
+                {Number(planTraffic) > 0
+                  ? `${toPersianDigits(planTraffic)} گیگابایت`
+                  : "نامحدود"}
               </span>
             </div>
-          ) : (
-            <>
-              {/* Dynamic Button 1: Copy Link */}
-              {canShowLink && (
-                <button
-                  type="button"
-                  className={`btnOutline ${styles.btn}`}
-                  onClick={handleCopyLink}
-                  style={{ cursor: "pointer", border: "1px solid #3b82f6", color: "#60a5fa" }}
-                >
-                  <BiLink className={styles.icon} />
-                  <span>کپی لینک کانفیگ</span>
-                </button>
-              )}
 
-              {/* Dynamic Button 2: QR Code */}
-              {canShowQr && (
-                <button
-                  type="button"
-                  className={`btnOutline ${styles.btn}`}
-                  onClick={() => setShowQrModal(true)}
-                  style={{ cursor: "pointer", border: "1px solid #06b6d4", color: "#22d3ee" }}
-                >
-                  <IoQrCode className={styles.icon} />
-                  <span>مشاهده QR Code</span>
-                </button>
-              )}
+            <div className={styles.specItem}>
+              <div className={styles.specIcon}>
+                <FaRegCalendar />
+              </div>
+              <span className={styles.specLabel}>مدت اعتبار :</span>
+              <span className={styles.specValue}>
+                {Number(planDuration) > 0
+                  ? `${toPersianDigits(planDuration)} ماه`
+                  : "نامحدود"}
+              </span>
+            </div>
 
-              {/* Dynamic Button 3: Download Config File */}
-              {canShowFile && (
-                <a
-                  href={configDownloadUrl}
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`btnOutline ${styles.btn}`}
-                  style={{ border: "1px solid #10b981", color: "#34d399" }}
-                >
-                  <FaFileDownload className={styles.icon} />
-                  <span>دانلود فایل کانفیگ</span>
-                </a>
-              )}
-            </>
-          )}
+            <div className={styles.specItem}>
+              <div className={styles.specIcon}>
+                <FiUsers />
+              </div>
+              <span className={styles.specLabel}>تعداد کاربر :</span>
+              <span className={styles.specValue}>
+                {toPersianDigits(planUserCount)} کاربر
+              </span>
+            </div>
 
-          {/* Client App Download (always visible if client has a download URL) */}
-          {order.clientDownloadUrl && (
-            <a
-              href={order.clientDownloadUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`btnOutline ${styles.btn}`}
-              style={{ border: "1px solid #64748b", color: "#cbd5e1" }}
-            >
-              <HiOutlineDownload className={styles.icon} />
-              <span>دانلود نرم‌افزار کلاینت</span>
-            </a>
-          )}
+            <div className={styles.specItem}>
+              <div className={styles.specIcon}>
+                <FaShieldAlt />
+              </div>
+              <span className={styles.specLabel}>نرم‌افزار کلاینت :</span>
+              <span className={styles.specValue}>
+                {order.clientName || "-"}
+                {order.clientProtocol ? ` (${order.clientProtocol})` : ""}
+              </span>
+            </div>
+          </div>
+
+          {/* Action / Delivery / Waiting Section */}
+          <div className={styles.actionSection}>
+            {!isConfigReady ? (
+              /* Beautiful In-Waiting State */
+              <div className={styles.waitingBox}>
+                <div className={styles.waitingHeader}>
+                  <div className={styles.pulseIconWrapper}>
+                    <FaClock className={styles.pulseIcon} />
+                  </div>
+                  <div className={styles.waitingTitles}>
+                    <div className={styles.waitingMainTitle}>در انتظار آماده‌سازی کانفیگ</div>
+                    <div className={styles.waitingSubTitle}>سفارش شما در صف آماده‌سازی است</div>
+                  </div>
+                </div>
+
+                <p className={styles.waitingDesc}>
+                  کانفیگ اختصاصی شما توسط پشتیبانی فنی درحال تنظیم است و به زودی دکمه‌های دریافت در همین بخش فعال می‌شوند.
+                </p>
+
+                {order.clientDownloadUrl && (
+                  <a
+                    href={order.clientDownloadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.clientAppBtn}
+                    title={`دانلود نرم‌افزار ${order.clientName}`}
+                  >
+                    <HiOutlineDownload className={styles.btnIcon} />
+                    <span>دانلود کلاینت {order.clientName}</span>
+                  </a>
+                )}
+              </div>
+            ) : (
+              /* Ready State: Config Download/Copy Buttons */
+              <div className={styles.activeActions}>
+                {canShowLink && (
+                  <button
+                    type="button"
+                    className={styles.actionBtnLink}
+                    onClick={handleCopyLink}
+                  >
+                    <BiLink className={styles.btnIcon} />
+                    <span>کپی لینک کانفیگ</span>
+                  </button>
+                )}
+
+                {canShowQr && (
+                  <button
+                    type="button"
+                    className={styles.actionBtnQr}
+                    onClick={() => setShowQrModal(true)}
+                  >
+                    <IoQrCode className={styles.btnIcon} />
+                    <span>مشاهده بارکد QR</span>
+                  </button>
+                )}
+
+                {canShowFile && (
+                  <a
+                    href={configDownloadUrl}
+                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.actionBtnFile}
+                  >
+                    <FaFileDownload className={styles.btnIcon} />
+                    <span>دانلود فایل کانفیگ</span>
+                  </a>
+                )}
+
+                {order.clientDownloadUrl && (
+                  <a
+                    href={order.clientDownloadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.actionBtnClient}
+                  >
+                    <HiOutlineDownload className={styles.btnIcon} />
+                    <span>دانلود نرم‌افزار {order.clientName}</span>
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

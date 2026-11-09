@@ -1,103 +1,392 @@
 .VPNServicesCard {
   direction: rtl;
   display: flex;
-  justify-content: space-between;
-  color: #d9d9d9;
-  font-size: 1rem;
-  background-color: #1e1e1e;
-  border: 1px solid #424242;
-  padding: 30px 25px;
-  border-radius: 15px;
-  margin-bottom: 30px;
+  flex-direction: column;
+  background: #18181c;
+  border: 1px solid #33333d;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
   position: relative;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
-    border-color: #555;
-  }
-
-  .title {
-    font-size: 1em;
-    margin: 0px;
-  }
-
-  .icon {
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .feature {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  .btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: 8px;
-    white-space: nowrap;
-    text-decoration: none;
-    font-size: 0.9em;
-    transition: all 0.2s ease;
-  }
-
-  .right {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .left {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: stretch;
-    gap: 12px;
-    min-width: 180px;
-  }
-
-  .pendingNotice {
-    background: rgba(245, 158, 11, 0.1);
-    border: 1px dashed rgba(245, 158, 11, 0.4);
-    color: #fbbf24;
-    padding: 12px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
+    border-color: #4a4a58;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
   }
 }
 
+/* Card Header */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  .headerTitleWrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .planTitle {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #38bdf8;
+      margin: 0;
+    }
+
+    .orderBadge {
+      font-size: 0.78rem;
+      background: rgba(255, 255, 255, 0.06);
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+  }
+
+  .statusBadgeWrap {
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Status Badges */
+.statusActive,
+.statusPending,
+.statusExpired,
+.statusCancelled {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+.statusActive {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+
+  .dotActive {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+  }
+}
+
+.statusPending {
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+
+  .dotPending {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f59e0b;
+    animation: pulseDot 1.8s infinite ease-in-out;
+  }
+}
+
+.statusExpired {
+  background: rgba(244, 63, 94, 0.12);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+
+  .dotExpired {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f43f5e;
+  }
+}
+
+.statusCancelled {
+  background: rgba(148, 163, 184, 0.1);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+@keyframes pulseDot {
+  0% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
+  }
+  100% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+  }
+}
+
+/* Card Body (2 Columns) */
+.cardBody {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* Specifications Section */
+.specsSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.specItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.92rem;
+  color: #cbd5e1;
+
+  .specIcon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    flex-shrink: 0;
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
+
+  .specLabel {
+    color: #94a3b8;
+    font-size: 0.88rem;
+  }
+
+  .specValue {
+    font-weight: 600;
+    color: #f1f5f9;
+  }
+}
+
+/* Actions Section */
+.actionSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Active Actions Buttons */
+.activeActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.actionBtnLink,
+.actionBtnQr,
+.actionBtnFile,
+.actionBtnClient {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+
+  .btnIcon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+}
+
+.actionBtnLink {
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #60a5fa;
+
+  &:hover {
+    background: rgba(59, 130, 246, 0.22);
+    border-color: #3b82f6;
+    color: #93c5fd;
+    transform: translateY(-1px);
+  }
+}
+
+.actionBtnQr {
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.4);
+  color: #22d3ee;
+
+  &:hover {
+    background: rgba(6, 182, 212, 0.22);
+    border-color: #06b6d4;
+    color: #67e8f9;
+    transform: translateY(-1px);
+  }
+}
+
+.actionBtnFile {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+
+  &:hover {
+    background: rgba(16, 185, 129, 0.22);
+    border-color: #10b981;
+    color: #6ee7b7;
+    transform: translateY(-1px);
+  }
+}
+
+.actionBtnClient {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+}
+
+/* Waiting / In-Preparation State Box */
+.waitingBox {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.07) 0%, rgba(20, 20, 26, 0.7) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  border-radius: 12px;
+  padding: 16px;
+  gap: 12px;
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(245, 158, 11, 0.15);
+
+  .waitingHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .pulseIconWrapper {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      animation: pulseGlow 2.5s infinite;
+
+      .pulseIcon {
+        font-size: 1.25rem;
+        color: #f59e0b;
+      }
+    }
+
+    .waitingTitles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .waitingMainTitle {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #fbbf24;
+      }
+
+      .waitingSubTitle {
+        font-size: 0.78rem;
+        color: #94a3b8;
+      }
+    }
+  }
+
+  .waitingDesc {
+    font-size: 0.82rem;
+    color: #cbd5e1;
+    margin: 0;
+    line-height: 1.6;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border-right: 3px solid #f59e0b;
+  }
+
+  .clientAppBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+    }
+
+    .btnIcon {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+  }
+}
+
+/* Modal Overlay for QR */
 .modalOverlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,7 +404,7 @@
   text-align: center;
   color: #fff;
   direction: rtl;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 
   .modalQrWrapper {
     background: #ffffff;
@@ -133,37 +422,32 @@
   }
 }
 
-@media (max-width: 1199px) {
-  .VPNServicesCard {
-    padding: 20px 15px;
-  }
-}
-
+/* Responsive Breakpoints */
 @media (max-width: 991px) {
-  .VPNServicesCard {
-    padding: 30px 25px;
+  .cardBody {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 
 @media (max-width: 575px) {
   .VPNServicesCard {
-    font-size: 0.9rem;
-    padding: 20px;
+    padding: 18px 16px;
   }
-}
 
-@media (max-width: 480px) {
-  .VPNServicesCard {
-    font-size: 0.9rem;
+  .cardHeader {
     flex-direction: column;
-    gap: 20px;
+    align-items: flex-start;
+    gap: 10px;
 
-    .right {
-      gap: 12px;
+    .headerTitleWrap {
+      width: 100%;
+      justify-content: space-between;
     }
+  }
 
-    .left {
-      min-width: 100%;
-    }
+  .specsSection {
+    padding: 12px;
+    gap: 10px;
   }
 }
