@@ -169,7 +169,15 @@ function Accessories() {
                           alt={value.name}
                           width="60"
                           height="60"
-                          style={{ objectFit: "contain", borderRadius: "8px" }}
+                          style={{
+                            width: "60px",
+                            height: "60px",
+                            aspectRatio: "1 / 1",
+                            objectFit: "cover",
+                            objectPosition: "center",
+                            borderRadius: "8px",
+                            border: "1px solid rgba(255, 255, 255, 0.1)",
+                          }}
                         />
                       ) : (
                         <span className="text-muted">بدون عکس</span>

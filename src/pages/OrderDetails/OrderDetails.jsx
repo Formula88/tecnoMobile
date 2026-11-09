@@ -98,7 +98,15 @@ function OrderDetails() {
                                 alt={item.productName || "محصول"}
                                 width="50"
                                 height="50"
-                                style={{ objectFit: "contain", borderRadius: "6px" }}
+                                style={{
+                                  width: "50px",
+                                  height: "50px",
+                                  aspectRatio: "1 / 1",
+                                  objectFit: "cover",
+                                  objectPosition: "center",
+                                  borderRadius: "8px",
+                                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                                }}
                               />
                             )}
                           </td>
