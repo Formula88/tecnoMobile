@@ -291,4 +291,59 @@ export function OrderDetailsSkeleton() {
   );
 }
 
+export function PanelCardSkeleton() {
+  return (
+    <div className={styles.panelCardSkeleton}>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <Skeleton width="42px" height="42px" borderRadius="12px" />
+        <Skeleton width="60px" height="22px" borderRadius="12px" />
+      </div>
+      <div>
+        <Skeleton width="65%" height="16px" className="mb-2" />
+        <Skeleton width="45%" height="24px" />
+      </div>
+      <div className="pt-2 mt-2 border-top border-secondary border-opacity-10 d-flex justify-content-between align-items-center">
+        <Skeleton width="80px" height="14px" />
+        <Skeleton width="16px" height="14px" />
+      </div>
+    </div>
+  );
+}
+
+export function FullPageSkeleton() {
+  return (
+    <div className={styles.fullPageSkeleton}>
+      <div className={styles.navSkeleton}>
+        <div className="d-flex align-items-center gap-3">
+          <Skeleton width="110px" height="34px" borderRadius="8px" />
+          <div className="d-none d-md-flex align-items-center gap-2 me-4">
+            <Skeleton width="60px" height="16px" />
+            <Skeleton width="60px" height="16px" />
+            <Skeleton width="60px" height="16px" />
+            <Skeleton width="60px" height="16px" />
+          </div>
+        </div>
+        <div className="d-flex align-items-center gap-2">
+          <Skeleton width="38px" height="38px" borderRadius="8px" />
+          <Skeleton width="90px" height="38px" borderRadius="8px" />
+        </div>
+      </div>
+      <div className={styles.bodySkeleton}>
+        <Skeleton width="100%" height="200px" borderRadius="16px" />
+        <div className="d-flex justify-content-between align-items-center mt-3">
+          <Skeleton width="180px" height="28px" />
+          <Skeleton width="100px" height="28px" borderRadius="8px" />
+        </div>
+        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mt-1">
+          {[1, 2, 3, 4].map((i) => (
+            <div className="col" key={i}>
+              <ProductCardSkeleton />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default Skeleton;

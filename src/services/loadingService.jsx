@@ -1,22 +1,12 @@
-let setLoading = null;
+// Loading service retired in favor of inline non-blocking Skeleton Loading
 let activeRequests = 0;
 
-export const registerLoading = (setter) => {
-  setLoading = setter;
-};
+export const registerLoading = () => {};
 
 export const showLoading = () => {
   activeRequests++;
-  if (activeRequests === 1) {
-    setLoading?.(true);
-  }
 };
 
 export const hideLoading = () => {
-  if (activeRequests > 0) {
-    activeRequests--;
-  }
-  if (activeRequests === 0) {
-    setLoading?.(false);
-  }
+  if (activeRequests > 0) activeRequests--;
 };

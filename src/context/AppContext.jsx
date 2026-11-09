@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import { useLocalStorage, useScrollbar } from "../hooks/hooks";
-import { registerLoading } from "../services/loadingService";
 import { getMe, logout } from "../services/api";
 
 export const Context = createContext();
@@ -60,10 +59,7 @@ function AppContext({ children }) {
     setUserEmail("");
   };
 
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    registerLoading(setIsLoading);
-  }, []);
+  const isLoading = false;
 
   const [cardItem, setCardItem] = useLocalStorage("itemCards", []);
 

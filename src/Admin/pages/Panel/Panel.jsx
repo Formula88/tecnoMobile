@@ -6,6 +6,7 @@ import SystemDiagnostics from "../../components/SystemDiagnostics/SystemDiagnost
 import styles from "./Panel.module.scss";
 import { getAdminStats } from "../../../services/api";
 import { toPersianDigits } from "../../../utils/Utils";
+import { PanelCardSkeleton } from "../../../components/ui/Skeleton/Skeleton";
 
 import {
   FaUsers,
@@ -193,18 +194,24 @@ function Panel() {
           {loading && <span className={styles.loadingBadge}>درحال به‌روزرسانی آمار...</span>}
         </div>
         <div className="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 g-3">
-          {cards.map((value, index) => (
-            <div className="col" key={index}>
-              <PanelCard
-                title={value.title}
-                text={value.text}
-                icon={value.icon}
-                color={value.color}
-                link={value.link}
-                badge={value.badge}
-              />
-            </div>
-          ))}
+          {loading
+            ? Array.from({ length: 8 }).map((_, index) => (
+                <div className="col" key={index}>
+                  <PanelCardSkeleton />
+                </div>
+              ))
+            : cards.map((value, index) => (
+                <div className="col" key={index}>
+                  <PanelCard
+                    title={value.title}
+                    text={value.text}
+                    icon={value.icon}
+                    color={value.color}
+                    link={value.link}
+                    badge={value.badge}
+                  />
+                </div>
+              ))}
         </div>
 
         {/* Live Diagnostics & System Health Monitoring */}

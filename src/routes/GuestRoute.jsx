@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { Context } from "../context/AppContext";
-import Loading from "../components/layout/Loading/Loading";
+import { FullPageSkeleton } from "../components/ui/Skeleton/Skeleton";
 
 function GuestRoute() {
   const { isLogin, isAuthChecking } = useContext(Context);
 
   if (isAuthChecking) {
-    return <Loading />;
+    return <FullPageSkeleton />;
   }
 
   return !isLogin ? <Outlet /> : <Navigate to="/" replace />;

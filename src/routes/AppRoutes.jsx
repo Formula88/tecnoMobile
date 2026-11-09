@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { lazy, Suspense, useContext, useEffect } from "react";
+import { lazy, Suspense } from "react";
 
 import Home from "../pages/Home/Home";
 import VPNs from "../pages/VPNs/VPNs";
@@ -12,8 +12,7 @@ import ResetPassword from "../pages/ResetPassword/ResetPassword";
 import Profile from "../pages/Profile/Profile";
 import GuestRoute from "./GuestRoute";
 import ProtectedRoute from "./ProtectedRoute";
-import Loading from "../components/layout/Loading/Loading";
-import { Context } from "../context/AppContext";
+import { FullPageSkeleton } from "../components/ui/Skeleton/Skeleton";
 import VPNServices from "../pages/VPNServices/VPNServices";
 import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
 import Repairorders from "../pages/Repairorders/Repairorders";
@@ -57,16 +56,9 @@ const SetVPNOrders = lazy(() => import("../Admin/pages/VPNOrders/SetVPNOrders/Se
 const OrdersA = lazy(() => import("../Admin/pages/products/OrdersA/OrdersA"));
 
 function AppRoutes() {
-  const { isLoading, setScrollEnabled } = useContext(Context);
-
-  useEffect(() => {
-    setScrollEnabled(!isLoading);
-  }, [isLoading, setScrollEnabled]);
-
   return (
-    <>
-      <Suspense fallback={<Loading />}>
-        <Routes>
+    <Suspense fallback={<FullPageSkeleton />}>
+      <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/VPN" element={<VPNs />} />
           <Route path="/Product/:id" element={<Product />} />
@@ -142,9 +134,6 @@ function AppRoutes() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
-
-      {isLoading && <Loading />}
-    </>
   );
 }
 

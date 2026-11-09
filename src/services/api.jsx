@@ -1,5 +1,4 @@
 import axios from "axios";
-import { showLoading, hideLoading } from "./loadingService";
 
 axios.defaults.withCredentials = true;
 
@@ -7,28 +6,6 @@ const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
-
-client.interceptors.request.use(
-  (config) => {
-    showLoading();
-    return config;
-  },
-  (error) => {
-    hideLoading();
-    return Promise.reject(error);
-  },
-);
-
-client.interceptors.response.use(
-  (config) => {
-    hideLoading();
-    return config;
-  },
-  (error) => {
-    hideLoading();
-    return Promise.reject(error);
-  },
-);
 
 // Public APIs
 
