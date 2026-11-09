@@ -10,7 +10,7 @@ function SliderImg({ images = [] }) {
   const safeImgs = parseProductImages(images);
 
   return (
-    <>
+    <div className={styles.sliderContainer}>
       <Swiper
         className={styles.slider}
         modules={[Pagination]}
@@ -21,13 +21,15 @@ function SliderImg({ images = [] }) {
         {safeImgs.map((img, index) => {
           const src = getImageUrl(img);
           return (
-            <SwiperSlide key={index}>
-              <img src={src} alt={`product-${index}`} />
+            <SwiperSlide key={index} className={styles.slide}>
+              <div className={styles.imgWrapper}>
+                <img src={src} alt={`product-${index}`} />
+              </div>
             </SwiperSlide>
           );
         })}
       </Swiper>
-    </>
+    </div>
   );
 }
 
