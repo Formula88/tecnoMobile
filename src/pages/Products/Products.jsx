@@ -77,7 +77,7 @@ function Products() {
             {products.length !== 0 ? (
               products.map((value) => {
                 return (
-                  <div className={`col ${styles.col}`} key={value.id}>
+                  <div className={`col ${styles.col} d-flex align-items-stretch mb-4`} key={value.id}>
                     <ProductsCard
                       id={value.id}
                       title={value.NAME}

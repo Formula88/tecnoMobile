@@ -85,15 +85,17 @@ function VPNCard({
         <VpnCardInfo title={"کلاینت"} text={clientName} />
         <VpnCardInfo title={"پروتکل"} text={protocol} />
       </ul>
-      <VPNCardBuy price={price} discount={discount} />
-      <button
-        type="button"
-        className={`btnPrimary ${styles.btn}`}
-        onClick={handleOrder}
-        disabled={submitting}
-      >
-        {submitting ? "درحال ثبت سفارش..." : "ثبت سفارش"}
-      </button>
+      <div className={styles.buyWrapper}>
+        <VPNCardBuy price={price} discount={discount} />
+        <button
+          type="button"
+          className={`btnPrimary ${styles.btn}`}
+          onClick={handleOrder}
+          disabled={submitting}
+        >
+          {submitting ? "درحال ثبت سفارش..." : "ثبت سفارش"}
+        </button>
+      </div>
     </div>
   );
 }

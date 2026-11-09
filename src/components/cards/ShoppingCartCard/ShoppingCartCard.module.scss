@@ -1,182 +1,261 @@
 .card {
   width: 100%;
   background-color: #1e1e1e;
-  border: 1px solid #424242;
-  padding: 25px 30px;
-  border-radius: 15px;
+  border: 1px solid #3a3a42;
+  padding: 24px 28px;
+  border-radius: 16px;
   display: flex;
   justify-content: space-between;
+  align-items: stretch;
+  min-height: 190px;
+  margin-bottom: 24px;
   font-size: 1rem;
+  direction: rtl;
+  transition: all 0.25s ease;
+
+  &:hover {
+    border-color: #4a4a58;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
   .right {
     display: flex;
-    gap: 30px;
+    gap: 24px;
+    flex: 1;
+    min-width: 0;
+    text-decoration: none;
   }
+
   .left {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    flex-shrink: 0;
+    min-width: 140px;
   }
+
   .img {
-    width: 200px;
+    width: 140px;
+    height: 140px;
+    min-width: 140px;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
-    border-radius: 15px;
-    border: 1px solid #424242;
+    border-radius: 12px;
+    background: #141416;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
     img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: contain;
     }
   }
+
   .info {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex: 1;
+    min-width: 0;
+    padding-left: 15px;
+
     .text {
       color: #d9d9d9;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 6px;
+
       .title {
         margin: 0px;
-        font-size: 2em;
+        font-size: 1.3em;
+        font-weight: 700;
+        color: #f1f5f9;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
+
       .subTitle {
         margin: 0px;
-        font-size: 1em;
-        opacity: 0.7;
+        font-size: 0.88em;
+        color: #94a3b8;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .model {
+        font-size: 0.84em;
+        color: #38bdf8;
+        font-weight: 500;
       }
     }
+
     .priceBox {
       position: relative;
       display: flex;
       align-items: center;
-      gap: 50px;
+      gap: 16px;
+      margin-top: 10px;
+
       .price {
         display: flex;
-        gap: 10px;
+        align-items: center;
+        gap: 6px;
+
         span {
-          font-size: 1.5em;
-          font-weight: 500;
+          font-size: 1.3em;
+          font-weight: 600;
           color: #1499e6;
         }
+
         svg {
-          width: 30px;
-          height: 30px;
+          width: 22px;
+          height: 22px;
           fill: #1499e6;
         }
       }
+
       .discountPrice {
-        position: absolute;
-        right: 10px;
-        bottom: 35px;
-        color: #1499e6;
-        opacity: 0.7;
+        color: #94a3b8;
+        font-size: 0.85em;
         text-decoration: line-through;
       }
+
       .discount {
-        font-size: 1em;
-        font-weight: 500;
-        color: #d9d9d9;
+        font-size: 0.85em;
+        font-weight: 600;
+        color: #ffffff;
         background-color: #1499e6;
+        padding: 2px 7px;
+        border-radius: 5px;
         display: flex;
-        justify-content: center;
         align-items: center;
-        width: 45px;
-        height: 28px;
-        border-radius: 6px;
+        justify-content: center;
       }
     }
   }
+
   .remove {
-    color: #d9d9d9;
+    color: #94a3b8;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-    font-size: 1em;
-    gap: 10px;
-    transition: 0.25s;
+    font-size: 0.9em;
+    gap: 8px;
+    transition: 0.2s ease;
     cursor: pointer;
+
     svg {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
     }
   }
+
   .remove:hover {
-    color: #ff4343;
+    color: #f87171;
   }
+
   .counter {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    color: #d9d9d9;
-    background-color: #181818;
-    border: 1px solid #424242;
-    border-radius: 5px;
-    width: 140px;
-    height: 40px;
+    color: #f1f5f9;
+    background-color: #141416;
+    border: 1px solid #3a3a42;
+    border-radius: 8px;
+    width: 120px;
+    height: 38px;
+
     svg {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       cursor: pointer;
-      transition: 0.25s;
+      color: #94a3b8;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: #1499e6;
+      }
     }
-    svg:hover {
-      color: #1499e6;
-    }
+
     .count {
-      font-size: 1em;
-      font-weight: 500;
+      font-size: 0.95em;
+      font-weight: 600;
       user-select: none;
     }
   }
 }
 
-@media (max-width: 1399px) {
-}
-@media (max-width: 1199px) {
-  .card {
-    .info{
-      .text{
-        .title{
-          font-size: 1.5em;
-        }
-      }
-      .priceBox{
-        gap: 30px;
-        .discountPrice{
-          bottom: -20px;
-        }
-      }
-    }
-    .img {
-      width: 170px;
-      border-radius: 10px;
-    }
-  }
-}
 @media (max-width: 991px) {
-}
-@media (max-width: 767px) {
-  .card{
-    flex-direction: column;
-    gap: 30px;
-    .left{
-      flex-direction: row-reverse;
-    }
-    .img{
-      width: 140px;
-      min-width: 140px;
-    }
-    .counter{
-      width: 100px;
+  .card {
+    padding: 20px 22px;
+
+    .img {
+      width: 120px;
+      height: 120px;
+      min-width: 120px;
     }
   }
 }
-@media (max-width: 575px) {
-  .card{
-    font-size: 1rem;
-    .right{
-      flex-direction: column;
+
+@media (max-width: 767px) {
+  .card {
+    flex-direction: column;
+    gap: 20px;
+    min-height: auto;
+
+    .left {
+      flex-direction: row-reverse;
+      width: 100%;
       align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .img {
+      width: 110px;
+      height: 110px;
+      min-width: 110px;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .card {
+    padding: 16px;
+
+    .right {
+      gap: 14px;
+    }
+
+    .info {
+      padding-left: 0;
+
+      .text {
+        .title {
+          font-size: 1.1em;
+        }
+      }
+
+      .priceBox {
+        gap: 10px;
+        flex-wrap: wrap;
+
+        .price span {
+          font-size: 1.1em;
+        }
+      }
     }
   }
 }

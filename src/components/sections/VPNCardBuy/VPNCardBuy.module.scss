@@ -5,37 +5,42 @@
   justify-content: space-between;
   font-size: 1em;
   position: relative;
+  min-height: 44px;
+
   .totalPrice {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5em;
-    color: #d9d9d9;
-    gap: 10px;
+    font-size: 1.35em;
+    font-weight: 700;
+    color: #f1f5f9;
+    gap: 6px;
+
     svg {
       fill: #1499e6;
-      width: 30px;
-      height: 30px;
+      width: 24px;
+      height: 24px;
     }
   }
+
   .discount {
     background-color: #1499e6;
-    color: #d9d9d9;
-    width: 43px;
-    height: 24px;
-    font-size: 1.1em;
-    border-radius: 5px;
+    color: #ffffff;
+    padding: 3px 8px;
+    font-size: 0.88em;
+    border-radius: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: 500;
+    font-weight: 600;
   }
+
   .price {
-    color: #d9d9d98c;
+    color: #94a3b8;
     text-decoration: line-through;
     position: absolute;
-    left: 52px;
-    bottom: -21px;
-    font-size: 1.1em;
+    left: 45px;
+    bottom: -18px;
+    font-size: 0.85em;
   }
 }

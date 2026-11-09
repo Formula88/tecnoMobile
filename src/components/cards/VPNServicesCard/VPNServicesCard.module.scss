@@ -2,11 +2,13 @@
   direction: rtl;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  width: 100%;
   background: #18181c;
   border: 1px solid #33333d;
   border-radius: 16px;
   padding: 24px;
-  margin-bottom: 24px;
+  margin-bottom: 0px;
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
@@ -136,6 +138,7 @@
 
 /* Card Body (2 Columns) */
 .cardBody {
+  flex: 1;
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 20px;
@@ -146,11 +149,12 @@
 .specsSection {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  height: 100%;
   gap: 12px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.04);
-  padding: 16px;
+  padding: 18px 16px;
   border-radius: 12px;
 }
 
@@ -200,6 +204,8 @@
 .activeActions {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  height: 100%;
   gap: 10px;
 }
 
@@ -282,6 +288,8 @@
 .waitingBox {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.07) 0%, rgba(20, 20, 26, 0.7) 100%);
   border: 1px solid rgba(245, 158, 11, 0.28);
   border-radius: 12px;

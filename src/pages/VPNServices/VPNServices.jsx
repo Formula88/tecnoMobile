@@ -84,7 +84,7 @@ function VPNServices() {
           ) : (
             <div className="row row-cols-1 row-cols-lg-2">
               {orders.map((order) => (
-                <div className="col" key={order.id}>
+                <div className="col d-flex align-items-stretch mb-4" key={order.id}>
                   <VPNServicesCard order={order} />
                 </div>
               ))}

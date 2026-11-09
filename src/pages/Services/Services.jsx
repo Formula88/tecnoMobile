@@ -42,7 +42,7 @@ function Services() {
             <div className="row row-cols-lg-3 row-cols-sm-2 row-cols-1 justify-content-center">
               {services.map((service) => {
                 return (
-                  <div className="col" key={service.id}>
+                  <div className="col d-flex align-items-stretch mb-4" key={service.id}>
                     <ServiceCard
                       title={service.name}
                       description={service.description}

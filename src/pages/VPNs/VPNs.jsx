@@ -31,7 +31,7 @@ function VPNs() {
             <div className="row row-cols-lg-3 row-cols-sm-2 row-cols-1 justify-content-center">
               {vpnPlan.map((value) => {
                 return (
-                  <div className="col" key={value.id}>
+                  <div className="col d-flex align-items-stretch mb-4" key={value.id}>
                     <VPNCard
                       id={value.id}
                       clientId={value.clientId}

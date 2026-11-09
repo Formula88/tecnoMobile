@@ -1,50 +1,80 @@
 .vpnCard {
   background-color: #161a1b;
-  border: 1px solid #424242;
+  border: 1px solid #383842;
   margin-bottom: 30px;
-  border-radius: 10px;
-  padding: 30px;
+  border-radius: 14px;
+  padding: 28px 24px;
   direction: rtl;
   font-size: 1rem;
-  .title {
-    font-size: 2.2em;
-    color: #d9d9d9;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  transition: all 0.25s ease;
+
+  &:hover {
+    border-color: #555566;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
   }
+
+  .title {
+    font-size: 1.45em;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin-top: 0;
+    margin-bottom: 8px;
+    min-height: 2.5em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+  }
+
   .info {
     padding: 0px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin: 20px 0px;
+    gap: 12px;
+    margin: 16px 0px 24px 0px;
   }
+
+  .buyWrapper {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
   .btn {
-    margin-top: 35px;
     width: 100%;
     outline: none;
     border: none;
-    padding: 7px 0px;
-    border-radius: 8px;
-    font-size: 1.2em;
+    padding: 10px 0px;
+    border-radius: 9px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
 }
 
-@media (max-width: 1399px) {
-}
-@media (max-width: 1199px) {
-}
 @media (max-width: 991px) {
-}
-@media (max-width: 767px) {
-  .vpnCard{
-    font-size: 0.8rem;
-    padding: 20px;
+  .vpnCard {
+    padding: 24px 20px;
   }
 }
+
 @media (max-width: 575px) {
-  .vpnCard{
+  .vpnCard {
     font-size: 0.9rem;
-    .info{
-      margin: 15px 0px;
+    padding: 20px 16px;
+
+    .info {
+      margin: 12px 0px 18px 0px;
       gap: 10px;
     }
   }
